@@ -1,0 +1,4 @@
+sources:
+  - name: raw 
+    database: bop_modeling_data
+    schema: raw
