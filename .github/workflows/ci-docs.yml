@@ -41,6 +41,7 @@ jobs:
           deactivate
           mkdir -p ../docs
           cp ./target/static_index.html ../docs
+          cp ./target/static_index.html ..
           cd ..
     
       - name: Deploy to GitHub pages
