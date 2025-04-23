@@ -1,0 +1,14 @@
+bop_modeling_data:
+  outputs:
+    dev:
+      type: duckdb
+      path: bop_modeling_data.duckdb
+      schema: dev
+      threads: 100
+
+    prod:
+      type: duckdb
+      path: bop_modeling_data.duckdb
+      threads: 100
+
+  target: prod
