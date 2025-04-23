@@ -1,0 +1,54 @@
+name: CI & Deploy dbt Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-and-deploy-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write 
+
+steps:
+  - name: Checkout code 
+    uses: actions/checkout@v4
+
+  - name: Set up Python
+    uses: actions/setup-python@v4 
+    with:
+      python-version: '3.13'
+
+  - name: Install dependencies
+    run: |
+      python -m pip install --upgrade pip
+      python -m pip install uv
+      uv sync
+
+  - name: Run data_tests
+    run: |
+      . .venv/bin/activate
+      cd bop_modeling_data
+      dbt test -x
+      deactivate
+      cd ..
+
+  - name: Generate dbt static docs
+    run: |
+      . .venv/bin/activate
+      cd bop_modeling_data
+      dbt docs generate --static
+      deactivate
+      mkdir -p ../docs
+      cp ./target/static_index.html ../docs
+      cd ..
+
+  - name: Deploy to GitHub pages
+    uses: peaceiris/actions-gh-pages@v3
+    with:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      publish_branch: gh-pages
+      publish_dir: ./docs
