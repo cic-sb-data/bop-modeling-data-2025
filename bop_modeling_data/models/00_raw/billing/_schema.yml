@@ -1,0 +1,59 @@
+models:
+  - name: raw__cb_billing_acct
+    description: Raw dump of SCRENGN.XCD_BIL_ACT
+    columns:
+      - name: billing_acct_id
+        description: |
+          CinciBill billing account identifier. *NOT* the account number.
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: billing_date
+        data_type: date
+        description: "Date relevant to billing. Unclear what this refers to, but likely something re: date billed amount was either recorded, collected, invoiced, etc"
+      - name: policy_sym
+        data_type: varchar
+        description: 1-3 character policy symbol.
+      - name: policy_numb
+        data_type: bigint
+        description: Integer policy number
+      - name: BIL_ACY_AMT
+        data_type: double
+        quote: true
+      - name: billed_amt
+        description: Floating-point amount billed to the account/policy
+        data_type: double
+
+  - name: raw__cb_billing_policies_cash_dsp
+    columns:
+      - name: cincibill_policy_key
+        data_type: bigint
+        data_tests:
+          - not_null
+      - name: billing_acct_id
+        data_type: varchar
+        data_tests:
+          - not_null
+          - relationships:
+              field: billing_acct_id
+              to: ref('raw__cb_billing_acct')
+      - name: billing_policy_id
+        data_type: varchar
+  - name: raw__cb_billing_policy
+    columns:
+      - name: billing_acct_id
+        description: Billing account id
+        data_type: varchar
+        data_tests:
+          - not_null
+          - relationships:
+              field: billing_acct_id
+              to: ref('raw__cb_billing_acct')
+      - name: billing_policy_id
+        data_type: varchar
+      - name: policy_sym
+        data_type: varchar
+      - name: policy_numb
+        data_type: bigint
+      - name: billing_acct_numb
+        data_type: bigint

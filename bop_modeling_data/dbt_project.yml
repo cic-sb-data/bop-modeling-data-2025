@@ -1,7 +1,7 @@
 name: 'bop_modeling_data'
 version: '1.0.0'
 
-profile: 'bop_modeling_data'
+profile: 'bop_modeling_db'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -17,21 +17,14 @@ clean-targets:
 
 models:
   bop_modeling_data:
-    +raw:
-      schema: raw
+    +materialized: view
+    00_raw:
+      +schema: raw
+      +materialized: table
 
 vars:
   raw_csv_loc: "/sas/data/project/EG/ActShared/SmallBusiness/Modeling/dat/raw_csv"
+  decfile_loc: "/sas/data/project/EG/ActShared/SmallBusiness/DecisionSupportFile/Development/2025/20250228"
 
-  raw_csvs:
-    - "ca_aiv"
-    - "cf_aiv"
-    - "gl_aiv"
-    - "dlf"
-    - "experian_credit_vars__2_8"
-    - "experian_credit_vars__5_2"
-
-
-on-run-start:
-  - "create schema if not exists raw;"
-    
+flags:
+  send_anonymous_usage_stats: false
