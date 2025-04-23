@@ -1,4 +1,4 @@
-bop_modeling_data:
+bop_modeling_db:
   outputs:
     dev:
       type: duckdb
