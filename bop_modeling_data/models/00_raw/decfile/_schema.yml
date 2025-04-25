@@ -1,0 +1,29 @@
+models:
+  - name: raw__decfile__sb_aiv_lookup
+    columns:
+      - name: sb_policy_key
+        data_type: bigint
+      - name: policy_chain_id
+        data_type: bigint
+      - name: sb_aiv_key
+        data_type: bigint
+      - name: lob
+        data_type: varchar
+      - name: cfxmlid
+        data_type: varchar
+      - name: coverage_component_agreement_id
+        data_type: varchar
+      - name: image_eff_date
+        data_type: date
+      - name: class_code
+        data_type: varchar
+      - name: cincipak_class_code
+        data_type: varchar
+      - name: coalesced_class_code
+        data_type: varchar
+      - name: location_numb
+        data_type: bigint
+      - name: building_numb
+        data_type: bigint
+      - name: zip_code
+        data_type: bigint
