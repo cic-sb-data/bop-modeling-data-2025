@@ -1,0 +1,170 @@
+models:
+  - name: stg__modcom__policy_chain_v3
+    columns:
+      - name: five_key_hash
+        data_type: hugeint
+        description: |-
+          Calculated as:
+
+          ```sql
+          -- DuckDb-flavored SQL
+          md5_number(try_cast(company_numb as varchar) 
+                      || policy_sym 
+                      || try_cast(policy_numb as varchar) 
+                      || try_cast(policy_module as varchar)
+                      || try_cast(policy_eff_date as varchar))
+          ```
+        data_tests:
+          - not_null
+          - unique
+      - name: three_key_hash
+        data_type: hugeint
+        description: |-
+          Calculated as:
+
+          ```sql
+          -- DuckDb-flavored SQL
+          md5_number(policy_sym 
+                      || try_cast(policy_numb as varchar) 
+                      || try_cast(policy_eff_date as varchar))
+          ```
+        data_tests:
+          - not_null
+      - name: policy_chain_id
+        data_type: uinteger
+        description: Defines the policies chained together that can be used as prior policies for our current SB policy set.
+        data_tests:
+          - not_null
+          - relationships:
+              field: policy_chain_id
+              to: ref('raw__modcom__policy_chain_v3')
+      - name: company_numb
+        data_type: utinyint
+        data_tests:
+          - accepted_values:
+              values:
+                - 1
+                - 3
+                - 5
+                - 7
+                - 4
+          - not_null
+      - name: policy_sym
+        data_type: varchar
+        data_tests:
+          - accepted_values:
+              values:
+                - B
+                - BA
+                - BCD
+                - BCE
+                - BCN
+                - BCP
+                - BCT
+                - BES
+                - BM
+                - BND
+                - BNS
+                - BOP
+                - BPP
+                - BRN
+                - BRR
+                - C
+                - CCC
+                - CCP
+                - CHA
+                - COA
+                - COP
+                - CPA
+                - CPP
+                - CU
+                - DEN
+                - DO
+                - DP
+                - EBD
+                - EBN
+                - EBP
+                - EBR
+                - EMC
+                - EMD
+                - EME
+                - EMF
+                - EMH
+                - EMN
+                - EMX
+                - ENA
+                - ENL
+                - ENP
+                - EPP
+                - ETD
+                - EXC
+                - EXL
+                - EXS
+                - FIA
+                - FIP
+                - FR
+                - GA
+                - GAA
+                - GCC
+                - GOP
+                - HAC
+                - HDA
+                - HDP
+                - HFA
+                - HFN
+                - HHA
+                - HMA
+                - HMP
+                - HSA
+                - HTC
+                - IAC
+                - KR
+                - MCP
+                - MFA
+                - MFG
+                - MPP
+                - NCA
+                - NEO
+                - NPL
+                - NPO
+                - PAA
+                - PAC
+                - PRA
+                - RAA
+                - RAC
+                - REC
+                - RP
+                - RPG
+                - SA
+                - SBA
+                - SBB
+                - SBU
+                - SBW
+                - SCA
+                - SCS
+                - SIP
+                - SMA
+                - SMP
+                - SP
+                - SPC
+                - UPA
+                - UPP
+                - WC
+                - WHA
+                - WHD
+                - WQD
+                - WSA
+          - not_null
+      - name: policy_numb
+        data_type: uinteger
+        data_tests:
+          - not_null
+      - name: policy_module
+        data_type: uinteger
+        data_tests:
+          - not_null
+      - name: policy_eff_date
+        data_type: timestamp
+        data_tests:
+          - not_null
+    description: Simple list of policy_chain_id, the five-key, the three-key, and md5 hashes of the five- and three-keys. Sorted by the five key hash then the three key hash.
