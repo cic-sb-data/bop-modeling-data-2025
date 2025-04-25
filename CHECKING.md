@@ -1,0 +1,3 @@
+- fields that expect to exactly match AIV values should be checked almost every step 
+- check that aggregate premium and loss
+- check that don't lose any keys at each step

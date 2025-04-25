@@ -19,7 +19,6 @@ models:
   bop_modeling_data:
     +materialized: view
     00_raw:
-      +schema: raw
       +materialized: table
 
 vars:

@@ -1,59 +1,895 @@
 models:
-  - name: raw__cb_billing_acct
-    description: Raw dump of SCRENGN.XCD_BIL_ACT
+  - name: raw__screngn__xcd_bil_account
+    description: Raw data from `SCRENGN.XCD_BIL_ACCOUNT`, filtered to only include policy symbols identified as related to our sb_policy_key policies via `MODCOM.POLICY_CHAIN_V3`
     columns:
-      - name: billing_acct_id
-        description: |
-          CinciBill billing account identifier. *NOT* the account number.
+      - name: BIL_ACCOUNT_ID
+        description: |-
+          **Full Name** - Billing Account Identifier  
+          **Length**  - 8   
+          **Description** - Uniquely generated technical identification for an account number. Almost always available as a joining key.
         data_type: varchar
-        data_tests:
-          - not_null
-      - name: billing_date
-        data_type: date
-        description: "Date relevant to billing. Unclear what this refers to, but likely something re: date billed amount was either recorded, collected, invoiced, etc"
-      - name: policy_sym
-        data_type: varchar
-        description: 1-3 character policy symbol.
-      - name: policy_numb
+        quote: true
+      - name: BIL_ACCOUNT_NBR
         data_type: bigint
-        description: Integer policy number
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Number  
+          **Length**  - 30   
+          **Description** - Identifier unique in the billing system which groups policies for an invoice. For single policy this is equal to policy symbol, and policy number. Only included in a few tables.
+      - name: BIL_CLASS_CD
+        data_type: varchar
+        quote: true
+        description: "**Full Name** - Billing Class Code.   \ 
+
+          **Length**  - 3  \ 
+
+          **Description** - Defined codes which sub-defines billing types. Dictates the use of a particular Billing Support plan. This code allows for the assignment of different sets of rules within a specified billing type. These values are defined in the Billing Description Reason entity with a type code of BCL."
+      - name: BAT_PAY_CLT_ID
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Paying Client Identifier.   
+          **Length**  - 20  
+          **Description** - Identification for individual who is paying the account. This will also be the client who will receive the billing invoice when not billing under a Third party or agent. Maintained by the CLIENT system.
+      - name: BAT_START_DUE_DT
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Start Due Date.   
+          **Length**  - *date*
+          **Description** - This date specifies the initial due date which will be evaluated when producing an invoice for the billing account.
+      - name: BAT_LAST_DAY_IND
+        data_type: bigint
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Last Day of the Month Indicator.   
+          **Description** - Specifies the use of the last day of the month as the billing account due date.   
+          **Values**  
+          9 = Use the 29th day of the month as the account due date  
+          0 = Use the 30th day of the month as the account due date  
+          1 = Use the last day of the month as the account due date  
+          -1= Use the day of the month as specified in Billing account start due date
+      - name: BIL_START_RFR_DT
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Start Reference Date. 
+          **Length**  - *date*
+          **Description** - Ending date for the billing period for billing items on a specific due/account date. Establising this date as earlier than the start due date will establish billing in arrears whereas establishing this date later than the start due date will establish billing in advance.
+      - name: BIL_RFR_LST_DAY
+        data_type: bigint
+        quote: true
+        description: |-
+          **Full Name** - Billing Reference Last Day. 
+          **Length**  - 1
+          **Description** - Specifies use of the last day of month for billing reference date. 
+          **Values**  
+          0 = Print on the 30th day of month
+          9 = Print on the 29th day of month
+          1 = Print on the last day of month
+          -1 = use day of month specified in Billing start reference date
+      - name: BIL_SUS_FU_REA_CD
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Suspense Follow-Up Reason Code 
+          **Length**  - 3
+          **Description** - Defined code which specifies the reason for suspending the billing and follow-up for an account, policy, or third party. These values are defined in the Billing Description Reason entity with type codes of SBF, SBI, and SBO. The following code(s) are pre-defined for internal processing
+          **Values**  
+          SB = Suspended billing and followup
+          SS = Suspended billing
+      - name: BAT_PREV_BAL_AMT
+        data_type: double
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Previous Balance Amount
+          **Length**  - 14.2
+          **Description** - The previous total amount due on the account. This is the amount which appeared on the last invoice.
+      - name: BIL_LOK_TS
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Lock Timestamp  
+          **Length**  - *timestamp*
+          **Description** - The date and time a lock was placed on an account, third party, or agent account.
+      - name: BAT_CASH_STATUS_CD
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Bill Account Cash Status Code  
+          **Length**  - 1
+          **Description** - Code in the billing system which describes the suspended cash automatic disbursement status.  
+          **Values**  
+          A = Active
+          D = Suspended / Hold Auto Disbursement
+      - name: BIL_SUS_DSB_REA_CD
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Suspend Disbursements Reason Code  
+          **Length**  - 3
+          **Description** - Defined code which specifies the reason for suspending the automatic disbursements process for a Direct Bill account. These values are defined in the Billing Description Reason entity with type code of SBC.
+          **Values**  
+          DB = Suspend Disbursements
+          DC = Suspend Disbursement Cn Credit
+          DE = Suspend Disbursement Endorsement
+          DL = Suspend Disbursement Collection
+          DN = Suspend Disbursement National Disaster
+      - name: APP_MIGRATION_CD
+        data_type: varchar
+        quote: true
+        description: Not in the documentation.
+      - name: BIL_START_DED_DT
+        data_type: varchar
+        quote: true
+        description: Not in the documentation.
+      - name: BIL_START_DED_RFR_DT
+        data_type: varchar
+        quote: true
+        description: Not in the documentation.
+      - name: BIL_TYPE_CD
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Type Code
+          **Length**  - 2
+          **Description** - This code represents the types of billing such as one policy or multiple policies for a billing account, third party billing, or agency billing. Defined values are in the Billing Description Reason entity with billing type code(s) of BTY, BTG and BTP. The following code(s) are predefined for internal processing:
+          **Values**  
+          SP = Single Policy (predefined)
+      - name: BIL_TYPE_DESC
+        data_type: varchar
+        quote: true
+        description: "**Full Name** - Billing Type Description"
+      - name: BAT_STATUS_CD
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Status Code
+          **Length**  - 1
+          **Description** - Code in the billing system which describes the account status.
+          **Values**  
+          A = Active
+          I = Inactive
+          S = Billing Suspended
+          B = Billing / Follow-up Suspended
+          F = Follow-up Suspended
+      - name: BAT_STATUS_DESC
+        data_type: varchar
+        quote: true
+        description: "**Full Name** - Billing Account Status Description"
+      - name: BIL_PRESENTMENT_CD
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Bill Presentment Code  
+          **Length**  - 3
+          **Description** - Code that specifies the billing invoice presentment method.
+          **Values**  
+          PPR = Paper
+          EML = Email
+          EPP = Email & Paper
+      - name: BIL_PRESENTMENT_DESC
+        data_type: varchar
+        quote: true
+        description: "**Full Name** - Bill Presentment Description"
+      - name: BIL_COLLECTION_MTH
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Collection Method  
+          **Length**  - 3
+          **Description** - Defined code used to describe a billing collection method. These values are defined in the Billing Description Reason entity with type codes of CHC, CET, and CTP. The following code(s) are pre-defined for internal processing. DI = Automatic Direct-Invoice ECC = EFT credit card
+      - name: BIL_COLLECTION_METHOD_DESC
+        data_type: varchar
+        quote: true
+        description: "**Full Name** - Billing Collection Method  Description"
+      - name: BIL_COLLECTION_PLN
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Collection Plan  
+          **Length**  - 4
+          **Description** - Identifies the plan used with the EFT collection methods.
+      - name: BIL_COLLECTION_PLN_DESC
+        data_type: varchar
+        quote: true
+        description: "**Full Name** - Billing Collection Plan  Description"
+      - name: bil_account_id_hash
+        data_type: bigint
+        description: "'`sha256` hash of `bil_account_id`. Can be used in joins since an integer should be easier to lookup.'"
+  - name: raw__screngn__xcd_bil_act_summary
+    description: Raw data from `SCRENGN.XCD_BIL_ACT_SUMMARY`, filtered to only include policy symbols identified as related to our sb_policy_key policies via `MODCOM.POLICY_CHAIN_V3`
+    columns:
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_SEQ
+        data_type: bigint
+        quote: true
+        description: |-
+          **Full Name** - Account Summary Activity Sequence Number  
+          **Length**  - *16-bit integer*
+          **Description** - The sequence the activity is added to the Billing system within a date. **It is not displayed on any screen, nor is it printed on any report.**
+      - name: POL_SYMBOL_CD
+        data_type: varchar
+        quote: true
+        description: Policy symbol
+      - name: POL_NBR
+        data_type: varchar
+        quote: true
+        description: Policy number
+      - name: BIL_ACY_DES_CD
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Activity Description Code  
+          **Length**  - 3
+          **Description** - User defined code which represents an activity that has occurred for an account. The following code(s) are pre-defined for internal processing.
+          **Values**  
+          ASB = Agent Statement balanced
+          BCC = Bill class change
+          BTA = Account bill type change
+          BTC = Bill type change
+          BTT = Bill account transfer
+          CM = Manual payment write-off
+          CMC = Collection method change
+          CMR = Reverse manual payment write-off
+          CR = Credit into cash
+          CS = Cash from credit
+          CST = Company statement
+          DBR = Disburse manual
+          DMR = Reverse manual disburse
+          IDC = Statement due date change
+          OPY = Balance write-off overpay
+          PLN = Collection plan change
+          PNC = Payor name/address change
+          RC = Reverse payment - company mistake
+          RDC = Reference date change
+          RN = Reverse payment - nsf
+          RP = Reverse payment- protested
+          RPL = Reporting level change
+          SDC = Start date change
+          STT = Statement
+          UPY = Balance underpay
+          REI - Request for Auto Reinstatement
+          NRD - No Rescind due to Postmark Date
+          NRE - No Auto Reinstatement Requested
+          CIA - Corrected Invoice
+          RIF - Renewal Inforce
+          CCT - Credit Card Tape Processed
+      - name: BIL_DES_REA_TYP
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Description Reason Type  
+          **Length**  - 3
+          **Description** - Type of billing object or event described.  
+
+          **The following code(s) are pre-defined for internal processing:**
+            
+          Spaces = system defined activity
+          ACH = PACS payments
+          AMT = Amount types for payable items
+          ASO = Apply Suspense Overpayment Options
+          AST = Account status
+          BAA = Amount type audits
+          BAM = Billing amount effective indicator
+          BAS = Amount type for taxes, fees, and surcharges
+          BAT = Billing item
+          BCL = Billing classes
+          BIT = Payable item for billing items
+          BPA = Payable item for audits
+          BPS = Payable item for taxes, fees, and surcharges
+          BSC = Batch Status for Cash/Credit Card
+          BSE = Batch Status for EFT Rejections
+          BTG = Agent account bill type
+          BTP = Third party bill type
+          BTS = Bill Type Display
+          BTY = Bill type other than third party or agent
+          CAT = Commission amount type
+          CET = EFT collection method
+          CHC = Hard copy collection method
+          CIT = Commission billing item
+          CPM = Check production method
+          CPY = Credit card payment
+          CST = Account cash status
+          CTP = Tape collection method
+          CTR = Transferred cash
+          CWA = Payment write-off
+          CWM = Manual payment write-off
+          CWR = Reverse payment write-off
+          DBA = Automatic disbursement
+          DBR = Manual disbursement reasons
+          DBS = Disburse status description
+          DCR = Match discrepancy types
+          DNC = NSF (non-sufficient funds) forgiven
+          DRV = Reversed disbursement due to stop pay or void
+          DSO = Match discrepancy code on unmatched items
+          DSP = Cash disposition types
+          EAT = EFT bank account type
+          EDT = Date Edits
+          ENS = Reversal of EFT payment due to
+          NSF(non-sufficient funds)
+          EPR = EFT prenote rejection
+          ERP = Reversal of EFT payment due to other than
+          NSF(non-sufficient funds)
+          ESM = EFT secondary collection method
+          EST = EFT Status
+          FQY = Frequency
+          GRV = Agent statement entry review status
+          GST = Agent account status
+          IST = Installment Invoice Status
+          LOB = Lines of business
+          MCH = Match reasons
+          MCT = Match type
+          PID = Processed Indicator
+          PRV = Payment reversal codes
+          PST = Policy status
+          PTS = System Plans Identifier Type
+          PYS = Payment sources
+          PYT = Cash payment types
+          QSP = Quote Scheduling Policy/Account
+          RAD = Receipt Activity Display
+          RAH = Receipt Activity History
+          RBA = Resume billing and follow-up automatic
+          RBM = Resume billing and follow-up manual
+          RCT = Receipt Description
+          REV = Receipts processing verify codes
+          REX = Overpayment
+          RFA = Resume follow-up automatic
+          RFM = Resume follow-up manual
+          RSA = Resume billing automatic
+          RSC = Account cash status, Resume
+          RSM = Resume billing manual
+          RVD = Reversed disbursement due to resuspend or reversal
+          RW1 = Rev prm w/o due to BPC or CR
+          SBC = Account cash status, Suspend
+          SBF = Suspense billing and follow-up
+          SBI = Suspense billing
+          SBO = Suspense follow-up
+          SCA = Service Charge Action
+          SCT = Service Charge Type
+          SUS = Suspense reasons
+          TRF = Policy premium transfer reasons
+          TST = Third party status
+          UIT = Unidentified Cash Identifier Type
+          U%% = Customer defined activity codes
+          WPA = Write off of scheduled amounts automatic
+          WPG = Agent statement balance write off
+          WPI = Third party write off
+          WPR = Write off of scheduled amounts manual
+          WRR = Write-off reversals manual and automatic
+          W01 = Full pay service charge write off
+      - name: BIL_ACY_DES1_DT
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Summary Activity Description 1 Date  
+          **Length**  - *date*
+          **Description** - Additional date information that further describes the activity. The date displayed will vary according to the activity described. In the case of a new premium item, this date would contain the premium effective date. For an invoice item, this date would contain invoice due date, etc.
+      - name: BIL_ACY_DES2_DT
+        data_type: varchar
+        quote: true
+        description: "**Full Name** - Billing Account Summary Activity Description 2 Date \ 
+
+          **Length**  - *date*
+
+          **Description** - Additional date information that further describes the activity when more than one date is needed to fully describe an activity. In the case of a new premium item, this date would contain the company statement due date"
       - name: BIL_ACY_AMT
         data_type: double
         quote: true
-      - name: billed_amt
-        description: Floating-point amount billed to the account/policy
-        data_type: double
+        description: |-
+          **Full Name** - Billing Account Summary Activity Amount  
+          **Length**  - 14.2
+          **Description** - The amount of premium or cash associated with the activity.
+      - name: USER_ID
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - User Identification  
+          **Length**  - 8
+          **Description** - A unique identifier assigned to an individual user. May be any alpha-numeric value.
+      - name: BIL_ACY_TS
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Activity Timestamp   
+          **Length**  - *timestamp*
+          **Description** - The date and time the activity is added to the Billing system. **It is not reported on any screen, nor is it printed any report.**
+      - name: BAS_ADD_DATA_TXT
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Summary Additional Data Text  
+          **Length**  - 100
+          **Description** - Additional data that further describes the activity. This data is optional. For change processing, the data stored in this column may contain the previous and new values. For example, for a Policy Plan change, this column may contain the previous Policy Plan Code and the new Policy Plan Cod
+      - name: bil_account_id_hash
+        data_type: bigint
+        description: '`sha256` hash of `bil_account_id`. Can be used in joins since an integer should be easier to lookup.'
+  - name: raw__screngn__xcd_bil_cash_dsp
+    description: Raw data from `SCRENGN.XCD_BIL_CASH_DSP`, filtered to only include policy symbols identified as related to our sb_policy_key policies via `MODCOM.POLICY_CHAIN_V3`
+    columns:
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Identifier  
+          **Length**  - 8   
+          **Description** - Uniquely generated technical identification for an account number. Almost always available as a joining key.
+      - name: BIL_DTB_DT
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Distribution Date  
+          **Length**  - *date*   
+          **Description** - The date the cash was distributed to a specific account or to unidentified cash.
+      - name: BIL_DTB_SEQ_NBR
+        data_type: bigint
+        quote: true
+        description: |-
+          **Full Name** - Billing Distribution Sequence Number   
+          **Length**  - *16-bit integer*   
+          **Description** - The sequence of checks within a distribution date.
+      - name: BIL_DSP_SEQ_NBR
+        data_type: bigint
+        quote: true
+        description: |-
+          **Full Name** - Billing Disposition Sequence Number   
+          **Length**  - *16-bit integer*   
+          **Description** - The sequence of dispositions within a distribution date.
+      - name: BIL_SEQ_NBR
+        data_type: bigint
+        quote: true
+        description: |-
+          **Full Name** - Billing Sequence Number   
+          **Length**  - *16-bit integer*   
+          **Description** - Sequential number used to create unique rows.
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+        description: "**Full Name** - Policy Identification \ 
 
-  - name: raw__cb_billing_policies_cash_dsp
-    columns:
-      - name: cincibill_policy_key
+          **Length**  - 16  \ 
+
+          **Description** - This is a unique identifier for each policy. It is the technical key for all Premium (UWS) poli\x02cies"
+      - name: POL_SYMBOL_CD
+        data_type: varchar
+        quote: true
+        description: Policy symbol
+      - name: POL_NBR
+        data_type: varchar
+        quote: true
+        description: Policy number
+      - name: POL_EFFECTIVE_DT
+        data_type: varchar
+        quote: true
+        description: Policy effective date
+      - name: DWS_STATUS_CD
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Disbursement Status Code   
+          **Length**  - 1   
+          **Description** - This code denotes the current state of the disbursement.  
+          **Values**  
+          C = Cancel
+          D = Disbursed
+          E = Escheated
+          H = Hold
+          I = Combined Payment
+          O = Offset For Onset
+          P = Pending
+          Q = Select Combined
+          R = Stop Pay Request
+          S = Stop Pay
+          U = Honored
+          V = Void No Reprint
+          W = Escheat Wait
+          T = Reserved for external application (future use)
+          X = Reserved for external application (future use)
+          Y = Reserved for external application (future use)
+          Z = Reserved for external application (future use)
+      - name: BIL_REVS_RSUS_IND
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Cash Receipt Reverse Resuspend Indicator   
+          **Length**  - 1   
+          **Description** - This indicator defines the disposition as history after a reversal, or resuspension of applied cash, disbursement write-off.   
+          **Values**  
+          *A = Transfer pending to an account
+          R = Disposition fully reversed
+          S = Disposition re-suspended
+          Blank = Disposition equal to current activity
+          *G = Transfer pending to an agent account
+          *T = Transfer pending to a third party
+          C = Request cancel of disbursement due to resuspend
+          D = Disbursement requested
+          *X = Credit start pending(Temporary value)
+          *P = Reversal pending
+          *N = Third party reconciliation not complete
+          *E = Request cancel of disbursement due to reversal
+          *Z = Payments which were backed and need to be reapplied
+          as part of a bill plan change
+          * - Indicates temporary values
+      - name: BIL_DSP_REASON_CD
+        data_type: varchar
+        quote: true
+        description: "**Full Name** - Billing Disposition Reason Code  \ 
+
+          **Length**  - 3bil-  \ 
+
+          **Description** - User defined code indicating the reason that a cash disposition has been written off, dis\x02bursed, or suspended. These values are defined in the Billing Description Reason entity with type codes of CWM, DBS, SUS, PYS, PRV, DBR, PRV and DBR."
+      - name: BIL_DSP_AMT
+        data_type: double
+        quote: true
+        description: |-
+          **Full Name** - Billing Cash Disposition Amount   
+          **Length**  - 14.2   
+          **Description** - The amount of cash associated with the activity.
+      - name: BIL_ADJ_DUE_DT
+        data_type: varchar
+        quote: true
+        description: "**Full Name** - Billing Installment Adjusted Due Date  \ 
+
+          **Length**  - *date*  \ 
+
+          **Description** - The date an installment is due. This date will be calculated by the system and may be overrid\x02den by the user on the schedule screen."
+      - name: BIL_INV_DT
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Invoice Date     
+          **Length**  - *date*   
+          **Description** - The date the invoice will be formatted for print.
+      - name: BIL_DSP_DT
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Disposition Sequence Number   
+          **Length**  - *16-bit integer*   
+          **Description** - The sequence of dispositions within a distribution date.
+      - name: BIL_DSP_TYPE_CD
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Disposition Type Code   
+          **Length**  - 2   
+          **Description** - A code which identifies the activity type for this row. These values are defined for verbiage purposes only in the Billing Description Reason entity.   
+
+          **The following code(s) are pre-defined for internal processing:**  
+
+          SP = Suspended
+          DB = Disbursed
+          DR = Disbursement reversed or resuspended
+          AP = Applied
+          WO = Written-off
+          WR = Resuspend Write-off
+          WU = Write off as a result of third party reconciliation
+          TF = Transferred
+          RV = Reversed
+      - name: ACTIVITY
+        data_type: varchar
+        quote: true
+        description: |-
+          Not in the documentation.
+      - name: BIL_CRG_TYPE_CD
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Service Charge Types   
+          **Length**  - 1   
+          **Description** - This code indicates whether the amount is for a service charge, penalty charge, late charge, and/or down payment fee.  
+          **Values**  
+          S = Service Charge
+          P = Penalty Charge
+          L = Late Charge
+          D = Down Payment fee
+      - name: PAYMENT_IDENTIFIER
+        data_type: varchar
+        quote: true
+        description: |-
+          Not in the documentation.
+      - name: bil_account_id_hash
         data_type: bigint
-        data_tests:
-          - not_null
-      - name: billing_acct_id
-        data_type: varchar
-        data_tests:
-          - not_null
-          - relationships:
-              field: billing_acct_id
-              to: ref('raw__cb_billing_acct')
-      - name: billing_policy_id
-        data_type: varchar
-  - name: raw__cb_billing_policy
+        description: "'{{ doc(\"bil_account_id_hash\") }}'"
+  - name: raw__screngn__xcd_bil_cash_receipt
     columns:
-      - name: billing_acct_id
-        description: Billing account id
+      - name: BIL_ACCOUNT_ID
         data_type: varchar
-        data_tests:
-          - not_null
-          - relationships:
-              field: billing_acct_id
-              to: ref('raw__cb_billing_acct')
-      - name: billing_policy_id
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Identifier  
+          **Length**  - 8   
+          **Description** - Uniquely generated technical identification for an account number. Almost always available as a joining key.
+      - name: BIL_DTB_DT
         data_type: varchar
-      - name: policy_sym
-        data_type: varchar
-      - name: policy_numb
+        quote: true
+      - name: BIL_DTB_SEQ_NBR
         data_type: bigint
-      - name: billing_acct_numb
+        quote: true
+      - name: BIL_DEPOSIT_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_RCT_AMT
+        data_type: double
+        quote: true
+      - name: BIL_RCT_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_RCT_RECEIVE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_CSH_ETR_MTH_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_RCT_TYPE_CD
+        data_type: varchar
+        quote: true
+      - name: PAYMENT_TYPE
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
+  - name: raw__screngn__xcd_bil_des_reason
+    columns:
+      - name: BIL_DES_REA_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_DES_REA_TYP
+        data_type: varchar
+        quote: true
+      - name: PRI_LGG_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_DES_REA_DES
+        data_type: varchar
+        quote: true
+      - name: BDR_LONG_DES
+        data_type: varchar
+        quote: true
+      - name: BIL_ACT_BAL_SUM_CD
+        data_type: varchar
+        quote: true
+  - name: raw__screngn__xcd_bil_ist_schedule
+    columns:
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+        description: |-
+          **Full Name** - Billing Account Identifier  
+          **Length**  - 8   
+          **Description** - Uniquely generated technical identification for an account number. Almost always available as a joining key.
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_SEQ_NBR
+        data_type: bigint
+        quote: true
+      - name: POL_EFFECTIVE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_INV_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_ADJ_DUE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_REFERENCE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_PRM_IST_AMT
+        data_type: double
+        quote: true
+      - name: BIS_CRE_FUT_AMT
+        data_type: double
+        quote: true
+      - name: BIS_CNC_FUT_AMT
+        data_type: double
+        quote: true
+      - name: BIS_CRE_OPN_AMT
+        data_type: double
+        quote: true
+      - name: BIS_CNC_OPN_AMT
+        data_type: double
+        quote: true
+      - name: BIS_PRM_PAID_AMT
+        data_type: double
+        quote: true
+      - name: BIS_WRO_PRM_AMT
+        data_type: double
+        quote: true
+      - name: BIS_CRE_PAID_AMT
+        data_type: double
+        quote: true
+      - name: BIL_INVOICE_CD
+        data_type: varchar
+        quote: true
+      - name: INVOICED
+        data_type: boolean
+        quote: true
+      - name: BIS_NON_TRM_DT_IND
+        data_type: varchar
+        quote: true
+      - name: INVOICE_TYPE
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
+  - name: raw__screngn__xcd_bil_pol_proc_rec
+    columns:
+      - name: bil_account_id
+        data_type: varchar
+      - name: bil_account_id_hash
+        data_type: varchar
+  - name: raw__screngn__xcd_bil_pol_proc_req
+    columns:
+      - name: BIL_ACCOUNT_ID
+        description: |-
+          **Full Name** - Billing Account Identifier  
+          **Length**  - 8   
+          **Description** - Uniquely generated technical identification for an account number. Almost always available as a joining key.
+        data_type: varchar
+        quote: true
+      - name: BIL_REQUEST_TYP
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_TS
+        data_type: varchar
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_EFFECTIVE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_CONTEXT
+        data_type: varchar
+        quote: true
+      - name: BIL_ACT_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_PROCESS_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_LST_MDF_TS
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
+  - name: raw__screngn__xcd_bil_policy_trm
+    columns:
+      - name: BIL_ACCOUNT_ID
+        description: |-
+          **Full Name** - Billing Account Identifier  
+          **Length**  - 8   
+          **Description** - Uniquely generated technical identification for an account number. Almost always available as a joining key.
+        data_type: varchar
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_EFFECTIVE_DT
+        data_type: varchar
+        quote: true
+      - name: MASTER_COMPANY_NBR
+        data_type: varchar
+        quote: true
+      - name: PLN_EXP_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_ISU_CLT_ID
+        data_type: varchar
+        quote: true
+      - name: BPT_ISU_ADR_SEQ
+        data_type: bigint
+        quote: true
+      - name: BPT_AGT_CLT_ID
+        data_type: varchar
+        quote: true
+      - name: BPT_AGT_ADR_SEQ
+        data_type: bigint
+        quote: true
+      - name: LOB_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_STATE_PVN_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_COUNTRY_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_WRO_PRC_IND
+        data_type: varchar
+        quote: true
+      - name: BIL_SUS_FU_REA_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_STATUS_EFF_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_AGREEMENT_IND
+        data_type: varchar
+        quote: true
+      - name: BPT_ISSUE_SYS_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_TO_FRO_TRF_NBR
+        data_type: bigint
+        quote: true
+      - name: BPT_AUDIT_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_TERM_SPLIT_IND
+        data_type: varchar
+        quote: true
+      - name: BPT_BELOW_MIN_CNT
+        data_type: bigint
+        quote: true
+      - name: BPT_POL_UW_STA_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_UW_STA_EFF_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_POL_COL_AMT
+        data_type: double
+        quote: true
+      - name: BPT_ACT_COL_CD
+        data_type: varchar
+        quote: true
+      - name: CFC_SVC_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_PLAN_CD
+        data_type: varchar
+        quote: true
+      - name: TERM_BILLING_PLAN
+        data_type: varchar
+        quote: true
+      - name: BIL_POL_STATUS_CD
+        data_type: varchar
+        quote: true
+      - name: BILLING_POLICY_STATUS
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
+  - name: raw__screngn__xcd_bil_policy
+    columns:
+      - name: BIL_ACCOUNT_ID
+        description: |-
+          **Full Name** - Billing Account Identifier  
+          **Length**  - 8   
+          **Description** - Uniquely generated technical identification for an account number. Almost always available as a joining key.
+        data_type: varchar
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_SYMBOL_CD
+        data_type: varchar
+        quote: true
+      - name: POL_NBR
+        data_type: varchar
+        quote: true
+      - name: BIL_ACCOUNT_NBR
+        data_type: bigint
+        quote: true
+      - name: CUR_BIL_PLAN_CD
+        data_type: varchar
+        quote: true
+      - name: CURRENT_BILLING_PLAN
+        data_type: varchar
+        quote: true
+      - name: BIL_ISSUE_IND
+        data_type: varchar
+        quote: true
+      - name: BIL_POLICY_ISSUE_IND_DESC
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
         data_type: bigint
