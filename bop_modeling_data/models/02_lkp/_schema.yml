@@ -1,0 +1,26 @@
+models:
+  - name: lkp__associated_policies
+    description: |-
+      This lookup table provides mappings for each policy *associated with* a policy from our decicion file processing. Here "associated with" means "shares a `policy_chain_id` with".  
+
+      The table:  
+      1. Gives each associated policy a unique integer ID
+    columns:
+      - name: associated_policy_key
+        data_type: bigint
+      - name: associated_sb_policy_key
+        data_type: bigint
+      - name: policy_chain_id
+        data_type: uinteger
+      - name: company_numb
+        data_type: utinyint
+      - name: policy_sym
+        data_type: varchar
+      - name: policy_numb
+        data_type: uinteger
+      - name: policy_module
+        data_type: uinteger
+      - name: policy_eff_date
+        data_type: timestamp
+      - name: is_gt1_five_key_in_table
+        data_type: integer
