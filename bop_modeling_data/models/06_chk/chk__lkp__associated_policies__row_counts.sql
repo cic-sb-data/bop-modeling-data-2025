@@ -55,7 +55,7 @@ select
     sum(is_gt1_five_key_in_table) as n_sb_policy_keys_with_gt1_key_in_associated_policy_tbl
 
 
-from get_counts
+from check_for_duplicated_policies
 group by 
     cte,
     cnt 

@@ -24,3 +24,90 @@ models:
         data_type: timestamp
       - name: is_gt1_five_key_in_table
         data_type: integer
+  - name: lkp__billing_policies
+    description: This model connects account- and policy-level identifiers from CinciBill to those developed in the decision file data process. A common set of integer keys will be used for building datamart tables.
+    columns:
+      - name: associated_policy_key
+        description: This uniquely identifies the policy that is associated with a SB policy by way of the policy chain.
+        data_type: hugeint
+        tests:
+          - not_null
+      - name: associated_sb_policy_key
+        description: This describes the first SB policy key the row is associated to (in the case that multiple policies are themselves associated by way of the policy chain)
+        data_type: uinteger
+        tests:
+          - not_null
+      - name: billing_acct_key
+        data_type: bigint
+      - name: billing_policy_key
+        data_type: hugeint
+      - name: billing_policy_id
+        data_type: varchar
+      - name: billing_acct_id
+        data_type: varchar
+      - name: policy_sym
+        data_type: varchar
+      - name: policy_numb
+        data_type: uinteger
+      - name: policy_eff_date
+        data_type: date
+  - name: lkp__sb_policy_key
+    description: Currently should be the same as `stg__decfile__sb_policy_key`, but will materialize a lookup table model for later performance.
+    columns:
+      - name: sb_policy_key
+        data_type: bigint
+        description: Unique identifier for the policy-lob combination used in the BOP Decision file data processing. Integer starting at 1 and is the sorted ordering of the five-key and policy_chain_id.
+      - name: policy_chain_id
+        data_type: bigint
+      - name: lob
+        data_type: varchar
+        description: Line of business
+        data_tests:
+          - accepted_values:
+              values:
+                - prop
+                - liab
+          - not_null
+      - name: company_numb
+        data_type: bigint
+        data_tests:
+          - accepted_values:
+              values:
+                - 1
+                - 3
+                - 4
+                - 5
+                - 7
+                - 9
+          - not_null
+        description: Company number
+      - name: policy_sym
+        data_type: varchar
+        description: Policy symbol. This list is a bit more restrictive than the similar one for associated policies, since the SB decision file is built off the AIV's, which only use eClas data.
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - ETD
+                - ECP
+                - ELD
+                - ENP
+                - EPP
+                - ETN
+      - name: policy_numb
+        data_type: bigint
+        description: Policy number. Up to 7 digits.
+        data_tests:
+          - not_null
+      - name: policy_module
+        data_type: bigint
+        data_tests:
+          - not_null
+      - name: policy_eff_date
+        data_type: date
+        description: |-
+          Policy effective date. Must be:  
+          1.  \(\ge\) `{{ var('policy_eff_date__min_yrmo') }}`
+          2.  \(\le\) `{{ var('policy_eff_date__max_yrmo') }}`
+        data_tests:
+          - not_null
