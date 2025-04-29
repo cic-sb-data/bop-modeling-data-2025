@@ -1,0 +1,21 @@
+{{
+    config(materialization='ephemeral')
+}}
+
+with
+
+policy_chain as (
+    select distinct
+        {{ generate_policy_key() }} as policy_chain_policy_key,
+        policy_chain_id,
+        {{ five_key() }},
+        count(*) over() as policy_chain__nrows
+
+    from {{ ref('stg__modcom__policy_chain_v3') }}
+    order by 
+        policy_chain_id,
+        {{ five_key() }}
+)
+
+select *
+from policy_chain

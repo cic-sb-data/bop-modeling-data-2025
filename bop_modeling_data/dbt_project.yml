@@ -17,10 +17,31 @@ clean-targets:
 models:
   bop_modeling_data:
     +materialized: view
+    +docs:
+      show: true
     00_raw:
       +materialized: table
+      +tags:
+        - raw
+    01_stg:
+      +materialized: view
+      +tags:
+        - stg
     02_lkp:
       +materialized: table
+      +tags:
+        - lkp
+    03_dim:
+      +materialized: view
+      +tags:
+        - dim
+    07_tmp:
+      +materialized: table
+      +schema: zz__tmp
+      +docs:
+        show: false
+      +tags:
+        - tmp
 
 vars:
   raw_csv_loc: '/sas/data/project/EG/ActShared/SmallBusiness/Modeling/dat/raw_csv'
