@@ -36,11 +36,7 @@ filtered_policy_chains as (
     from policy_chain
     inner join sb_policies
         on policy_chain.policy_chain_id = sb_policies.policy_chain_id
-        -- and policy_chain.company_numb = sb_policies.company_numb
-        -- and policy_chain.policy_sym = sb_policies.policy_sym 
-        -- and policy_chain.policy_numb = sb_policies.policy_numb
-        -- and policy_chain.policy_module = sb_policies.policy_module 
-        -- and policy_chain.policy_eff_date = sb.policies.policy_eff_date
+
     where policy_chain.policy_chain_id is not null
 ),
 
@@ -77,10 +73,14 @@ add_final_associated_policy_key as (
 
 get_counts as (
     select 'sb_policies' as cte, sb_policies__nrows as cnt from sb_policies
-    union all select 'policy_chain' as cte, policy_chain__nrows as cnt from policy_chain
-    union all select 'filtered_policy_chains' as cte, filtered_policy_chains__nrows as cnt from filtered_policy_chains
-    union all select 'associated_policies' as cte, associated_policies__nrows as cnt from associated_policies
-    union all select 'add_final_associated_policy_key' as cte, add_final_associated_policy_key__nrows as cnt from add_final_associated_policy_key
+    union all 
+        select 'policy_chain' as cte, policy_chain__nrows as cnt from policy_chain
+    union all   
+        select 'filtered_policy_chains' as cte, filtered_policy_chains__nrows as cnt from filtered_policy_chains
+    union all 
+        select 'associated_policies' as cte, associated_policies__nrows as cnt from associated_policies
+    union all 
+        select 'add_final_associated_policy_key' as cte, add_final_associated_policy_key__nrows as cnt from add_final_associated_policy_key
 ),
 
 check_for_duplicated_policies as (

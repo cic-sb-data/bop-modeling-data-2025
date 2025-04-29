@@ -10,7 +10,7 @@ raw as (
 
             try_cast(BIL_LOK_TS as datetime) as BIL_LOK_TS,
             try_cast(BIL_START_DED_DT as date) as BIL_START_DED_DT,
-            try_cast(BIL_START_DED_RFR_DT as date) as BIL_START_DED_RFR_DT,
+            try_cast(BIL_START_DED_RFR_DT as date) as BIL_START_DED_RFR_DT
         )
 
     from read_csv_auto('{{ var("raw_csv_loc") }}/screngn__xcd_bil_account.csv')
