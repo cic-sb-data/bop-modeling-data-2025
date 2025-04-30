@@ -19,11 +19,7 @@ models:
       - name: BIL_CLASS_CD
         data_type: varchar
         quote: true
-        description: "**Full Name** - Billing Class Code.   \ 
-
-          **Length**  - 3  \ 
-
-          **Description** - Defined codes which sub-defines billing types. Dictates the use of a particular Billing Support plan. This code allows for the assignment of different sets of rules within a specified billing type. These values are defined in the Billing Description Reason entity with a type code of BCL."
+        description: "**Full Name** - Billing Class Code.    **Length**  - 3   **Description** - Defined codes which sub-defines billing types. Dictates the use of a particular Billing Support plan. This code allows for the assignment of different sets of rules within a specified billing type. These values are defined in the Billing Description Reason entity with a type code of BCL."
       - name: BAT_PAY_CLT_ID
         data_type: varchar
         quote: true
@@ -139,7 +135,7 @@ models:
       - name: BIL_TYPE_DESC
         data_type: varchar
         quote: true
-        description: "**Full Name** - Billing Type Description"
+        description: '**Full Name** - Billing Type Description'
       - name: BAT_STATUS_CD
         data_type: varchar
         quote: true
@@ -156,7 +152,7 @@ models:
       - name: BAT_STATUS_DESC
         data_type: varchar
         quote: true
-        description: "**Full Name** - Billing Account Status Description"
+        description: '**Full Name** - Billing Account Status Description'
       - name: BIL_PRESENTMENT_CD
         data_type: varchar
         quote: true
@@ -171,7 +167,7 @@ models:
       - name: BIL_PRESENTMENT_DESC
         data_type: varchar
         quote: true
-        description: "**Full Name** - Bill Presentment Description"
+        description: '**Full Name** - Bill Presentment Description'
       - name: BIL_COLLECTION_MTH
         data_type: varchar
         quote: true
@@ -182,7 +178,7 @@ models:
       - name: BIL_COLLECTION_METHOD_DESC
         data_type: varchar
         quote: true
-        description: "**Full Name** - Billing Collection Method  Description"
+        description: '**Full Name** - Billing Collection Method  Description'
       - name: BIL_COLLECTION_PLN
         data_type: varchar
         quote: true
@@ -193,7 +189,7 @@ models:
       - name: BIL_COLLECTION_PLN_DESC
         data_type: varchar
         quote: true
-        description: "**Full Name** - Billing Collection Plan  Description"
+        description: '**Full Name** - Billing Collection Plan  Description'
       - name: bil_account_id_hash
         data_type: bigint
         description: "'`sha256` hash of `bil_account_id`. Can be used in joins since an integer should be easier to lookup.'"
@@ -373,9 +369,7 @@ models:
       - name: BIL_ACY_DES2_DT
         data_type: varchar
         quote: true
-        description: "**Full Name** - Billing Account Summary Activity Description 2 Date \ 
-
-          **Length**  - *date*
+        description: "**Full Name** - Billing Account Summary Activity Description 2 Date  **Length**  - *date*
 
           **Description** - Additional date information that further describes the activity when more than one date is needed to fully describe an activity. In the case of a new premium item, this date would contain the company statement due date"
       - name: BIL_ACY_AMT
@@ -450,11 +444,7 @@ models:
       - name: XCD_POLICY_ID
         data_type: varchar
         quote: true
-        description: "**Full Name** - Policy Identification \ 
-
-          **Length**  - 16  \ 
-
-          **Description** - This is a unique identifier for each policy. It is the technical key for all Premium (UWS) poli\x02cies"
+        description: "**Full Name** - Policy Identification  **Length**  - 16   **Description** - This is a unique identifier for each policy. It is the technical key for all Premium (UWS) poli\x02cies"
       - name: POL_SYMBOL_CD
         data_type: varchar
         quote: true
@@ -518,11 +508,7 @@ models:
       - name: BIL_DSP_REASON_CD
         data_type: varchar
         quote: true
-        description: "**Full Name** - Billing Disposition Reason Code  \ 
-
-          **Length**  - 3bil-  \ 
-
-          **Description** - User defined code indicating the reason that a cash disposition has been written off, dis\x02bursed, or suspended. These values are defined in the Billing Description Reason entity with type codes of CWM, DBS, SUS, PYS, PRV, DBR, PRV and DBR."
+        description: "**Full Name** - Billing Disposition Reason Code   **Length**  - 3bil-   **Description** - User defined code indicating the reason that a cash disposition has been written off, dis\x02bursed, or suspended. These values are defined in the Billing Description Reason entity with type codes of CWM, DBS, SUS, PYS, PRV, DBR, PRV and DBR."
       - name: BIL_DSP_AMT
         data_type: double
         quote: true
@@ -533,11 +519,7 @@ models:
       - name: BIL_ADJ_DUE_DT
         data_type: varchar
         quote: true
-        description: "**Full Name** - Billing Installment Adjusted Due Date  \ 
-
-          **Length**  - *date*  \ 
-
-          **Description** - The date an installment is due. This date will be calculated by the system and may be overrid\x02den by the user on the schedule screen."
+        description: "**Full Name** - Billing Installment Adjusted Due Date   **Length**  - *date*   **Description** - The date an installment is due. This date will be calculated by the system and may be overrid\x02den by the user on the schedule screen."
       - name: BIL_INV_DT
         data_type: varchar
         quote: true
@@ -595,7 +577,7 @@ models:
           Not in the documentation.
       - name: bil_account_id_hash
         data_type: bigint
-        description: "'{{ doc(\"bil_account_id_hash\") }}'"
+        description: '''{{ doc("bil_account_id_hash") }}'''
   - name: raw__screngn__xcd_bil_cash_receipt
     columns:
       - name: BIL_ACCOUNT_ID
@@ -719,12 +701,7 @@ models:
         quote: true
       - name: bil_account_id_hash
         data_type: bigint
-  - name: raw__screngn__xcd_bil_pol_proc_rec
-    columns:
-      - name: bil_account_id
-        data_type: varchar
-      - name: bil_account_id_hash
-        data_type: varchar
+
   - name: raw__screngn__xcd_bil_pol_proc_req
     columns:
       - name: BIL_ACCOUNT_ID
@@ -760,6 +737,7 @@ models:
         quote: true
       - name: bil_account_id_hash
         data_type: bigint
+    description: Try to override.
   - name: raw__screngn__xcd_bil_policy_trm
     columns:
       - name: BIL_ACCOUNT_ID

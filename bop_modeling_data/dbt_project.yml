@@ -46,9 +46,7 @@ models:
 vars:
   raw_csv_loc: '/sas/data/project/EG/ActShared/SmallBusiness/Modeling/dat/raw_csv'
   decfile_loc: '/sas/data/project/EG/ActShared/SmallBusiness/DecisionSupportFile/Development/2025/20250228'
-  policy_eff_date__min_yrmo: 201301
-  policy_eff_date__max_yrmo: 202502
-
+  policy_eff_date__min_yrmo: 200901
 
 flags:
   send_anonymous_usage_stats: false

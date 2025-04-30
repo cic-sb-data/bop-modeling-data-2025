@@ -106,8 +106,8 @@ models:
       - name: policy_eff_date
         data_type: date
         description: |-
-          Policy effective date. Must be:  
-          1.  \(\ge\) `{{ var('policy_eff_date__min_yrmo') }}`
-          2.  \(\le\) `{{ var('policy_eff_date__max_yrmo') }}`
+          Policy effective date
         data_tests:
           - not_null
+  - name: lkp__billing_activity
+    description: Lookup model setting an activity transaction key for future activity count feature engineering.

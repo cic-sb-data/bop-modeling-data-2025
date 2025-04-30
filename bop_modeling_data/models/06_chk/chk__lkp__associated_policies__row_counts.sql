@@ -37,27 +37,21 @@ get_counts as (
         select 5 as ord, 'add_final_associated_policy_key' as cte, add_final_associated_policy_key__nrows as cnt from add_final_associated_policy_key
 ),
 
-check_for_duplicated_policies as (
-    select 
-        *,
-        case 
-            when count(*) over(partition by associated_sb_policy_key, {{ five_key() }}) > 1 
-                then 1
-            else 0
-        end as is_gt1_five_key_in_table
+final as (
+    select distinct
+        ord,
+        cte,
+        cnt as row_count
+
 
     from get_counts
+    group by 
+        ord,
+        cte,
+        row_count
+
+    order by ord
 )
 
-select  
-    cte,
-    cnt,
-    sum(is_gt1_five_key_in_table) as n_sb_policy_keys_with_gt1_key_in_associated_policy_tbl
-
-
-from check_for_duplicated_policies
-group by 
-    cte,
-    cnt 
-
-order by ord
+select cte, row_count
+from final

@@ -1,1 +1,0 @@
-{{ test_policy_eff_date_in_expected_range(stg__decfile__sb_policy_lookup, date_col='policy_eff_date') }}

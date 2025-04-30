@@ -7,7 +7,8 @@ raw as (
         bil_account_nbr as billing_acct_numb,
         
         pol_symbol_cd as policy_sym,
-        pol_nbr as policy_numb
+        pol_nbr as policy_numb,
+        *
 
     from {{ ref('raw__screngn__xcd_bil_policy') }}
     order by 

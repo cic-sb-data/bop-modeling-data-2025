@@ -47,8 +47,16 @@ filter_raw_billing_policies as (
         raw_billing_pols.billing_acct_key,
         raw_billing_pols.billing_policy_key,
         raw_billing_pols.policy_eff_date
+),
+
+add_billing_sb_policy_key as (
+    select
+        row_number() over() as billing_sb_policy_key,
+        *
+
+    from filter_raw_billing_policies
 )
 
 
 select *
-from filter_raw_billing_policies
+from add_billing_sb_policy_key
