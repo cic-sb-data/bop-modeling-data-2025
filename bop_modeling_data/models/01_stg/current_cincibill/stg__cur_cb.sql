@@ -19,11 +19,12 @@ act_summary as (
         billing_acct_key,
         billing_activity_date,
         billing_activity_sequence_numb,
-        billing_activity_desc_cd,
-        billing_activity_desc_reason_type,
         billing_activity_amt
     
     from {{ ref('stg__cur_cb__xcd_bil_act_summary') }}
+    where
+        billing_activity_desc_cd='C' 
+        and billing_activity_desc_reason_type is null
     order by 
         billing_acct_key, 
         billing_activity_date
@@ -35,8 +36,10 @@ join_policies_to_acct_summary as (
         pol.* exclude (billing_acct_key)
 
     from act_summary as act 
-    left join billing_policies as pol 
+    inner join billing_policies as pol 
         on act.billing_acct_key = pol.billing_acct_key
+
+    where associated_sb_policy_key is not null
 )
 
 select *

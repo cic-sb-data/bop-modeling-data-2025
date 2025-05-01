@@ -6,7 +6,6 @@ with
 
 policy_chain as (
     select distinct
-        {{ generate_policy_key() }} as policy_chain_policy_key,
         policy_chain_id,
         {{ five_key() }},
         count(*) over() as policy_chain__nrows

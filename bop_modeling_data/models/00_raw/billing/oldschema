@@ -1,0 +1,170 @@
+
+  - name: raw__screngn__xcd_bil_pol_proc_req
+    columns:
+      - name: BIL_ACCOUNT_ID
+        description: |-
+          **Full Name** - Billing Account Identifier  
+          **Length**  - 8   
+          **Description** - Uniquely generated technical identification for an account number. Almost always available as a joining key.
+        data_type: varchar
+        quote: true
+      - name: BIL_REQUEST_TYP
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_TS
+        data_type: varchar
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_EFFECTIVE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_CONTEXT
+        data_type: varchar
+        quote: true
+      - name: BIL_ACT_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_PROCESS_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_LST_MDF_TS
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
+    description: Try to override.
+  - name: raw__screngn__xcd_bil_policy_trm
+    columns:
+      - name: BIL_ACCOUNT_ID
+        description: |-
+          **Full Name** - Billing Account Identifier  
+          **Length**  - 8   
+          **Description** - Uniquely generated technical identification for an account number. Almost always available as a joining key.
+        data_type: varchar
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_EFFECTIVE_DT
+        data_type: varchar
+        quote: true
+      - name: MASTER_COMPANY_NBR
+        data_type: varchar
+        quote: true
+      - name: PLN_EXP_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_ISU_CLT_ID
+        data_type: varchar
+        quote: true
+      - name: BPT_ISU_ADR_SEQ
+        data_type: bigint
+        quote: true
+      - name: BPT_AGT_CLT_ID
+        data_type: varchar
+        quote: true
+      - name: BPT_AGT_ADR_SEQ
+        data_type: bigint
+        quote: true
+      - name: LOB_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_STATE_PVN_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_COUNTRY_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_WRO_PRC_IND
+        data_type: varchar
+        quote: true
+      - name: BIL_SUS_FU_REA_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_STATUS_EFF_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_AGREEMENT_IND
+        data_type: varchar
+        quote: true
+      - name: BPT_ISSUE_SYS_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_TO_FRO_TRF_NBR
+        data_type: bigint
+        quote: true
+      - name: BPT_AUDIT_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_TERM_SPLIT_IND
+        data_type: varchar
+        quote: true
+      - name: BPT_BELOW_MIN_CNT
+        data_type: bigint
+        quote: true
+      - name: BPT_POL_UW_STA_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_UW_STA_EFF_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_POL_COL_AMT
+        data_type: double
+        quote: true
+      - name: BPT_ACT_COL_CD
+        data_type: varchar
+        quote: true
+      - name: CFC_SVC_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_PLAN_CD
+        data_type: varchar
+        quote: true
+      - name: TERM_BILLING_PLAN
+        data_type: varchar
+        quote: true
+      - name: BIL_POL_STATUS_CD
+        data_type: varchar
+        quote: true
+      - name: BILLING_POLICY_STATUS
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
+  - name: raw__screngn__xcd_bil_policy
+    columns:
+      - name: BIL_ACCOUNT_ID
+        description: |-
+          **Full Name** - Billing Account Identifier  
+          **Length**  - 8   
+          **Description** - Uniquely generated technical identification for an account number. Almost always available as a joining key.
+        data_type: varchar
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_SYMBOL_CD
+        data_type: varchar
+        quote: true
+      - name: POL_NBR
+        data_type: varchar
+        quote: true
+      - name: BIL_ACCOUNT_NBR
+        data_type: bigint
+        quote: true
+      - name: CUR_BIL_PLAN_CD
+        data_type: varchar
+        quote: true
+      - name: CURRENT_BILLING_PLAN
+        data_type: varchar
+        quote: true
+      - name: BIL_ISSUE_IND
+        data_type: varchar
+        quote: true
+      - name: BIL_POLICY_ISSUE_IND_DESC
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint

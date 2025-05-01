@@ -1,9 +1,7 @@
 with
 
-raw as (
-    select *
-    from {{ ref('stg__cur_cb') }}
-),
+{{ with_ref('stg__cur_cb', 'raw') }},
+{{ with_ref('lkp__dates', 'dates') }},
 
 add_activity_transaction_key as (
     select 
@@ -17,9 +15,16 @@ add_activity_transaction_key as (
             || try_cast(associated_sb_policy_key as varchar)
             || try_cast(billing_policy_key as varchar)
         ) as activity_trans_key,
-        *
+        associated_policy_key,
+        associated_sb_policy_key,
+        billing_activity_date,
+        billing_activity_amt
 
     from raw
+    order by 
+        associated_policy_key,
+        associated_sb_policy_key,
+        billing_activity_date
 )
 
 select *

@@ -1,4 +1,4 @@
-{%- macro mdy_to_date(month, day, year) -%}
+{%- macro mdy(month, day, year) -%}
 try_cast(
     concat(
         try_cast({{ year }} as varchar),
