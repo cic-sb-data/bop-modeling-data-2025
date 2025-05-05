@@ -8,22 +8,44 @@ models:
     columns:
       - name: associated_policy_key
         data_type: bigint
+        data_tests:
+          - not_null
+          - unique
       - name: associated_sb_policy_key
         data_type: bigint
+        data_tests:
+          - not_null
+          - relationships:
+              field: sb_policy_key
+              to: ref('raw__decfile__sb_policy_lookup')
       - name: policy_chain_id
         data_type: uinteger
+        data_tests:
+          - not_null
+          - relationships:
+              field: policy_chain_id
+              to: ref('raw__modcom__policy_chain_v3')
       - name: company_numb
         data_type: utinyint
+        data_tests:
+          - not_null
+          - relationships:
+              field: company_numb
+              to: ref('raw__modcom__policy_chain_v3')
       - name: policy_sym
         data_type: varchar
       - name: policy_numb
         data_type: uinteger
+        data_tests:
+          - not_null
       - name: policy_module
         data_type: uinteger
       - name: policy_eff_date
         data_type: timestamp
       - name: is_gt1_five_key_in_table
         data_type: integer
+      - name: __is_gt1_five_key_in_table
+        data_type: utinyint
   - name: lkp__billing_policies
     description: This model connects account- and policy-level identifiers from CinciBill to those developed in the decision file data process. A common set of integer keys will be used for building datamart tables.
     columns:
@@ -51,6 +73,8 @@ models:
         data_type: uinteger
       - name: policy_eff_date
         data_type: date
+      - name: billing_sb_policy_key
+        data_type: bigint
   - name: lkp__sb_policy_key
     description: Currently should be the same as `stg__decfile__sb_policy_key`, but will materialize a lookup table model for later performance.
     columns:
@@ -111,3 +135,46 @@ models:
           - not_null
   - name: lkp__billing_activity
     description: Lookup model setting an activity transaction key for future activity count feature engineering.
+    columns:
+      - name: activity_trans_key
+        data_type: hugeint
+      - name: associated_policy_key
+        data_type: hugeint
+      - name: associated_sb_policy_key
+        data_type: uinteger
+      - name: billing_activity_date
+        data_type: date
+      - name: billing_activity_amt
+        data_type: double
+  - name: lkp__first_billing_activity
+    description: First billing activity date is analogous to report date in the world of claim counts.
+    columns:
+      - name: activity_trans_key
+        description: Unique identifier for a billing activity transaction.
+        data_type: hugeint
+        data_tests:
+          - not_null
+          - unique
+      - name: first_billing_activity_date
+        description: Minimum of the billing activity date from the lkp__billing_activity model.
+        data_type: date
+        data_tests:
+          - not_null
+  - name: lkp__dates
+    columns:
+      - name: input_date
+        data_type: date
+      - name: n_prior_years
+        data_type: integer
+      - name: prior_year_start
+        data_type: date
+      - name: prior_year_end
+        data_type: date
+  - name: lkp__policy_chain_ids
+    columns:
+      - name: policy_chain_id
+        data_type: bigint
+      - name: n_sb_policies_for_policy_chain_id
+        data_type: bigint
+      - name: n_total_policies_for_policy_chain_id
+        data_type: bigint

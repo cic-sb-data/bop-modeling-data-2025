@@ -26,7 +26,11 @@ eff_date_lkp as (
     from policies 
     left join dates
         on policies.policy_eff_date = dates.policy_eff_date
+    where dates.policy_eff_date is not null
 )
 
 select *
 from eff_date_lkp
+order by 
+    associated_policy_key,
+    n_prior_years

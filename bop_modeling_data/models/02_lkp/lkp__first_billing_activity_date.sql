@@ -1,6 +1,6 @@
 with
 
-{{ with_ref('lkp__billing_activity', 'raw') }},
+{{ with_ref('fct__billing_activity', 'raw') }},
 
 drop_cols as (
     select distinct 

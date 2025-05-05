@@ -1,0 +1,13 @@
+models:
+  - name: fct__associated_policy_eff_date
+    columns:
+      - name: associated_policy_key
+        data_type: hugeint
+      - name: policy_eff_date
+        data_type: date
+      - name: n_prior_years
+        data_type: integer
+      - name: prior_year_start
+        data_type: date
+      - name: prior_year_end
+        data_type: date

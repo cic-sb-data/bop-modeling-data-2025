@@ -11,7 +11,7 @@ filtered_policy_chains as (
 
 associated_policies as (
     select distinct
-        policy_chain_policy_key,
+        {{ policy_key() }} as associated_policy_key,
         associated_sb_policy_key,
         policy_chain_id,
         {{ five_key() }},
@@ -19,6 +19,7 @@ associated_policies as (
 
     from filtered_policy_chains
     order by 
+        associated_policy_key,
         associated_sb_policy_key,
         policy_chain_id,
         {{ five_key() }}

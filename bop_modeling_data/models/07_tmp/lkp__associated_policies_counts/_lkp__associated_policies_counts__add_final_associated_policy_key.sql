@@ -11,7 +11,7 @@ associated_policies as (
 
 add_final_associated_policy_key as (
     select 
-        policy_chain_policy_key as associated_policy_key,
+        associated_policy_key,
         associated_sb_policy_key,
         policy_chain_id,
         {{ five_key() }},

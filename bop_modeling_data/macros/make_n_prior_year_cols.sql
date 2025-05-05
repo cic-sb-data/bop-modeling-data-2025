@@ -42,19 +42,18 @@ macro make_prior_year_cols(data, relative_date=policy_eff_date, compare_date=dat
             {{ _build_prior_year_cols(relative_date, n_prior_years) }}
 
         from add_eval_date
-    )
-    {#,
+    ),
 
      slot_trans_into_prior_years as (
         select
             *,
-            {{ macro _slot_transactions_into_prior_years(compare_date, n_prior_years) }}
+            {{ _slot_transactions_into_prior_years(compare_date, n_prior_years) }} as prior_year
 
         from add_prior_year_columns
-    ) #}
+    )
 
     select *
-    from add_prior_year_columns
+    from slot_trans_into_prior_years
 
 {%- endmacro -%}
 
@@ -78,7 +77,7 @@ NOT NEEDED--------------------
 #}
 
 {%- macro _build_eval_date(relative_date, n_months=4) -%}
-    {{ _build_n_month_prior_column('relative_date', 4) }} as eval_date
+    {{ _build_n_month_prior_column(relative_date, 4) }} as eval_date
 {%- endmacro -%}
 
 {#
@@ -91,11 +90,11 @@ NOT NEEDED--------------------
 #}
 
 {%- macro _build_n_month_prior_column(relative_date, n_months) -%}
-    ({{ relative_date }} - {{ n_months }} month)
+    try_cast( {{ relative_date }} - interval {{ n_months }} months as date)
 {%- endmacro -%}
 
 {%- macro _build_n_year_prior_column(relative_date, n_years) -%}
-    ({{ relative_date }} - {{ n_years }} year)
+    try_cast( {{ relative_date }} - interval {{ n_years }} year as date)
 {%- endmacro -%}
 
 {#
@@ -111,7 +110,9 @@ NOT NEEDED--------------------
 {%- macro _build_prior_year_cols(relative_date, n_prior_years) -%}
     {%- set __final_year = n_prior_years + 1 -%}
     {%- for i in range(__final_year) -%}
-        {{ _build_n_year_prior_column(relative_date, i) }} as yr{{ i }}_prior_date{%- if i != __final_year -%},{%- endif -%}
+
+        {%- set __year = i + 1 -%}
+        {{ _build_n_year_prior_column(relative_date, i) }} as yr{{ __year }}_prior_date{%- if i != __final_year -%},{%- endif -%}
     {%- endfor -%}
 {%- endmacro -%}
 
