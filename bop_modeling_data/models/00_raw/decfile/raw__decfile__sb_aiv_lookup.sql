@@ -1,9 +1,7 @@
 with
 
 raw as (
-    select
-        *
-
+    select *
     from read_csv_auto('{{ var("raw_csv_loc") }}/decfile.aiv_lookup.csv')
 )
 

@@ -9,7 +9,7 @@ raw as (
         POL_NBR as policy_numb,
         POL_EFFECTIVE_DT as policy_eff_date
 
-    from {{ ref('raw__screngn__xcd_bil_cash_dsp') }}
+    from {{ ref('stg__screngn__xcd_bil_cash_dsp') }}
 )
 
 select *

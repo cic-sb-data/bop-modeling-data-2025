@@ -10,7 +10,7 @@ raw as (
         pol_nbr as policy_numb,
         *
 
-    from {{ ref('raw__screngn__xcd_bil_policy') }}
+    from {{ ref('stg__screngn__xcd_bil_policy') }}
     order by 
         policy_sym,
         policy_numb
