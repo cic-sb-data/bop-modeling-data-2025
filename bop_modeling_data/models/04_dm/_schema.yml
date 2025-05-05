@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: dm__npc_counts
+    description: "Datamart aggregating prior billing activities (description code 'C') per year for each sb_policy_key, looking back up to 5 years from the policy_eff_date."
+    columns:
+      - name: sb_policy_key # Renamed from associated_policy_key
+        description: 'Unique identifier for the specific policy term and line of business (prop/liab).'
+        tests:
+          - unique
+          - not_null
+      - name: policy_chain_id
+        description: 'Identifier linking policies within the same chain (renewals, rewrites).'
+      - name: policy_eff_date
+        description: 'The effective date of the policy term.'
+      - name: prior_yr1_c_activity_count
+        description: "Count of 'C' activities in the 1st year prior to policy_eff_date."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: prior_yr1_c_activity_amount_sum
+        description: "Sum of 'C' activity amounts in the 1st year prior to policy_eff_date."
+      - name: prior_yr2_c_activity_count
+        description: "Count of 'C' activities in the 2nd year prior to policy_eff_date."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: prior_yr2_c_activity_amount_sum
+        description: "Sum of 'C' activity amounts in the 2nd year prior to policy_eff_date."
+      - name: prior_yr3_c_activity_count
+        description: "Count of 'C' activities in the 3rd year prior to policy_eff_date."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: prior_yr3_c_activity_amount_sum
+        description: "Sum of 'C' activity amounts in the 3rd year prior to policy_eff_date."
+      - name: prior_yr4_c_activity_count
+        description: "Count of 'C' activities in the 4th year prior to policy_eff_date."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: prior_yr4_c_activity_amount_sum
+        description: "Sum of 'C' activity amounts in the 4th year prior to policy_eff_date."
+      - name: prior_yr5_c_activity_count
+        description: "Count of 'C' activities in the 5th year prior to policy_eff_date."
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: prior_yr5_c_activity_amount_sum
+        description: "Sum of 'C' activity amounts in the 5th year prior to policy_eff_date."
