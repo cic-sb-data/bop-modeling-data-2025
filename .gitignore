@@ -169,3 +169,14 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Database files
+*.db
+*.sqlite
+*.duckdb
+
+# repomix outputs
+.repomixignore
+repomix.config.json
+remomix-output.xml
+repomix-output.xml
