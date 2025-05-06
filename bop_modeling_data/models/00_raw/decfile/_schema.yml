@@ -2,19 +2,22 @@ version: 2
 
 models:
   - name: raw__decfile__sb_aiv_lookup
-    description: "Raw AIV (Automated Insurance Verification) lookup data for small business from the 'decfile' source. Contains information used for policy verification."
+    description: "Raw model for AIV lookup data from the 'decfile' source. It likely selects all columns from an external source table named 'sb_aiv_lookup'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table SB_AIV_LOOKUP.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'
 
   - name: raw__decfile__sb_policy_lookup
-    description: "Raw policy lookup data for small business from the 'decfile' source. Used to look up policy details."
+    description: "Raw model for SB policy lookup data from the 'decfile' source. It likely selects all columns from an external source table named 'sb_policy_lookup'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table SB_POLICY_LOOKUP.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'
 
   - name: raw__decfile__screngn_policy_lookup
-    description: "Raw policy lookup data from the 'decfile' source, related to 'screngn' system policies. Used for cross-referencing policies."
+    description: "Raw model for screngn policy lookup data from the 'decfile' source. It likely selects all columns from an external source table named 'screngn_policy_lookup'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table SCRENGN_POLICY_LOOKUP.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'

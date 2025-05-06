@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: _lkp__associated_policies_counts
+    description: 'Temporary model to count associated policies. Likely an intermediate step for lkp__associated_policies.'
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns.'
+
+  - name: _lkp__associated_policies_counts__add_final_associated_policy_key
+    description: 'Ephemeral model to add a final associated policy key.'
+    config:
+      materialized: ephemeral
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns.'
+
+  - name: _lkp__associated_policies_counts__associated_policies
+    description: 'Ephemeral model for associated policies within the counting process.'
+    config:
+      materialized: ephemeral
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns.'
+
+  - name: _lkp__associated_policies_counts__filtered_policy_chains
+    description: 'Ephemeral model for filtered policy chains.'
+    config:
+      materialized: ephemeral
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns.'
+
+  - name: _lkp__associated_policies_counts__policy_chain
+    description: 'Ephemeral model for policy chains used in counts.'
+    config:
+      materialized: ephemeral
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns.'
+
+  - name: _lkp__associated_policies_counts__sb_policies
+    description: 'Table model for small business policies, used in the associated policies counting process.'
+    config:
+      materialized: table
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns.'

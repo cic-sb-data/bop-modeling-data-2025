@@ -2,9 +2,9 @@ version: 2
 
 models:
   - name: chk__lkp__associated_policies__row_counts
-    description: 'Check table to verify row counts at various stages of the `lkp__associated_policies` creation process. It compares row counts from different CTEs within the ephemeral models used to build `lkp__associated_policies` (e.g., `_lkp__associated_policies_counts__sb_policies`, `_lkp__associated_policies_counts__policy_chain`, etc.). This helps ensure data integrity and diagnose issues in the association logic.'
+    description: 'Check model to verify row counts at various stages of building `lkp__associated_policies`. It references multiple ephemeral models from the `07_tmp` directory.'
     columns:
       - name: cte
-        description: "Name of the Common Table Expression (CTE) or intermediate step being checked (e.g., 'sb_policies', 'policy_chain', 'associated_policies')."
+        description: 'Name of the common table expression (CTE) or step being checked.'
       - name: row_count
-        description: 'The number of rows in the specified CTE.'
+        description: 'Number of rows in the CTE.'

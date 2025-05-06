@@ -2,59 +2,49 @@ version: 2
 
 models:
   - name: lkp__associated_policies
-    description: 'Lookup table for associated policies. It identifies and links related policies, potentially from different source systems or policy chains. It uses `_lkp__associated_policies_counts` (an ephemeral model series) for intermediate calculations and checks for duplicates.'
+    description: 'Lookup model for associated policies. It checks for duplicated policies and finalizes data types. It references `_lkp__associated_policies_counts`.'
     columns:
-      - name: final_associated_policy_key
-        description: 'A final key generated to uniquely identify an associated policy or a group of related policies.'
+      # Add relevant column descriptions.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe other relevant columns that define the association and characteristics of the policies.'
+        description: 'This is a placeholder. Describe relevant columns.'
 
   - name: lkp__billing_policies
-    description: 'Lookup table for billing policies. It filters raw billing policies and enriches them with an `billing_sb_policy_key`. It references `lkp__associated_policies` to link billing policies with their associated policy groups.'
+    description: 'Lookup model for billing policies. It filters raw billing policies and adds a billing_sb_policy_key. It references `lkp__associated_policies`.'
     columns:
       - name: billing_sb_policy_key
-        description: 'A key generated for small business billing policies.'
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe other relevant columns from the raw billing policies or from the join with associated_policies.'
-
-  - name: lkp__dates
-    description: 'Date dimension lookup table. It generates a series of dates and includes prior year columns (prior_year1 to prior_year5) for each input date. Useful for time-based analysis and aggregations.'
-    columns:
-      - name: input_date
-        description: 'The base date for which prior year dates are calculated.'
-      - name: prior_year1
-        description: 'The date one year prior to input_date.'
-      - name: prior_year2
-        description: 'The date two years prior to input_date.'
-      - name: prior_year3
-        description: 'The date three years prior to input_date.'
-      - name: prior_year4
-        description: 'The date four years prior to input_date.'
-      - name: prior_year5
-        description: 'The date five years prior to input_date.'
-
-  - name: lkp__first_billing_activity_date
-    description: 'Lookup table to find the first billing activity date for each relevant entity (e.g., policy, account). It uses `fct__billing_activity` to determine the minimum activity date.'
-    columns:
-      - name: placeholder_key
-        description: 'This is a placeholder. Describe the key used to group billing activities (e.g., policy_key, account_key).'
-      - name: first_billing_activity_date
-        description: 'The earliest date of any billing activity for the given key.'
-
-  - name: lkp__policy_chain_ids
-    description: 'Lookup table for policy chain identifiers. It processes data from `stg__modcom__policy_chain_v3` (assuming this is the `raw` ref aliased as `pchain` or similar) to count total policies associated with each policy chain.'
-    columns:
-      - name: policy_chain_id
-        description: 'Identifier for the policy chain. See `stg__modcom__policy_chain_v3.policy_chain_id`.'
-      - name: total_policies_in_chain
-        description: 'Count of policies associated with this policy_chain_id.'
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe other relevant columns from the policy chain data.'
-
-  - name: lkp__sb_policy_key
-    description: 'Lookup table for small business policy keys. The source and transformation logic are not detailed in the provided repomix output but it likely generates or standardizes a key for SB policies.'
-    columns:
-      - name: sb_policy_key
-        description: 'A key for small business policies.'
+        description: 'Key for billing small business policy.'
+      # Add other relevant column descriptions.
       - name: placeholder_column
         description: 'This is a placeholder. Describe other relevant columns.'
+
+  - name: lkp__dates
+    description: 'Lookup model for dates, generating prior year columns.'
+    columns:
+      - name: input_date
+        description: 'The base date for generating prior year dates.'
+      # Add other relevant column descriptions for date components and prior year dates.
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe other relevant columns.'
+
+  - name: lkp__first_billing_activity_date
+    description: 'Lookup model to determine the first billing activity date for a policy. It references `fct__billing_activity`.'
+    columns:
+      # Add relevant column descriptions.
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns.'
+
+  - name: lkp__policy_chain_ids
+    description: 'Lookup model for policy chain IDs, counting total policies associated with each chain.'
+    columns:
+      - name: policy_chain_id
+        description: 'Identifier for the policy chain.'
+      # Add other relevant column descriptions.
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe other relevant columns.'
+
+  - name: lkp__sb_policy_key
+    description: 'Lookup model for small business policy keys.'
+    columns:
+      # Add relevant column descriptions.
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns.'

@@ -2,19 +2,10 @@ version: 2
 
 models:
   - name: dm__npc_counts
-    description: "Data mart for NPC (Net Premium Change or similar) counts. This table aggregates billing activity data (`fct__billing_activity`) and policy information (`lkp__associated_policies`) to calculate counts and amounts of prior year activities relative to a policy's effective date. The results are pivoted to show these aggregations per policy per prior year."
+    description: 'Data mart model for NPC (Net Premium Change) counts. It calculates prior year activities and aggregates counts and amounts. Materialized as a table. It references `fct__billing_activity` and `lkp__associated_policies`.'
     config:
       materialized: table
     columns:
-      - name: policy_key # Assuming a policy key is present for joining and aggregation
-        description: 'Key identifying the policy (e.g., final_associated_policy_key from lkp__associated_policies).'
-      - name: policy_eff_date # Assuming policy effective date is used as a reference
-        description: 'Effective date of the policy, used as the reference for calculating prior year activities.'
-      - name: prior_year_1_count
-        description: 'Count of activities in the first prior year relative to policy_eff_date.'
-      - name: prior_year_1_amount
-        description: 'Sum of amounts of activities in the first prior year relative to policy_eff_date.'
-      - name: placeholder_prior_year_N_count
-        description: 'This is a placeholder. Describe similar count columns for other prior years (e.g., prior_year_2_count).'
-      - name: placeholder_prior_year_N_amount
-        description: 'This is a placeholder. Describe similar amount columns for other prior years (e.g., prior_year_2_amount).'
+      # Add relevant column descriptions for the final pivoted table.
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns.'

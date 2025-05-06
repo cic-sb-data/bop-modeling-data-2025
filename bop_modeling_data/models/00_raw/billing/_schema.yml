@@ -2,59 +2,68 @@ version: 2
 
 models:
   - name: raw__screngn__xcd_bil_account
-    description: "Raw billing account information from the 'screngn' source. Contains details about billing accounts."
+    description: "Raw model for billing account information from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_account'."
     columns:
       - name: bil_account_id
-        description: 'Original billing account identifier from the source system.'
+        description: 'Billing account identifier.'
       - name: bil_account_id_hash
-        description: "{{ doc('bil_account_id_hash') }} This is a sha256 hash of bil_account_id, useful for joins and anonymization."
+        description: "Hashed billing account identifier. {{ doc('bil_account_id_hash') }}"
+      # Add other relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe other relevant columns from the source table XCD_BIL_ACCOUNT.'
+        description: 'This is a placeholder. Describe other relevant columns from the source table.'
 
   - name: raw__screngn__xcd_bil_act_summary
-    description: "Raw billing account summary information from the 'screngn' source (source table: XCD_BIL_ACT_SUMMARY)."
+    description: "Raw model for billing account summary from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_act_summary'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table XCD_BIL_ACT_SUMMARY.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'
 
   - name: raw__screngn__xcd_bil_cash_dsp
-    description: "Raw billing cash disbursement information from the 'screngn' source (source table: XCD_BIL_CASH_DSP)."
+    description: "Raw model for billing cash disbursements from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_cash_dsp'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table XCD_BIL_CASH_DSP.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'
 
   - name: raw__screngn__xcd_bil_cash_receipt
-    description: "Raw billing cash receipt information from the 'screngn' source (source table: XCD_BIL_CASH_RECEIPT)."
+    description: "Raw model for billing cash receipts from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_cash_receipt'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table XCD_BIL_CASH_RECEIPT.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'
 
   - name: raw__screngn__xcd_bil_des_reason
-    description: "Raw billing designation reason information from the 'screngn' source (source table: XCD_BIL_DES_REASON)."
+    description: "Raw model for billing designation reasons from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_des_reason'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table XCD_BIL_DES_REASON.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'
 
   - name: raw__screngn__xcd_bil_ist_schedule
-    description: "Raw billing installment schedule information from the 'screngn' source (source table: XCD_BIL_IST_SCHEDULE)."
+    description: "Raw model for billing installment schedules from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_ist_schedule'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table XCD_BIL_IST_SCHEDULE.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'
 
   - name: raw__screngn__xcd_bil_pol_proc_req
-    description: "Raw billing policy processing request information from the 'screngn' source (source table: XCD_BIL_POL_PROC_REQ)."
+    description: "Raw model for billing policy processing requests from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_pol_proc_req'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table XCD_BIL_POL_PROC_REQ.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'
 
   - name: raw__screngn__xcd_bil_policy_trm
-    description: "Raw billing policy term information from the 'screngn' source (source table: XCD_BIL_POLICY_TRM)."
+    description: "Raw model for billing policy terms from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_policy_trm'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table XCD_BIL_POLICY_TRM.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'
 
   - name: raw__screngn__xcd_bil_policy
-    description: "Raw billing policy information from the 'screngn' source (source table: XCD_BIL_POLICY)."
+    description: "Raw model for billing policies from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_policy'."
     columns:
+      # Add relevant column descriptions from the source table.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table XCD_BIL_POLICY.'
+        description: 'This is a placeholder. Describe relevant columns from the source table.'

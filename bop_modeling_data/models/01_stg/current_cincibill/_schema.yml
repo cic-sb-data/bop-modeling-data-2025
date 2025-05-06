@@ -2,27 +2,28 @@ version: 2
 
 models:
   - name: stg__cur_cb__xcd_bil_act_summary
-    description: "Staging model for billing account summary from the 'current_cincibill' source. Derived from raw__screngn__xcd_bil_act_summary (assuming similar source system XCD)."
+    description: 'Staging model for current Cincibill billing account summary. Derived from `raw__cur_cb__xcd_bil_act_summary` (assuming a raw source for current_cincibill).'
     columns:
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting.'
 
   - name: stg__cur_cb__xcd_bil_cash_dsp
-    description: "Staging model for billing cash disbursements from the 'current_cincibill' source. Derived from raw__screngn__xcd_bil_cash_dsp."
+    description: 'Staging model for current Cincibill billing cash disbursements. Derived from `raw__cur_cb__xcd_bil_cash_dsp`.'
     columns:
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting.'
 
   - name: stg__cur_cb__xcd_bil_policy
-    description: "Staging model for billing policies from the 'current_cincibill' source. Derived from raw__screngn__xcd_bil_policy."
+    description: 'Staging model for current Cincibill billing policies. Derived from `raw__cur_cb__xcd_bil_policy`.'
     columns:
       - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting.'
 
   - name: stg__cur_cb
-    description: "Central staging model for 'current_cincibill' data, integrating billing policies and account summaries. It likely joins `stg__cur_cb__xcd_bil_policy` with `stg__cur_cb__xcd_bil_act_summary` and references `lkp__dates`."
+    description: 'Staging model that joins current Cincibill policies with account summaries. It references `lkp__dates`.'
     columns:
       - name: billing_sb_policy_key
-        description: 'Key for small business billing policies, used for ordering and joining.'
+        description: 'Key for billing small business policy.'
+      # Add other relevant column descriptions from the join.
       - name: placeholder_column
-        description: 'This is a placeholder. Describe other relevant columns resulting from the integration of policy and account summary data.'
+        description: 'This is a placeholder. Describe other relevant columns.'
