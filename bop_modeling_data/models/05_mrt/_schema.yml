@@ -1,30 +1,20 @@
+version: 2
+
 models:
   - name: dm__npc_counts
-    description: "Datamart aggregating prior billing activities (description code 'C') per year for each sb_policy_key, looking back up to 5 years from the policy_eff_date."
+    description: "Data mart for NPC (Net Premium Change or similar) counts. This table aggregates billing activity data (`fct__billing_activity`) and policy information (`lkp__associated_policies`) to calculate counts and amounts of prior year activities relative to a policy's effective date. The results are pivoted to show these aggregations per policy per prior year."
+    config:
+      materialized: table
     columns:
-      - name: sb_policy_key
-        description: 'Unique identifier for the specific policy term and line of business (prop/liab).'
-      - name: policy_chain_id
-        description: 'Identifier linking policies within the same chain (renewals, rewrites).'
-      - name: policy_eff_date
-        description: 'The effective date of the policy term.'
-      - name: prior_yr1_c_activity_count
-        description: "Count of 'C' activities in the 1st year prior to policy_eff_date."
-      - name: prior_yr1_c_activity_amount_sum
-        description: "Sum of 'C' activity amounts in the 1st year prior to policy_eff_date."
-      - name: prior_yr2_c_activity_count
-        description: "Count of 'C' activities in the 2nd year prior to policy_eff_date."
-      - name: prior_yr2_c_activity_amount_sum
-        description: "Sum of 'C' activity amounts in the 2nd year prior to policy_eff_date."
-      - name: prior_yr3_c_activity_count
-        description: "Count of 'C' activities in the 3rd year prior to policy_eff_date."
-      - name: prior_yr3_c_activity_amount_sum
-        description: "Sum of 'C' activity amounts in the 3rd year prior to policy_eff_date."
-      - name: prior_yr4_c_activity_count
-        description: "Count of 'C' activities in the 4th year prior to policy_eff_date."
-      - name: prior_yr4_c_activity_amount_sum
-        description: "Sum of 'C' activity amounts in the 4th year prior to policy_eff_date."
-      - name: prior_yr5_c_activity_count
-        description: "Count of 'C' activities in the 5th year prior to policy_eff_date."
-      - name: prior_yr5_c_activity_amount_sum
-        description: "Sum of 'C' activity amounts in the 5th year prior to policy_eff_date."
+      - name: policy_key # Assuming a policy key is present for joining and aggregation
+        description: 'Key identifying the policy (e.g., final_associated_policy_key from lkp__associated_policies).'
+      - name: policy_eff_date # Assuming policy effective date is used as a reference
+        description: 'Effective date of the policy, used as the reference for calculating prior year activities.'
+      - name: prior_year_1_count
+        description: 'Count of activities in the first prior year relative to policy_eff_date.'
+      - name: prior_year_1_amount
+        description: 'Sum of amounts of activities in the first prior year relative to policy_eff_date.'
+      - name: placeholder_prior_year_N_count
+        description: 'This is a placeholder. Describe similar count columns for other prior years (e.g., prior_year_2_count).'
+      - name: placeholder_prior_year_N_amount
+        description: 'This is a placeholder. Describe similar amount columns for other prior years (e.g., prior_year_2_amount).'

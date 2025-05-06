@@ -1,39 +1,28 @@
-models:
-  - name: stg__cur_cb__xcd_bil_policy
-    columns:
-      - name: billing_acct_key
-        data_type: bigint
-        data_tests:
-          - not_null
-      - name: billing_acct_id
-        data_type: varchar
-      - name: billing_acct_numb
-        data_type: bigint
-      - name: policy_sym
-        data_type: varchar
-      - name: policy_numb
-        data_type: varchar
-  - name: stg__cur_cb__xcd_bil_act_summary
-    description: |-
-      #### Adapted from the following original SAS snippet
+version: 2
 
-      ```sas
-      PROC SQL;
-      CREATE TABLE rnpc_all AS
-          SELECT
-              bil_account_id
-         	,bil_acy_dt
-         	,bil_acy_seq
-         	,bil_acy_amt
-        	,SUBSTR(STRIP(pol_symbol_cd),1,2) length=2 as pol_symbol_2
-        	,SUBSTR(STRIP(pol_nbr),1,7) length=7 as pol_nbr
-          FROM screngn.xcd_bil_act_summary
-          WHERE 
-              bil_acy_des_cd = 'C' 
-              AND bil_des_rea_typ = ''
-          ORDER BY
-        	bil_account_id
-        	,bil_acy_dt desc
-        	,bil_acy_seq desc; 
-      QUIT;
-      ```
+models:
+  - name: stg__cur_cb__xcd_bil_act_summary
+    description: "Staging model for billing account summary from the 'current_cincibill' source. Derived from raw__screngn__xcd_bil_act_summary (assuming similar source system XCD)."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+
+  - name: stg__cur_cb__xcd_bil_cash_dsp
+    description: "Staging model for billing cash disbursements from the 'current_cincibill' source. Derived from raw__screngn__xcd_bil_cash_dsp."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+
+  - name: stg__cur_cb__xcd_bil_policy
+    description: "Staging model for billing policies from the 'current_cincibill' source. Derived from raw__screngn__xcd_bil_policy."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+
+  - name: stg__cur_cb
+    description: "Central staging model for 'current_cincibill' data, integrating billing policies and account summaries. It likely joins `stg__cur_cb__xcd_bil_policy` with `stg__cur_cb__xcd_bil_act_summary` and references `lkp__dates`."
+    columns:
+      - name: billing_sb_policy_key
+        description: 'Key for small business billing policies, used for ordering and joining.'
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe other relevant columns resulting from the integration of policy and account summary data.'

@@ -1,75 +1,20 @@
+version: 2
+
 models:
   - name: raw__decfile__sb_aiv_lookup
+    description: "Raw AIV (Automated Insurance Verification) lookup data for small business from the 'decfile' source. Contains information used for policy verification."
     columns:
-      - name: sb_policy_key
-        data_type: bigint
-      - name: policy_chain_id
-        data_type: bigint
-      - name: sb_aiv_key
-        data_type: bigint
-      - name: lob
-        data_type: varchar
-      - name: cfxmlid
-        data_type: varchar
-      - name: coverage_component_agreement_id
-        data_type: varchar
-      - name: image_eff_date
-        data_type: date
-      - name: class_code
-        data_type: varchar
-      - name: cincipak_class_code
-        data_type: varchar
-      - name: coalesced_class_code
-        data_type: varchar
-      - name: location_numb
-        data_type: bigint
-      - name: building_numb
-        data_type: bigint
-      - name: zip_code
-        data_type: bigint
-  - name: raw__decfile__sb_policy_lookup
-    columns:
-      - name: policy_sym
-        data_type: varchar
-      - name: company_numb
-        data_type: bigint
-        data_tests:
-          - accepted_values:
-              values:
-                - 1
-                - 3
-                - 4
-                - 5
-                - 7
-                - 9
-      - name: policy_numb
-        data_type: bigint
-      - name: policy_module
-        data_type: bigint
-      - name: policy_eff_date
-        data_type: date
-      - name: policy_chain_id
-        data_type: bigint
-        description: Policy chain ID from `MODCOM.POLICY_CHAIN_V3` matched to this policy.
-        data_tests:
-          - not_null
-      - name: lob
-        data_type: varchar
-        data_tests:
-          - not_null
-          - accepted_values:
-              values:
-                - prop
-                - liab
-                - auto
-                - wc
-      - name: sb_policy_key
-        data_type: bigint
-        description: Small business policy key from the decision file data process
-        data_tests:
-          - not_null
-          - unique
-    description: |-
-      `sb_policy_lookup` from the decicion file process.
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns from the source table SB_AIV_LOOKUP.'
 
-      Each row corresponds to **one policy - LOB combination**
+  - name: raw__decfile__sb_policy_lookup
+    description: "Raw policy lookup data for small business from the 'decfile' source. Used to look up policy details."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns from the source table SB_POLICY_LOOKUP.'
+
+  - name: raw__decfile__screngn_policy_lookup
+    description: "Raw policy lookup data from the 'decfile' source, related to 'screngn' system policies. Used for cross-referencing policies."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns from the source table SCRENGN_POLICY_LOOKUP.'

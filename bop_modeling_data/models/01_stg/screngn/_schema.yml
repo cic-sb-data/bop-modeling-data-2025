@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: stg__screngn__xcd_bil_account
+    description: "Staging model for billing account information from the 'screngn' source. It renames and casts columns from `raw__screngn__xcd_bil_account`."
+    columns:
+      - name: bil_account_id
+        description: 'Billing account identifier, likely from `raw__screngn__xcd_bil_account.bil_account_id`.'
+      - name: bil_account_id_hash
+        description: "Hashed billing account identifier, likely from `raw__screngn__xcd_bil_account.bil_account_id_hash`. See {{ doc('bil_account_id_hash') }}."
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe other relevant columns after renaming and casting from the raw source.'
+
+  - name: stg__screngn__xcd_bil_act_summary
+    description: "Staging model for billing account summary from the 'screngn' source. Derived from `raw__screngn__xcd_bil_act_summary`."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+
+  - name: stg__screngn__xcd_bil_cash_dsp
+    description: "Staging model for billing cash disbursements from the 'screngn' source. Derived from `raw__screngn__xcd_bil_cash_dsp`."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+
+  - name: stg__screngn__xcd_bil_cash_receipt
+    description: "Staging model for billing cash receipts from the 'screngn' source. Derived from `raw__screngn__xcd_bil_cash_receipt`."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+
+  - name: stg__screngn__xcd_bil_des_reason
+    description: "Staging model for billing designation reasons from the 'screngn' source. Derived from `raw__screngn__xcd_bil_des_reason`."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+
+  - name: stg__screngn__xcd_bil_ist_schedule
+    description: "Staging model for billing installment schedules from the 'screngn' source. Derived from `raw__screngn__xcd_bil_ist_schedule`."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+
+  - name: stg__screngn__xcd_bil_pol_proc_req
+    description: "Staging model for billing policy processing requests from the 'screngn' source. Derived from `raw__screngn__xcd_bil_pol_proc_req`."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+
+  - name: stg__screngn__xcd_bil_policy_trm
+    description: "Staging model for billing policy terms from the 'screngn' source. Derived from `raw__screngn__xcd_bil_policy_trm`."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'
+
+  - name: stg__screngn__xcd_bil_policy
+    description: "Staging model for billing policies from the 'screngn' source. Derived from `raw__screngn__xcd_bil_policy`."
+    columns:
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting from the raw source.'

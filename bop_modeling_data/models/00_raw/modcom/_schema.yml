@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: raw__modcom__policy_chain_v3
+    description: "Raw data for policy chain information from the 'modcom' source, version 3. Loaded from a SAS file (policy_chain_v3.sas7bdat) via a Python model."
+    columns:
+      - name: policy_chain_id
+        description: 'Identifier for the policy chain. Extracted and cast to uinteger in the Python script.'
+      - name: company_numb
+        description: 'Company number associated with the policy. Extracted and cast to utinyint in the Python script.'
+      - name: policy_sym
+        description: 'Policy symbol. Extracted as string in the Python script.'
+      - name: policy_numb
+        description: 'Policy number. Extracted and cast to uinteger in the Python script.'
+      - name: policy_module
+        description: 'Policy module. Extracted and cast to uinteger in the Python script.'
+      - name: policy_eff_date
+        description: 'Effective date of the policy. Extracted and cast to date in the Python script.'

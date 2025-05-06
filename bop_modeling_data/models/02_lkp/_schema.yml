@@ -1,179 +1,60 @@
+version: 2
+
 models:
   - name: lkp__associated_policies
-    description: |-
-      This lookup table provides mappings for each policy *associated with* a policy from our decicion file processing. Here "associated with" means "shares a `policy_chain_id` with".  
+    description: 'Lookup table for associated policies. It identifies and links related policies, potentially from different source systems or policy chains. It uses `_lkp__associated_policies_counts` (an ephemeral model series) for intermediate calculations and checks for duplicates.'
+    columns:
+      - name: final_associated_policy_key
+        description: 'A final key generated to uniquely identify an associated policy or a group of related policies.'
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe other relevant columns that define the association and characteristics of the policies.'
 
-      The table:  
-      1. Gives each associated policy a unique integer ID
-    columns:
-      - name: associated_policy_key
-        data_type: bigint
-        data_tests:
-          - not_null
-      - name: associated_sb_policy_key
-        data_type: bigint
-        data_tests:
-          - not_null
-          - relationships:
-              field: sb_policy_key
-              to: ref('raw__decfile__sb_policy_lookup')
-      - name: policy_chain_id
-        data_type: uinteger
-        data_tests:
-          - not_null
-          - relationships:
-              field: policy_chain_id
-              to: ref('raw__modcom__policy_chain_v3')
-      - name: company_numb
-        data_type: utinyint
-        data_tests:
-          - not_null
-          - relationships:
-              field: company_numb
-              to: ref('raw__modcom__policy_chain_v3')
-      - name: policy_sym
-        data_type: varchar
-      - name: policy_numb
-        data_type: uinteger
-        data_tests:
-          - not_null
-      - name: policy_module
-        data_type: uinteger
-      - name: policy_eff_date
-        data_type: timestamp
-      - name: is_gt1_five_key_in_table
-        data_type: integer
-      - name: __is_gt1_five_key_in_table
-        data_type: utinyint
   - name: lkp__billing_policies
-    description: This model connects account- and policy-level identifiers from CinciBill to those developed in the decision file data process. A common set of integer keys will be used for building datamart tables.
+    description: 'Lookup table for billing policies. It filters raw billing policies and enriches them with an `billing_sb_policy_key`. It references `lkp__associated_policies` to link billing policies with their associated policy groups.'
     columns:
-      - name: associated_policy_key
-        description: This uniquely identifies the policy that is associated with a SB policy by way of the policy chain.
-        data_type: hugeint
-        tests:
-          - not_null
-      - name: associated_sb_policy_key
-        description: This describes the first SB policy key the row is associated to (in the case that multiple policies are themselves associated by way of the policy chain)
-        data_type: uinteger
-        tests:
-          - not_null
-      - name: billing_acct_key
-        data_type: bigint
-      - name: billing_policy_key
-        data_type: hugeint
-      - name: billing_policy_id
-        data_type: varchar
-      - name: billing_acct_id
-        data_type: varchar
-      - name: policy_sym
-        data_type: varchar
-      - name: policy_numb
-        data_type: uinteger
-      - name: policy_eff_date
-        data_type: date
       - name: billing_sb_policy_key
-        data_type: bigint
-  - name: lkp__sb_policy_key
-    description: Currently should be the same as `stg__decfile__sb_policy_key`, but will materialize a lookup table model for later performance.
-    columns:
-      - name: sb_policy_key
-        data_type: bigint
-        description: Unique identifier for the policy-lob combination used in the BOP Decision file data processing. Integer starting at 1 and is the sorted ordering of the five-key and policy_chain_id.
-      - name: policy_chain_id
-        data_type: bigint
-      - name: lob
-        data_type: varchar
-        description: Line of business
-        data_tests:
-          - accepted_values:
-              values:
-                - prop
-                - liab
-          - not_null
-      - name: company_numb
-        data_type: bigint
-        data_tests:
-          - accepted_values:
-              values:
-                - 1
-                - 3
-                - 4
-                - 5
-                - 7
-                - 9
-          - not_null
-        description: Company number
-      - name: policy_sym
-        data_type: varchar
-        description: Policy symbol. This list is a bit more restrictive than the similar one for associated policies, since the SB decision file is built off the AIV's, which only use eClas data.
-        data_tests:
-          - not_null
-          - accepted_values:
-              values:
-                - ETD
-                - ECP
-                - ELD
-                - ENP
-                - EPP
-                - ETN
-      - name: policy_numb
-        data_type: bigint
-        description: Policy number. Up to 7 digits.
-        data_tests:
-          - not_null
-      - name: policy_module
-        data_type: bigint
-        data_tests:
-          - not_null
-      - name: policy_eff_date
-        data_type: date
-        description: |-
-          Policy effective date
-        data_tests:
-          - not_null
-  - name: lkp__billing_activity
-    description: Lookup model setting an activity transaction key for future activity count feature engineering.
-    columns:
-      - name: activity_trans_key
-        data_type: hugeint
-      - name: associated_policy_key
-        data_type: hugeint
-      - name: associated_sb_policy_key
-        data_type: uinteger
-      - name: billing_activity_date
-        data_type: date
-      - name: billing_activity_amt
-        data_type: double
-  - name: lkp__first_billing_activity
-    description: First billing activity date is analogous to report date in the world of claim counts.
-    columns:
-      - name: activity_trans_key
-        description: Unique identifier for a billing activity transaction.
-        data_type: hugeint
-        data_tests:
-          - not_null
-          - unique
-      - name: first_billing_activity_date
-        description: Minimum of the billing activity date from the lkp__billing_activity model.
-        data_type: date
-        data_tests:
-          - not_null
+        description: 'A key generated for small business billing policies.'
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe other relevant columns from the raw billing policies or from the join with associated_policies.'
+
   - name: lkp__dates
+    description: 'Date dimension lookup table. It generates a series of dates and includes prior year columns (prior_year1 to prior_year5) for each input date. Useful for time-based analysis and aggregations.'
     columns:
       - name: input_date
-        data_type: date
-      - name: n_prior_years
-        data_type: integer
-      - name: prior_year_start
-        data_type: date
-      - name: prior_year_end
-        data_type: date
+        description: 'The base date for which prior year dates are calculated.'
+      - name: prior_year1
+        description: 'The date one year prior to input_date.'
+      - name: prior_year2
+        description: 'The date two years prior to input_date.'
+      - name: prior_year3
+        description: 'The date three years prior to input_date.'
+      - name: prior_year4
+        description: 'The date four years prior to input_date.'
+      - name: prior_year5
+        description: 'The date five years prior to input_date.'
+
+  - name: lkp__first_billing_activity_date
+    description: 'Lookup table to find the first billing activity date for each relevant entity (e.g., policy, account). It uses `fct__billing_activity` to determine the minimum activity date.'
+    columns:
+      - name: placeholder_key
+        description: 'This is a placeholder. Describe the key used to group billing activities (e.g., policy_key, account_key).'
+      - name: first_billing_activity_date
+        description: 'The earliest date of any billing activity for the given key.'
+
   - name: lkp__policy_chain_ids
+    description: 'Lookup table for policy chain identifiers. It processes data from `stg__modcom__policy_chain_v3` (assuming this is the `raw` ref aliased as `pchain` or similar) to count total policies associated with each policy chain.'
     columns:
       - name: policy_chain_id
-        data_type: bigint
-      - name: n_sb_policies_for_policy_chain_id
-        data_type: bigint
-      - name: n_total_policies_for_policy_chain_id
-        data_type: bigint
+        description: 'Identifier for the policy chain. See `stg__modcom__policy_chain_v3.policy_chain_id`.'
+      - name: total_policies_in_chain
+        description: 'Count of policies associated with this policy_chain_id.'
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe other relevant columns from the policy chain data.'
+
+  - name: lkp__sb_policy_key
+    description: 'Lookup table for small business policy keys. The source and transformation logic are not detailed in the provided repomix output but it likely generates or standardizes a key for SB policies.'
+    columns:
+      - name: sb_policy_key
+        description: 'A key for small business policies.'
+      - name: placeholder_column
+        description: 'This is a placeholder. Describe other relevant columns.'

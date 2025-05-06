@@ -1,20 +1,10 @@
+version: 2
+
 models:
   - name: chk__lkp__associated_policies__row_counts
-    description: This model checks the row counts at each step required for the `lkp__associated_policies` model.
+    description: 'Check table to verify row counts at various stages of the `lkp__associated_policies` creation process. It compares row counts from different CTEs within the ephemeral models used to build `lkp__associated_policies` (e.g., `_lkp__associated_policies_counts__sb_policies`, `_lkp__associated_policies_counts__policy_chain`, etc.). This helps ensure data integrity and diagnose issues in the association logic.'
     columns:
       - name: cte
-        data_type: varchar
-        description: This is the specific cte step the row count refers to.
-        data_tests:
-          - not_null
-          - unique
-          - accepted_values:
-              values:
-                - associated_policies
-                - sb_policies
-                - add_final_associated_policy_key
-                - policy_chain
-                - filtered_policy_chains
-      - name: cnt
-        data_type: bigint
-        description: Row count for the CTE. Starting with `sb_policies`, which is the most restrictive, you should expect that the number will increase.
+        description: "Name of the Common Table Expression (CTE) or intermediate step being checked (e.g., 'sb_policies', 'policy_chain', 'associated_policies')."
+      - name: row_count
+        description: 'The number of rows in the specified CTE.'

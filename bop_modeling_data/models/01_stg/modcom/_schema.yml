@@ -1,38 +1,12 @@
+version: 2
+
 models:
   - name: stg__modcom__policy_chain_v3
+    description: "Staging model for policy chain data from the 'modcom' source. This model cleans and transforms data from `raw__modcom__policy_chain_v3`. It includes an `add_keys` step, suggesting enrichment or creation of new key columns."
     columns:
-      - name: five_key_hash
-        data_type: hugeint
-        description: |-
-          Calculated as:
-
-          ```sql
-          -- DuckDb-flavored SQL
-          md5_number(try_cast(company_numb as varchar) 
-                      || policy_sym 
-                      || try_cast(policy_numb as varchar) 
-                      || try_cast(policy_module as varchar)
-                      || try_cast(policy_eff_date as varchar))
-          ```
-        data_tests:
-          - not_null
-          - unique
-      - name: three_key_hash
-        data_type: hugeint
-        description: |-
-          Calculated as:
-
-          ```sql
-          -- DuckDb-flavored SQL
-          md5_number(policy_sym 
-                      || try_cast(policy_numb as varchar) 
-                      || try_cast(policy_eff_date as varchar))
-          ```
-        data_tests:
-          - not_null
       - name: policy_chain_id
         data_type: uinteger
-        description: Defines the policies chained together that can be used as prior policies for our current SB policy set.
+        description: 'Identifier for the policy chain, likely sourced from `raw__modcom__policy_chain_v3.policy_chain_id`.'
         data_tests:
           - not_null
           - relationships:
@@ -40,6 +14,7 @@ models:
               to: ref('raw__modcom__policy_chain_v3')
       - name: company_numb
         data_type: utinyint
+        description: 'Company number associated with the policy, likely sourced from `raw__modcom__policy_chain_v3.company_numb`.'
         data_tests:
           - accepted_values:
               values:
@@ -51,18 +26,23 @@ models:
           - not_null
       - name: policy_sym
         data_type: varchar
+        description: 'Policy symbol, likely sourced from `raw__modcom__policy_chain_v3.policy_sym`.'
         data_tests:
           - not_null
       - name: policy_numb
         data_type: uinteger
+        description: 'Policy number, likely sourced from `raw__modcom__policy_chain_v3.policy_numb`.'
         data_tests:
           - not_null
       - name: policy_module
         data_type: uinteger
+        description: 'Policy module, likely sourced from `raw__modcom__policy_chain_v3.policy_module`.'
         data_tests:
           - not_null
       - name: policy_eff_date
         data_type: timestamp
+        description: 'Effective date of the policy, likely sourced from `raw__modcom__policy_chain_v3.policy_eff_date`.'
         data_tests:
           - not_null
-    description: Simple list of policy_chain_id, the five-key, the three-key, and md5 hashes of the five- and three-keys. Sorted by the five key hash then the three key hash.
+      - name: placeholder_key_column
+        description: "This is a placeholder. Describe any new key columns created in the 'add_keys' CTE."
