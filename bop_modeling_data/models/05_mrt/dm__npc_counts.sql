@@ -1,8 +1,4 @@
-{{
-    config(
-        materialization=table
-    )
-}}
+{{config(materialization='table')}}
 
 with billing_activity as (
     select
@@ -32,7 +28,7 @@ prior_year_activities as (
         -- Determine nth prior year (only for activities *before* the policy eff date)
         case
             when b.billing_activity_date < p.policy_eff_date
-            then date_part('year', p.policy_eff_date) - date_part('year', b.billing_activity_date)
+                then date_part('year', p.policy_eff_date) - date_part('year', b.billing_activity_date)
             else null -- Exclude activities on or after the policy eff date for prior year calcs
         end as nth_prior_year
     from policy_info p

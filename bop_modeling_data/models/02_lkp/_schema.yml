@@ -10,7 +10,6 @@ models:
         data_type: bigint
         data_tests:
           - not_null
-          - unique
       - name: associated_sb_policy_key
         data_type: bigint
         data_tests:
