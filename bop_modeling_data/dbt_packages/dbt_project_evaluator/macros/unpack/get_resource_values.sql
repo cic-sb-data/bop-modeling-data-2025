@@ -2,7 +2,7 @@
   {% if relationships %}
     {{ return(adapter.dispatch('get_relationship_values', 'dbt_project_evaluator')(node_type=resource)) }}
   {% elif columns %}
-    {{ return(adapter.dispatch('get_column_values', 'dbt_project_evaluator')(node_type=resource)) }}
+    {{ return(adapter.dispatch('get_column_values', 'dbt_project_evaluator')(resource)) }}
   {% elif resource == 'exposures' %}
     {{ return(adapter.dispatch('get_exposure_values', 'dbt_project_evaluator')()) }}
   {% elif resource == 'sources' %}
