@@ -1,7 +1,7 @@
 {{
   config(
     materialized='table',
-    unique_key=['associated_policy_key', 'associated_sb_policy_key'] -- Recommended: Grain is (chain_policy, sb_policy_key)
+    unique_key=['associated_policy_key', 'associated_sb_policy_key']
   )
 }}
 
