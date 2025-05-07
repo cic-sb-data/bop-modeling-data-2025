@@ -43,6 +43,11 @@ models:
         description: 'Component of the five-field policy key: Policy effective date.'
         tests:
           - not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - associated_policy_key
+            - associated_sb_policy_key
 
   - name: lkp__billing_policies
     description: 'Lookup model for billing policies. It filters raw billing policies and adds a billing_sb_policy_key. It references `lkp__associated_policies`.'
