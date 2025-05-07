@@ -173,3 +173,5 @@ cython_debug/
 repomix.config.json
 remomix-output.xml
 repomix-output.xml
+
+*.prompt
