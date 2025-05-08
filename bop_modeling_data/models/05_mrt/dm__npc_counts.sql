@@ -1,120 +1,78 @@
 {{config(materialization='table')}}
 
--- Common Table Expressions (CTEs)
-with
+WITH
 
--- 1. Select and filter billing activities for Non-Payment Cancellation (NPC) events.
---    It is assumed that fct__billing_activity contains bil_acy_des_cd and bil_des_rea_typ.
---    If not, fct__billing_activity will need to be modified or this CTE will need to join to stg__cur_cb.
-pc_billing_activity as (
-    select
-        sb_policy_key,
-        billing_activity_date,
-        -- Columns required for NPC filtering, assuming they are passed through or available in fct__billing_activity
-        bil_acy_des_cd,
-        bil_des_rea_typ
-        -- billing_activity_amt is not selected as we are only counting events for now.
-    from {{ ref('fct__billing_activity') }}
-    where bil_acy_des_cd = 'C' and bil_des_rea_typ = '' -- SAS-derived NPC definition
+target_policies_with_cutoffs AS (
+    SELECT DISTINCT
+        ap.associated_sb_policy_key AS sb_policy_key,
+        ap.policy_eff_date AS policyeffectivedate,
+        ap.policy_chain_id,
+        ap.companycode,
+        ap.policysymbol,
+        ap.policynumber,
+        ap.statisticalpolicymodulenumber,
+        ap.imageexpirationdate,
+
+        -- Date cutoffs based on policyeffectivedate as per current_npc_logic.sas
+        -- bil_eval_date: 4 months prior to policyeffectivedate
+        DATEADD('month', -4, ap.policy_eff_date) AS bil_eval_date,
+
+        -- NonPayCancel_Count_prev_1 Window:
+        -- Start: policyeffectivedate - 1 year
+        -- End: policyeffectivedate - 4 months (exclusive, so bil_eval_date)
+        DATEADD('year', -1, ap.policy_eff_date) AS bil_prev_1yr_start,
+        DATEADD('month', -4, ap.policy_eff_date) AS bil_prev_1yr_end, -- This is bil_eval_date
+
+        -- NonPayCancel_Count_prev_2 Window:
+        -- Start: policyeffectivedate - 2 years
+        -- End: policyeffectivedate - 1 year (exclusive)
+        DATEADD('year', -2, ap.policy_eff_date) AS bil_prev_2yr_start,
+        DATEADD('year', -1, ap.policy_eff_date) AS bil_prev_2yr_end,
+
+        -- NonPayCancel_Count_prev_3 Window:
+        -- Start: policyeffectivedate - 3 years
+        -- End: policyeffectivedate - 2 years (exclusive)
+        DATEADD('year', -3, ap.policy_eff_date) AS bil_prev_3yr_start,
+        DATEADD('year', -2, ap.policy_eff_date) AS bil_prev_3yr_end,
+
+        -- NonPayCancel_Count_prev_4 Window:
+        -- Start: policyeffectivedate - 4 years
+        -- End: policyeffectivedate - 3 years (exclusive)
+        DATEADD('year', -4, ap.policy_eff_date) AS bil_prev_4yr_start,
+        DATEADD('year', -3, ap.policy_eff_date) AS bil_prev_4yr_end,
+
+        -- NonPayCancel_Count_prev_5 Window:
+        -- Start: policyeffectivedate - 5 years
+        -- End: policyeffectivedate - 4 years (exclusive)
+        DATEADD('year', -5, ap.policy_eff_date) AS bil_prev_5yr_start,
+        DATEADD('year', -4, ap.policy_eff_date) AS bil_prev_5yr_end
+
+    FROM {{ ref('lkp__associated_policies') }} ap
 ),
 
--- 2. Get distinct policy information (key and effective date).
-policy_info as (
-    select distinct
-        associated_sb_policy_key as sb_policy_key,
-        policy_chain_id, -- Retained for context, though not used in joins or final grouping for counts
-        policy_eff_date
-    from {{ ref('lkp__associated_policies') }}
-    where associated_sb_policy_key is not null and policy_eff_date is not null
-),
-
--- 3. Join NPC activities with policy information and apply the SAS-aligned prior year calculation.
---    This uses the make_n_prior_year_cols macro which has been updated to match SAS logic.
-sb_policy_npc_events_with_sas_prior_year as (
-    select
-        pi.sb_policy_key,
-        pi.policy_eff_date,
-        npc.billing_activity_date,
-        sas_calc.prior_year as nth_prior_year -- This is the output from make_n_prior_year_cols
-    from policy_info pi
-    inner join npc_billing_activity npc
-        on pi.sb_policy_key = npc.sb_policy_key
-    -- Cross join with the macro call. The macro expects a dataset_name, so we pass npc_billing_activity.
-    -- However, the macro logic is applied row-wise based on relative_date and compare_date.
-    -- To correctly apply this per policy, we need to ensure the macro's date columns are from the correct sources.
-    -- The macro itself will create a CTE from 'npc_billing_activity' and then add columns.
-    -- A more robust way is to invoke the macro on a combined dataset of policies and activities.
-    -- Let's refine this by preparing a combined dataset first for the macro.
-),
-
--- Revised step 3: Prepare data for the macro by joining policies and NPC events first.
-policy_and_npc_activity as (
-    select
-        pi.sb_policy_key,
-        pi.policy_eff_date, -- This will be the 'relative_date' for the macro
-        npc.billing_activity_date -- This will be the 'compare_date' for the macro
-        -- Pass through other identifiers if needed by the macro or for subsequent steps
-    from policy_info pi
-    inner join npc_billing_activity npc
-        on pi.sb_policy_key = npc.sb_policy_key
-    where npc.billing_activity_date < pi.policy_eff_date -- Critical pre-filter: only events before policy effective date
-),
-
--- 4. Apply the SAS-aligned prior year calculation using the macro.
---    The macro defaults: n_prior_years=5, n_month_lag=4.
-activity_with_sas_prior_year as (
-    select
-        sb_policy_key,
-        policy_eff_date,
-        billing_activity_date,
-        prior_year as nth_prior_year -- This is the 'prior_year' column generated by the macro
-    from {{ make_n_prior_year_cols(
-            dataset_name='policy_and_npc_activity',
-            relative_date='policy_eff_date',
-            compare_date='billing_activity_date',
-            n_prior_years=5,
-            n_month_lag=4
-        ) }}
-),
-
--- 5. Aggregate NPC counts per policy per SAS-defined prior year.
---    We only count events where nth_prior_year is between 0 and 5 (inclusive).
---    nth_prior_year = 9999 means the event is older than the 5-year lookback + lag.
-aggregated_npc_counts_by_sas_year as (
-    select
-        sb_policy_key,
-        policy_eff_date,
-        nth_prior_year,
-        count(*) as npc_event_count
-    from activity_with_sas_prior_year
-    where nth_prior_year between 0 and 5 -- SAS macro slots relevant years as 0, 1, 2, 3, 4, 5
-    group by
-        sb_policy_key,
-        policy_eff_date,
-        nth_prior_year
-),
-
--- 6. Pivot the aggregated counts to create separate columns for each SAS prior year.
---    Join back to policy_info to ensure all policies are represented, even if they have no NPC events.
-final_pivoted_counts as (
-    select
-        pi.sb_policy_key,
-        pi.policy_chain_id, -- Re-introducing for final output context
-        pi.policy_eff_date,
-        coalesce(sum(case when agg.nth_prior_year = 0 then agg.npc_event_count else 0 end), 0) as prior_yr0_npc_count,
-        coalesce(sum(case when agg.nth_prior_year = 1 then agg.npc_event_count else 0 end), 0) as prior_yr1_npc_count,
-        coalesce(sum(case when agg.nth_prior_year = 2 then agg.npc_event_count else 0 end), 0) as prior_yr2_npc_count,
-        coalesce(sum(case when agg.nth_prior_year = 3 then agg.npc_event_count else 0 end), 0) as prior_yr3_npc_count,
-        coalesce(sum(case when agg.nth_prior_year = 4 then agg.npc_event_count else 0 end), 0) as prior_yr4_npc_count,
-        coalesce(sum(case when agg.nth_prior_year = 5 then agg.npc_event_count else 0 end), 0) as prior_yr5_npc_count
-    from policy_info pi
-    left join aggregated_npc_counts_by_sas_year agg
-        on pi.sb_policy_key = agg.sb_policy_key and pi.policy_eff_date = agg.policy_eff_date
-    group by
-        pi.sb_policy_key,
-        pi.policy_chain_id,
-        pi.policy_eff_date
+billing_accounts_to_chains AS (
+    SELECT DISTINCT
+        bp.bil_account_id,
+        pc3.policy_chain_id
+    FROM {{ ref('stg__screngn__xcd_bil_policy') }} bp
+    JOIN {{ ref('stg__modcom__policy_chain_v3') }} pc3
+        ON CASE bp.company_code -- Assuming bp.company_code holds 'CID', 'CIC', 'CCC'
+               WHEN 'CID' THEN 3
+               WHEN 'CIC' THEN 5
+               WHEN 'CCC' THEN 7
+               ELSE -1 -- Or some other non-matching value
+           END = pc3.COMPANY_NUMB
+        AND bp.policy_symbol = pc3.POLICY_SYM
+        AND TRY_CAST(bp.policy_number AS INTEGER) = pc3.POLICY_NUMB -- Assuming pc3.POLICY_NUMB is INTEGER
+        AND bp.term_effective_date_from_billing_record = pc3.POLICY_EFF_DATE -- Assuming bp has this field mapped from source
+        AND TRY_CAST(bp.policy_module AS INTEGER) = pc3.POLICY_MODULE -- Assuming pc3.POLICY_MODULE is INTEGER and bp.policy_module needs cast
 )
 
--- Final selection from the pivoted data.
-select * from final_pivoted_counts;
+-- Next CTEs to be implemented based on npc-counts.md:
+-- policies_linked_to_billing_accounts
+-- npc_events_raw
+-- policy_npc_event_counts
+-- final_npc_counts
+-- Final SELECT statement
+
+SELECT 1 -- Placeholder

@@ -28,7 +28,14 @@ add_activity_transaction_key as (
         associated_policy_key,
         associated_sb_policy_key,
         billing_activity_date
+),
+
+filtered_npc_events as (
+    select
+        *
+    from add_activity_transaction_key
+    where bil_acy_des_cd = 'C' and bil_des_rea_typ = '' -- SAS-derived NPC definition
 )
 
 select *
-from add_activity_transaction_key
+from filtered_npc_events

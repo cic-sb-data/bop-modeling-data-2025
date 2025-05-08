@@ -107,66 +107,19 @@ NOT NEEDED--------------------
 %macro _buildPriorYearCols;
 #}
 
-{%- macro _build_prior_year_cols(relative_date, n_prior_years) -%}
-    {# SAS logic: yr(i)_prior_date = relative_date - (i*12) months.
-       For n_prior_years buckets (1 to N), we need N+1 boundaries:
-       yr1_prior_date, yr2_prior_date, ..., yr(N+1)_prior_date.
-    #}
-    {%- set num_boundaries = n_prior_years + 1 -%}
-    {%- for i in range(1, num_boundaries + 1) -%} {# Loop i from 1 to n_prior_years + 1 #}
-        {%- set months_to_subtract = i * 12 -%}
-        {{ _build_n_month_prior_column(relative_date, months_to_subtract) }} as yr{{ i }}_prior_date
-        {%- if not loop.last -%},{%- endif -%}
+{%- macro _build_prior_year_cols(relative_date_col_name, n_prior_years_param) -%}
+    {%- for i in range(1, n_prior_years_param + 1) -%}
+    {{ dbt.dateadd('month', -1 * i * 12, relative_date_col_name) }} as yr{{i}}_prior_date
+    {%- if not loop.last -%},{%- endif -%}
     {%- endfor -%}
 {%- endmacro -%}
 
-{#
-%macro _slotTransactionsIntoPriorYears(compare_date, n_prior_years);
-    if &compare_date. <= yr1_prior_date and &compare_date. > yr2_prior_date 
-        then nth_prior_year=1;
-
-    %do i=2 %to %eval(&n_prior_years. + 1);
-        %let col1=yr&i._prior_date;
-
-        %let next_yr=%eval(&i.+1);
-        %let col2=yr&next_yr._prior_date;
-
-        else if &compare_date. <= &col1.
-            and &compare_date. > &col2.
-            then nth_prior_year=&i.;
-    %end;
-
-    else nth_prior_year=9999;
-%mend _slotTransactionsIntoPriorYears;
-#}
-
-{%- macro _slot_transactions_into_prior_years(compare_date, eval_date_col_name, n_prior_years) -%}
-    {#
-        Replicates SAS logic:
-        1. If compare_date > eval_date, then 0.
-        2. Else (compare_date <= eval_date):
-           - Slot into buckets 1 to n_prior_years.
-             Bucket i is (yr(i+1)_prior_date, yr(i)_prior_date].
-           - If older than all defined buckets (i.e., <= yr(n_prior_years+1)_prior_date), then 9999.
-        Requires yr1_prior_date to yr(n_prior_years+1)_prior_date to be defined.
-    #}
-    case
-        when {{ compare_date }} is null then null
-        when {{ compare_date }} > {{ eval_date_col_name }} then 0
-        {# compare_date <= eval_date_col_name and compare_date is not null for subsequent conditions #}
-        {# Bucket 1: (yr2_prior_date, yr1_prior_date] #}
-        when {{ compare_date }} <= yr1_prior_date and {{ compare_date }} > yr2_prior_date then 1
-        {# Buckets 2 to n_prior_years #}
-        {%- for i in range(2, n_prior_years + 1) -%} {# Loop i from 2 to n_prior_years #}
-            {%- set current_yr_boundary_col = 'yr' ~ i ~ '_prior_date' -%}
-            {%- set next_yr_boundary_col = 'yr' ~ (i + 1) ~ '_prior_date' -%}
-            when {{ compare_date }} <= {{ current_yr_boundary_col }}
-                 and {{ compare_date }} > {{ next_yr_boundary_col }}
-                then {{ i }}
-        {%- endfor -%}
-        {# If compare_date <= eval_date_col_name but did not fit into buckets 1 to n_prior_years, it's older. #}
-        {# This means compare_date <= yr(n_prior_years+1)_prior_date (oldest boundary for defined buckets) #}
-        when {{ compare_date }} <= {{ 'yr' ~ (n_prior_years + 1) ~ '_prior_date' }} then 9999 {# Corrected condition #}
-        else null {# Should ideally not be reached if compare_date and eval_date are not null #}
-    end
+{%- macro _slot_transactions_into_prior_years(compare_date_col_name, eval_date_col_name, n_prior_years_param) -%}
+    CASE
+        WHEN {{ compare_date_col_name }} > {{ eval_date_col_name }} THEN 0
+        {% for i in range(1, n_prior_years_param + 1) %}
+        WHEN {{ compare_date_col_name }} > yr{{i}}_prior_date THEN {{i}}
+        {% endfor %}
+        ELSE 9999
+    END
 {%- endmacro -%}
