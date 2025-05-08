@@ -48,11 +48,3 @@ The project ingests data from various SAS-based systems (`screngn`, `decfile`, `
 ## Main Goal
 
 The primary deliverable of this project is the `dm__npc_counts` model, which will provide accurate counts of prior non-payment cancellation events for policies, serving as a key input for risk modeling.
-
-### Resources:
-
--   Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
--   Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
--   Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
--   Find [dbt events](https://events.getdbt.com) near you
--   Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
