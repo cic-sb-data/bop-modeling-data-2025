@@ -166,7 +166,7 @@ NOT NEEDED--------------------
         {%- endfor -%}
         {# If compare_date <= eval_date_col_name but did not fit into buckets 1 to n_prior_years, it's older. #}
         {# This means compare_date <= yr(n_prior_years+1)_prior_date (oldest boundary for defined buckets) #}
-        when {{ compare_date }} <= {{ eval_date_col_name }} then 9999
+        when {{ compare_date }} <= {{ 'yr' ~ (n_prior_years + 1) ~ '_prior_date' }} then 9999 {# Corrected condition #}
         else null {# Should ideally not be reached if compare_date and eval_date are not null #}
     end
 {%- endmacro -%}
