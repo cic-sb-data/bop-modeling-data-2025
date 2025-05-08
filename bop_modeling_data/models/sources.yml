@@ -1,4 +1,50 @@
+version: 2
+
 sources:
   - name: raw 
     database: bop_modeling_data
     schema: raw
+
+  - name: screngn
+    description: "Tables from the SAS 'screngn' (Scoring Engine) library. Contains details about policy-level predictive model scoring, primarily used for billing data in this project. Raw models are typically based on CSV exports from SAS."
+    # Assuming these tables are loaded into the default database/schema for the profile,
+    # or accessed via DuckDB's ability to query CSVs directly if paths are configured in raw models.
+    # database: your_database # Optional: specify if not default
+    # schema: raw_sas_data   # Optional: specify if not default
+    tables:
+      - name: xcd_bil_account
+        description: "Billing account information from screngn."
+      - name: xcd_bil_act_summary
+        description: "Billing account summary information from screngn."
+      - name: xcd_bil_cash_dsp
+        description: "Billing cash disbursement information from screngn."
+      - name: xcd_bil_cash_receipt
+        description: "Billing cash receipt information from screngn."
+      - name: xcd_bil_des_reason
+        description: "Billing designation reason codes from screngn."
+      - name: xcd_bil_ist_schedule
+        description: "Billing installment schedule information from screngn."
+      - name: xcd_bil_pol_proc_req
+        description: "Billing policy processing requests from screngn."
+      - name: xcd_bil_policy_trm
+        description: "Billing policy term information from screngn."
+      - name: xcd_bil_policy
+        description: "Billing policy information from screngn."
+
+  - name: decfile
+    description: "Short for 'Decision File'. Contains policies identified as similar to small business policies for modeling. Includes policy and AIV (Analytic Image Views) lookups. Raw models are typically based on CSV exports from SAS."
+    tables:
+      - name: sb_aiv_lookup
+        description: "Small business AIV (Analytic Image Views) lookup data from decfile."
+      - name: sb_policy_lookup
+        description: "Small business policy lookup data from decfile."
+      - name: screngn_policy_lookup # As seen in raw models
+        description: "Policy lookup data related to screngn, sourced from decfile processing."
+
+  - name: modcom
+    description: "'Model Common' data from SAS, providing shared datasets. The policy_chain_v3 table is sourced directly from a SAS file (policy_chain_v3.sas7bdat) via a Python model."
+    tables:
+      - name: policy_chain_v3
+        description: "Policy chain information. Ingested by the raw__modcom__policy_chain_v3.py model from a .sas7bdat file in the SAS MODCOM library."
+        # meta:
+        #   loader_info: "Loaded via Python model from /sas/data/project/EG/ActShared/ModelCommon/policy_chain_v3.sas7bdat"
