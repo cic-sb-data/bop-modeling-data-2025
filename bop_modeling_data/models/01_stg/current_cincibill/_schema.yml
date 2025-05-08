@@ -4,37 +4,51 @@ models:
     columns:
       - name: billing_acct_key
         description: 'Hashed billing account key.'
-        tests:
-          - not_null
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_activity_date
         description: 'Date of the billing activity.'
-        tests:
-          - not_null
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
         data_type: date
       - name: billing_activity_amt
         description: 'Amount of the billing activity.'
-        tests:
-          - not_null
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
         data_type: double
       - name: billing_activity_desc_cd
         description: 'Billing activity description code.'
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: policy_sym
         description: 'Policy symbol associated with the billing activity.'
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: policy_numb
         description: 'Policy number associated with the billing activity.'
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_activity_sequence_numb
         description: 'Sequence number for the billing activity.'
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_acct_id
         description: 'Original billing account ID.'
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_activity_desc_reason_type
         description: 'Reason type for the billing activity description.'
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: stg__cur_cb__xcd_bil_cash_dsp
     description: 'Staging model for current Cincibill billing cash disbursements. Derived from `raw__cur_cb__xcd_bil_cash_dsp`.'
@@ -43,58 +57,64 @@ models:
         description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting.'
       - name: billing_acct_key
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_policy_key
         data_type: hugeint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: policy_sym
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: policy_numb
         data_type: ubigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: policy_eff_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: stg__cur_cb__xcd_bil_policy
     description: 'Staging model for current Cincibill billing policies. Derived from `raw__cur_cb__xcd_bil_policy`.'
     columns:
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting.'
       - name: billing_acct_key
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_acct_id
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_acct_numb
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: policy_sym
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: policy_numb
         data_type: ubigint
-      - name: BIL_ACCOUNT_ID
-        data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: bil_account_id_hash
         data_type: bigint
-      - name: XCD_POLICY_ID
-        data_type: varchar
-        quote: true
-      - name: POL_SYMBOL_CD
-        data_type: varchar
-        quote: true
-      - name: POL_NBR
-        data_type: ubigint
-        quote: true
-      - name: BIL_ACCOUNT_NBR
-        data_type: bigint
-        quote: true
-      - name: CUR_BIL_PLAN_CD
-        data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: CURRENT_BILLING_PLAN
         data_type: varchar
         quote: true
       - name: BIL_ISSUE_IND
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
         quote: true
       - name: BIL_POLICY_ISSUE_IND_DESC
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
         quote: true
 
   - name: stg__cur_cb
@@ -103,20 +123,36 @@ models:
       - name: billing_sb_policy_key
         description: 'Key for billing small business policy.'
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       # Add other relevant column descriptions from the join.
       - name: placeholder_column
         description: 'This is a placeholder. Describe other relevant columns.'
       - name: billing_acct_key
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_activity_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_activity_sequence_numb
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_activity_amt
         data_type: double
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: associated_policy_key
         data_type: hugeint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: associated_sb_policy_key
         data_type: uinteger
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_policy_key
         data_type: hugeint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist

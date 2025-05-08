@@ -94,16 +94,13 @@ models:
         quote: true
 
   - name: raw__screngn__xcd_bil_act_summary
-    description: |
+    description: >
       "Raw model for the billing activity summary table from SAS. Note that `act` refers to *activity*, not to *account* as I initially expected. It selects all columns from `SCRENGN.XCD_BIL_ACT_SUMMARY` in SAS.
       
       DESCRIPTION: All activity that has occurred on a payor's billing account. Information stored here is used for account summary document and invoice descriptions. 
       PRIMARY KEY: [BIL-ACCOUNT-ID, BIL-ACY-DT, BIL-ACY-SEQ]
       "
     columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
       - name: BIL_ACCOUNT_ID
         data_type: varchar
         quote: true
@@ -151,9 +148,6 @@ models:
   - name: raw__screngn__xcd_bil_cash_dsp
     description: "Raw model for the billing cash deposit table from SAS. It selects all columns from `SCRENGN.XCD_BIL_CASH_DSP` in SAS."
     columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
       - name: BIL_ACCOUNT_ID
         data_type: varchar
         quote: true
@@ -280,9 +274,6 @@ models:
   - name: raw__screngn__xcd_bil_ist_schedule
     description: "Raw model for the billing ist schedule table from SAS. It selects all columns from `SCRENGN.XCD_BIL_IST_SCHEDULE` in SAS."
     columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
       - name: BIL_ACCOUNT_ID
         data_type: varchar
         quote: true
@@ -346,9 +337,6 @@ models:
   - name: raw__screngn__xcd_bil_pol_proc_req
     description: "Raw model for the billing policy processing requests table from SAS. It selects all columns from `SCRENGN.XCD_BIL_POL_PROC_REQ` in SAS."
     columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
       - name: BIL_ACCOUNT_ID
         data_type: varchar
         quote: true
@@ -463,9 +451,6 @@ models:
   - name: raw__screngn__xcd_bil_policy_trm
     description: "Raw model for the billing policy term table from SAS. It selects all columns from `SCRENGN.XCD_BIL_POLICY_TRM` in SAS."
     columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
       - name: BIL_ACCOUNT_ID
         data_type: varchar
         quote: true
@@ -562,9 +547,6 @@ models:
   - name: raw__screngn__xcd_bil_policy
     description: "Raw model for the billing policy table from SAS. It selects all columns from `SCRENGN.XCD_BIL_POLICY` in SAS."
     columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
       - name: BIL_ACCOUNT_ID
         data_type: varchar
         quote: true

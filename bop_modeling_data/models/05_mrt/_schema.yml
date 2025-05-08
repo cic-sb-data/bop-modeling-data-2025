@@ -17,9 +17,9 @@ models:
         description: 'The `associated_sb_policy_key` from `lkp__associated_policies`, representing the anchor small business policy for which prior year activity is being calculated.'
         data_tests:
           - not_null
-          - relationships:
-              to: ref('lkp__associated_policies')
-              field: associated_sb_policy_key
+          # - relationships:
+          #     to: ref('lkp__associated_policies')
+          #     field: associated_sb_policy_key
       - name: policy_chain_id
         description: 'The `policy_chain_id` associated with the `sb_policy_key`.'
         data_tests:

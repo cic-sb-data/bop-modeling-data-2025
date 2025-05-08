@@ -15,6 +15,8 @@ clean-targets:
 
 models:
   bop_modeling_data:
+    +post-hook:
+      - "{{ dbt_eda_tools.get_preview(10) }}"
     +materialized: view
     +docs:
       show: true
@@ -56,6 +58,7 @@ vars:
   raw_csv_loc: '/sas/data/project/EG/ActShared/SmallBusiness/Modeling/dat/raw_csv'
   decfile_loc: '/sas/data/project/EG/ActShared/SmallBusiness/DecisionSupportFile/Development/2025/20250228'
   policy_eff_date__min_yrmo: 200901
-
+  'dbt_date:time_zone': 'America/New_York'
+    
 flags:
   send_anonymous_usage_stats: false

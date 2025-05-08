@@ -1,6 +1,23 @@
 {{config(materialization='table')}}
 
-WITH
+with
+
+-- SB Policy list
+sb as (select * from {{ ref('lkp__sb_policy_key') }}),
+
+-- Date lookup
+dates as (
+    select  
+        input_date as policy_eff_date,
+        n_prior_years
+    from {{ ref('lkp__dates') }}),
+
+-- Policy Chain-Associated Policy list
+pchain as (select * from {{ ref('lkp__associated_policies') }}),
+
+-- Billing policy lookup
+billing as (select * from {{ ref('lkp__billing_policies') }}),
+
 
 target_policies_with_cutoffs AS (
     SELECT DISTINCT
@@ -75,4 +92,5 @@ billing_accounts_to_chains AS (
 -- final_npc_counts
 -- Final SELECT statement
 
-SELECT 1 -- Placeholder
+SELECT *
+FROM billing_accounts_to_chains

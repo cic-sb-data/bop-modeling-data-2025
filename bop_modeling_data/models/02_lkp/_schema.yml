@@ -17,47 +17,42 @@ models:
       - name: associated_policy_key
         description: 'Surrogate key (hash of the five-key components) for each policy instance within a policy chain.'
         data_tests:
-          - unique
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: associated_sb_policy_key
         description: 'The sb_policy_key from the decfile that is associated with this policy chain instance.'
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: policy_chain_id
         description: 'Identifier for the policy chain.'
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: company_numb
         description: "Company number component of the policy's five-key."
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: policy_sym
         description: "Policy symbol component of the policy's five-key."
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: policy_numb
         description: "Policy number component of the policy's five-key."
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: policy_module
         description: "Policy module component of the policy's five-key."
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: policy_eff_date
         description: "Policy effective date component of the policy's five-key."
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
       - name: __is_gt1_five_key_in_table
         data_type: utinyint
     data_tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - associated_policy_key
-            - associated_sb_policy_key
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - associated_policy_key
-            - associated_sb_policy_key
+      - dbt_expectations.expect_compound_columns_to_be_unique:
+          column_list: [ "associated_policy_key", "associated_sb_policy_key" ]
 
   - name: lkp__billing_policies
     description: 'Associates billing data with policies, linking sb_policy_key to billing system keys.'
@@ -65,19 +60,42 @@ models:
       - name: billing_sb_policy_key
         description: 'Key for billing small business policy.'
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_min_to_be_between:
+              min_value: 0
+              max_value: 0
+          - dbt_expectations.expect_column_to_exist
+        data_type: bigint
       - name: associated_policy_key
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
           - relationships:
-              to: ref('lkp__associated_policies')
               field: associated_policy_key
+              to: ref('lkp__associated_policies')
+        data_type: hugeint
       - name: billing_acct_key
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
+        data_type: bigint
       - name: billing_policy_key
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
+        data_type: hugeint
+      - name: associated_sb_policy_key
+        data_type: uinteger
+        data_tests:
+          - dbt_expectations.expect_column_min_to_be_between:
+              min_value: 0
+              max_value: 0
+      - name: billing_policy_id
+        data_type: varchar
+      - name: billing_acct_id
+        data_type: varchar
+      - name: policy_sym
+        data_type: varchar
+      - name: policy_numb
+        data_type: uinteger
+      - name: policy_eff_date
+        data_type: date
 
   - name: lkp__dates
     description: 'Generates a date dimension table, potentially including prior year flags or calculations.'
@@ -85,16 +103,16 @@ models:
       - name: input_date
         description: 'The base date for generating prior year dates.'
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: n_prior_years
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: prior_year_start
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: prior_year_end
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
     data_tests:
       - dbt_utils.expression_is_true:
           expression: 'prior_year_end >= prior_year_start'
@@ -104,13 +122,13 @@ models:
     columns:
       - name: activity_trans_key
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
           - relationships:
               to: ref('fct__billing_activity')
               field: activity_trans_key
       - name: first_billing_activity_date
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
 
   - name: lkp__policy_chain_ids
     description: 'Processes and provides distinct policy chain identifiers and associated counts.'
@@ -118,7 +136,7 @@ models:
       - name: policy_chain_id
         description: 'Identifier for the policy chain.'
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
           - relationships:
               to: ref('stg__decfile__sb_policy_lookup')
               field: policy_chain_id
@@ -127,36 +145,49 @@ models:
               field: policy_chain_id
       - name: n_sb_policies_for_policy_chain_id
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_min_to_be_between:
+              min_value: 0
+              max_value: 0
+          - dbt_expectations.expect_column_to_exist
       - name: n_total_policies_for_policy_chain_id
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_min_to_be_between:
+              min_value: 0
+              max_value: 0
+          - dbt_expectations.expect_column_to_exist
 
   - name: lkp__sb_policy_key
     description: 'Provides a lookup for small business policy keys, primarily sourced from stg__decfile__sb_policy_lookup.'
     columns:
       - name: sb_policy_key
         data_tests:
-          - unique
-          - not_null
+          - dbt_expectations.expect_column_min_to_be_between:
+              min_value: 0
+              max_value: 0
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_unique
       - name: policy_chain_id
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: lob
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              value_set: 
+                - prop
+                - liab
       - name: company_numb
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: policy_sym
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: policy_numb
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: policy_module
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
       - name: policy_eff_date
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist

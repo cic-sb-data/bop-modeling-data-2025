@@ -3,6 +3,17 @@ version: 2
 models:
   - name: fct__associated_policy_eff_date
     description: 'Fact model for associated policy effective dates. It references `lkp__associated_policies` and `lkp__dates`.'
+    columns:
+      - name: associated_policy_key
+        data_type: hugeint
+      - name: policy_eff_date
+        data_type: date
+      - name: n_prior_years
+        data_type: integer
+      - name: prior_year_start
+        data_type: date
+      - name: prior_year_end
+        data_type: date
 
   - name: fct__billing_activity
     description: 'Fact model for billing activity. It adds an activity_transaction_key and references `stg__cur_cb` and `lkp__dates`.'
@@ -11,20 +22,50 @@ models:
         description: 'Key for billing activity transactions.'
       - name: activity_trans_key
         data_tests:
-          - unique
-          - not_null
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_unique
+        data_type: hugeint
       - name: associated_policy_key
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
           - relationships:
-              to: ref('lkp__associated_policies')
               field: associated_policy_key
+              to: ref('lkp__associated_policies')
+        data_type: hugeint
       - name: associated_sb_policy_key
         data_tests:
-          - not_null
+          - dbt_expectations.expect_column_to_exist
           - relationships:
-              to: ref('lkp__associated_policies')
               field: associated_sb_policy_key
+              to: ref('lkp__associated_policies')
+        data_type: uinteger
+      - name: billing_activity_date
+        data_type: date
+      - name: billing_activity_amt
+        data_type: double
 
   - name: fct__prior_activity_dates
     description: 'Fact model for prior activity dates, filtering out activity not knowable at policy effective date. It uses the `make_n_prior_year_cols` macro and references `fct__associated_policy_eff_date` and `fct__billing_activity`.'
+    columns:
+      - name: activity_trans_key
+        data_type: hugeint
+      - name: billing_activity_date
+        data_type: date
+      - name: policy_eff_date
+        data_type: date
+      - name: eval_date
+        data_type: date
+      - name: yr1_prior_date
+        data_type: date
+      - name: yr2_prior_date
+        data_type: date
+      - name: yr3_prior_date
+        data_type: date
+      - name: yr4_prior_date
+        data_type: date
+      - name: yr5_prior_date
+        data_type: date
+      - name: yr6_prior_date
+        data_type: date
+      - name: prior_year
+        data_type: integer

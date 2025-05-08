@@ -71,13 +71,15 @@ final_associated_policies as (
 
 -- Final selection of columns. Types are mostly derived from upstream staging models or early casts.
 select
-    associated_policy_key,    -- Type depends on policy_key() macro (e.g., varchar for hash)
-    associated_sb_policy_key, -- Already uint32 from sb_policies_source
-    policy_chain_id,          -- Already uinteger from sources
-    company_numb,             -- Already utinyint from policy_chain_source
-    policy_sym,               -- Varchar
-    policy_numb,              -- Already uinteger from policy_chain_source
-    policy_module,            -- Already uinteger from policy_chain_source
-    policy_eff_date           -- Already date from policy_chain_source
+    associated_policy_key,
+    associated_sb_policy_key,
+    policy_chain_id,
+    company_numb,
+    policy_sym,
+    policy_numb,
+    policy_module,
+    try_cast(policy_eff_date as date) as policy_eff_date
+
 from final_associated_policies
-order by associated_policy_key, associated_sb_policy_key -- Optional: for deterministic output/easier debugging
+where policy_eff_date is not null
+order by associated_policy_key, associated_sb_policy_key

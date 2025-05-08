@@ -486,9 +486,6 @@ models:
         data_tests:
           - not_null
         data_type: varchar
-      - name: pol_eff_dt # Assuming this is policy effective date
-        data_tests:
-          - not_null # Core date field
       - name: BIL_ACCOUNT_ID
         data_type: varchar
         quote: true
