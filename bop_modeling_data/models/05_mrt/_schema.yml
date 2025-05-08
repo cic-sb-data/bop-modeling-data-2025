@@ -2,7 +2,14 @@ version: 2
 
 models:
   - name: dm__npc_counts
-    description: 'Data mart model for NPC (Net Premium Change) counts. It calculates prior year activities and aggregates counts and amounts. Materialized as a table. It references `fct__billing_activity` and `lkp__associated_policies`.'
+    description: >
+      Data mart model for Non-Payment Cancellation (NPC) counts.
+      It calculates prior year NPC activities (specifically 'C' type billing activities with an empty reason code, as per legacy SAS logic) and aggregates counts and amounts for each sb_policy_key and its policy_eff_date.
+      Materialized as a table.
+      Key inputs include `fct__billing_activity` and `lkp__associated_policies`.
+      For detailed logic, derivation from SAS, and implementation plan, refer to:
+      - `/Users/andy/bop-modeling-data-2025/bop_modeling_data/npc-counts.md`
+      - `/Users/andy/bop-modeling-data-2025/dm__npc_counts__roadmap.md`
     config:
       materialized: table
     columns:

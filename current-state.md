@@ -22,6 +22,9 @@ This document provides a summary of the `bop_modeling_data` dbt project, outlini
     * `policy_module` - The module number with this particular iteration of the policy. In general this increments with each renewal, but there are common exceptions, in particular when policies are cancelled and then reissued. In this case the module may be incremented again, even though the policy number and effective date is the same. There was inconsistent logic in the past, so while this is necessary for uniquely identifying a policy, it should not be given any special meaning beyond that.
     * `policy_eff_date` - The effective date of the policy.
 
+### 1.2. Project Configuration and Variables
+Project-specific variables, such as file paths and date filters, are defined in `dbt_project.yml` and documented in detail in the `/Users/andy/bop-modeling-data-2025/variables.md` file.
+
 ## 2. Data Sources
 
 The project relies on several data sources. Explicit source definitions in `bop_modeling_data/models/sources.yml` are currently minimal and require proper definition. Based on the raw and staging models, the inferred data sources include:
@@ -62,7 +65,7 @@ The dbt models are organized into layers, reflecting the data transformation pip
 
 ### Lookup Layer (`bop_modeling_data/models/02_lkp/`)
 *Purpose: Creates reusable lookup tables, often dimensional, to enrich fact tables.*
-*   **`lkp__associated_policies.sql`**: A critical model that links small business policy keys (`sb_policy_key`) to their broader policy chain information. This includes all associated policy keys within that chain and their respective effective dates.
+*   **`lkp__associated_policies.sql`**: A critical model that links small business policy keys (`sb_policy_key`) to their broader policy chain information. Its primary purpose is to establish relationships between policies within policy chains, enabling the identification of all historically associated policies for any given policy. This includes all associated policy keys within that chain and their respective effective dates. The model is currently undergoing optimization to improve performance by refactoring its multi-step temporary table logic into a simplified, single model structure (see `lkp__associated_policies.md` for the optimization plan).
 *   **`lkp__billing_policies.sql`**: Associates billing data with policies, likely linking `sb_policy_key` to billing system keys.
 *   **`lkp__dates.sql`**: Generates a date dimension table, potentially including prior year flags or calculations.
 *   **`lkp__first_billing_activity_date.sql`**: Determines the first billing activity date for relevant entities.
@@ -77,7 +80,7 @@ The dbt models are organized into layers, reflecting the data transformation pip
 
 ### Mart Layer (`bop_modeling_data/models/05_mrt/`)
 *Purpose: Final, aggregated data marts designed for consumption by downstream processes, such as predictive models or business intelligence tools.*
-*   **`dm__npc_counts.sql`**: The primary mart model of interest. It calculates the total number of non-payment cancellation (NPC) events for each `sb_policy_key` within one to five years immediately preceding the policy's effective date. This model is currently undergoing significant review and refactoring to ensure performance and alignment with legacy SAS logic as detailed in `dm__npc_counts__roadmap.md`.
+*   **`dm__npc_counts.sql`**: The primary mart model of interest. It calculates the total number of non-payment cancellation (NPC) events for each `sb_policy_key` and `policyeffectivedate`. The logic is based on the analysis of the `current_npc_logic.sas` script, which has specific definitions for prior year windows and NPC event identification (where `bil_acy_des_cd = 'C'` and `bil_des_rea_typ = ''`). Key inputs include `lkp__associated_policies`, `stg__modcom__policy_chain_v3`, `stg__screngn__xcd_bil_policy`, and `stg__screngn__xcd_bil_act_summary`. This model is currently undergoing significant review and refactoring to ensure performance and alignment with legacy SAS logic, as detailed in `dm__npc_counts__roadmap.md` and `bop_modeling_data/npc-counts.md`.
 
 ### Temporary/Check Models
 *   **`bop_modeling_data/models/07_tmp/lkp__associated_policies_counts/`**: Contains several ephemeral models (e.g., `_lkp__associated_policies_counts__add_final_associated_policy_key.sql`) used as intermediate steps in calculating row counts for `lkp__associated_policies`, primarily for validation.
@@ -117,8 +120,8 @@ Various forms of documentation exist within the project to explain its structure
     *   `_schema.yml` files: Located within model subdirectories (e.g., `bop_modeling_data/models/00_raw/billing/_schema.yml`, `bop_modeling_data/models/05_mrt/_schema.yml`). These files contain descriptions for models and their columns, and define schema tests. **Status: Present for most model groups, but completeness of descriptions varies. Ongoing effort needed, especially with the planned integration of `dbt-expectations`.**
     *   `models/00_raw/billing/_docs.md`: An example of an embedded documentation block (markdown) used within a schema file to provide more detailed descriptions.
 *   **Supporting Markdown Documents (in `/Users/andy/bop-modeling-data-2025/`)**:
-    *   `lkp__associated_policies.md`: Likely contains specific documentation for the `lkp__associated_policies` model. **Status: Needs review for content, completeness, and integration with dbt docs.**
-    *   `npc-counts.md`: Likely contains information, analysis, or notes related to NPC counts. **Status: Needs review for current relevance, completeness, and potential integration into dbt docs or the roadmap.**
+    *   `lkp__associated_policies.md`: Contains a detailed optimization plan for the `lkp__associated_policies` model, including analysis of its current state, performance issues, and a proposed refactoring approach. **Status: Reviewed; key information integrated into model description. The plan itself is a valuable reference for ongoing optimization work.**
+    *   `npc-counts.md` (also in `bop_modeling_data/`): Provides specific documentation and an implementation plan for the `dm__npc_counts` model, detailing its objective, logic based on `current_npc_logic.sas`, data lineage, and planned CTE structure. **Status: Reviewed; key information integrated into model description. Serves as detailed current documentation for the model's logic.**
 *   **External Documentation**:
     *   `bop_modeling_data/Billing Data Model 2-4-1.pdf`: An external PDF document, likely providing business context, data dictionary, or specifications for the source billing data model.
 *   **Areas for Documentation Improvement**:

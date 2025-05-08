@@ -4,16 +4,16 @@ This document outlines the detailed step-by-step checklist for the `bop_modeling
 
 ## I. Foundational Setup & Documentation (Referencing `current-state.md`)
 
-*   [ ] **Populate `sources.yml`**:
+*   [x] **Populate `sources.yml`**:
     *   **Action**: Formally define all data sources (`screngn`, `decfile`, `modcom`) in `bop_modeling_data/models/sources.yml`.
     *   **Reference**: `current-state.md` (Section 2: Data Sources) notes this as a critical need.
-*   [ ] **Clarify and Populate `variables.md`**:
+*   [x] **Clarify and Populate `variables.md`**:
     *   **Action**: Define all dbt variables used in the project or confirm if it's not used and document this.
     *   **Reference**: `current-state.md` (Section 5: Documentation) notes its minimal current state.
-*   [ ] **Enhance Project READMEs**:
+*   [x] **Enhance Project READMEs**:
     *   **Action**: Expand `bop_modeling_data/README.md` with a specific overview of this dbt project.
     *   **Reference**: `current-state.md` (Section 5: Documentation).
-*   [ ] **Review and Integrate Supporting Markdown**:
+*   [x] **Review and Integrate Supporting Markdown**:
     *   **Action**: Review `lkp__associated_policies.md` and `npc-counts.md`. Update, integrate into dbt docs, or archive if redundant.
     *   **Reference**: `current-state.md` (Section 5: Documentation).
 
