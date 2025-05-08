@@ -47,7 +47,7 @@ macro make_prior_year_cols(data, relative_date=policy_eff_date, compare_date=dat
      slot_trans_into_prior_years as (
         select
             *,
-            {{ _slot_transactions_into_prior_years(compare_date, n_prior_years) }} as prior_year
+            {{ _slot_transactions_into_prior_years(compare_date, 'eval_date', n_prior_years) }} as prior_year
 
         from add_prior_year_columns
     )
@@ -76,8 +76,8 @@ NOT NEEDED--------------------
 %mend _buildEvalDate;
 #}
 
-{%- macro _build_eval_date(relative_date, n_months=4) -%}
-    {{ _build_n_month_prior_column(relative_date, 4) }} as eval_date
+{%- macro _build_eval_date(relative_date, n_months_lag_param) -%}
+    {{ _build_n_month_prior_column(relative_date, n_months_lag_param) }} as eval_date
 {%- endmacro -%}
 
 {#
@@ -108,11 +108,15 @@ NOT NEEDED--------------------
 #}
 
 {%- macro _build_prior_year_cols(relative_date, n_prior_years) -%}
-    {%- set __final_year = n_prior_years + 1 -%}
-    {%- for i in range(__final_year) -%}
-
-        {%- set __year = i + 1 -%}
-        {{ _build_n_year_prior_column(relative_date, i) }} as yr{{ __year }}_prior_date{%- if i != __final_year -%},{%- endif -%}
+    {# SAS logic: yr(i)_prior_date = relative_date - (i*12) months.
+       For n_prior_years buckets (1 to N), we need N+1 boundaries:
+       yr1_prior_date, yr2_prior_date, ..., yr(N+1)_prior_date.
+    #}
+    {%- set num_boundaries = n_prior_years + 1 -%}
+    {%- for i in range(1, num_boundaries + 1) -%} {# Loop i from 1 to n_prior_years + 1 #}
+        {%- set months_to_subtract = i * 12 -%}
+        {{ _build_n_month_prior_column(relative_date, months_to_subtract) }} as yr{{ i }}_prior_date
+        {%- if not loop.last -%},{%- endif -%}
     {%- endfor -%}
 {%- endmacro -%}
 
@@ -136,25 +140,33 @@ NOT NEEDED--------------------
 %mend _slotTransactionsIntoPriorYears;
 #}
 
-{%- macro _slot_transactions_into_prior_years(compare_date, n_prior_years) -%}
-
-    {%- set __final_year = n_prior_years + 1 -%}
+{%- macro _slot_transactions_into_prior_years(compare_date, eval_date_col_name, n_prior_years) -%}
+    {#
+        Replicates SAS logic:
+        1. If compare_date > eval_date, then 0.
+        2. Else (compare_date <= eval_date):
+           - Slot into buckets 1 to n_prior_years.
+             Bucket i is (yr(i+1)_prior_date, yr(i)_prior_date].
+           - If older than all defined buckets (i.e., <= yr(n_prior_years+1)_prior_date), then 9999.
+        Requires yr1_prior_date to yr(n_prior_years+1)_prior_date to be defined.
+    #}
     case
-        when {{ compare_date }} <= yr1_prior_date 
-            and {{ compare_date }} > yr2_prior_date
-            then 1
-        {%- for i in range(__final_year) -%}
-            {%- if i > 1 -%}
-                {%- set next_yr = i + 1 -%}
-                {%- set __col1 = 'yr' ~ i ~ '_prior_date' -%}
-                {%- set __col2 = 'yr' ~ next_yr ~ '_prior_date' -%}
-
-                when {{ compare_date }} <= {{ __col1 }}
-                    and {{ compare_date }} > {{ __col2 }}
-                    then {{ i }}
-            {%- endif -%}
+        when {{ compare_date }} is null then null
+        when {{ compare_date }} > {{ eval_date_col_name }} then 0
+        {# compare_date <= eval_date_col_name and compare_date is not null for subsequent conditions #}
+        {# Bucket 1: (yr2_prior_date, yr1_prior_date] #}
+        when {{ compare_date }} <= yr1_prior_date and {{ compare_date }} > yr2_prior_date then 1
+        {# Buckets 2 to n_prior_years #}
+        {%- for i in range(2, n_prior_years + 1) -%} {# Loop i from 2 to n_prior_years #}
+            {%- set current_yr_boundary_col = 'yr' ~ i ~ '_prior_date' -%}
+            {%- set next_yr_boundary_col = 'yr' ~ (i + 1) ~ '_prior_date' -%}
+            when {{ compare_date }} <= {{ current_yr_boundary_col }}
+                 and {{ compare_date }} > {{ next_yr_boundary_col }}
+                then {{ i }}
         {%- endfor -%}
-
-        else 9999
+        {# If compare_date <= eval_date_col_name but did not fit into buckets 1 to n_prior_years, it's older. #}
+        {# This means compare_date <= yr(n_prior_years+1)_prior_date (oldest boundary for defined buckets) #}
+        when {{ compare_date }} <= {{ eval_date_col_name }} then 9999
+        else null {# Should ideally not be reached if compare_date and eval_date are not null #}
     end
 {%- endmacro -%}

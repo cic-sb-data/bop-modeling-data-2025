@@ -1,49 +1,122 @@
 models:
   - name: stg__cur_cb__xcd_bil_act_summary
-    description: 'Staging model for current Cincibill billing account summary. Derived from `raw__cur_cb__xcd_bil_act_summary` (assuming a raw source for current_cincibill).'
+    description: 'Staging model for current Cincibill billing account summary. Derived from `raw__cur_cb__xcd_bil_act_summary`.'
     columns:
       - name: billing_acct_key
         description: 'Hashed billing account key.'
-        data_tests:
+        tests:
           - not_null
+        data_type: bigint
       - name: billing_activity_date
         description: 'Date of the billing activity.'
-        data_tests:
+        tests:
           - not_null
+        data_type: date
       - name: billing_activity_amt
         description: 'Amount of the billing activity.'
-        data_tests:
+        tests:
           - not_null
+        data_type: double
       - name: billing_activity_desc_cd
         description: 'Billing activity description code.'
+        data_type: varchar
       - name: policy_sym
         description: 'Policy symbol associated with the billing activity.'
+        data_type: varchar
       - name: policy_numb
         description: 'Policy number associated with the billing activity.'
+        data_type: varchar
       - name: billing_activity_sequence_numb
         description: 'Sequence number for the billing activity.'
+        data_type: bigint
       - name: billing_acct_id
         description: 'Original billing account ID.'
+        data_type: varchar
       - name: billing_activity_desc_reason_type
         description: 'Reason type for the billing activity description.'
+        data_type: varchar
 
   - name: stg__cur_cb__xcd_bil_cash_dsp
     description: 'Staging model for current Cincibill billing cash disbursements. Derived from `raw__cur_cb__xcd_bil_cash_dsp`.'
     columns:
       - name: placeholder_column
         description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting.'
+      - name: billing_acct_key
+        data_type: bigint
+      - name: billing_policy_key
+        data_type: hugeint
+      - name: policy_sym
+        data_type: varchar
+      - name: policy_numb
+        data_type: ubigint
+      - name: policy_eff_date
+        data_type: date
 
   - name: stg__cur_cb__xcd_bil_policy
     description: 'Staging model for current Cincibill billing policies. Derived from `raw__cur_cb__xcd_bil_policy`.'
     columns:
       - name: placeholder_column
         description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting.'
+      - name: billing_acct_key
+        data_type: bigint
+      - name: billing_acct_id
+        data_type: varchar
+      - name: billing_acct_numb
+        data_type: bigint
+      - name: policy_sym
+        data_type: varchar
+      - name: policy_numb
+        data_type: ubigint
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_SYMBOL_CD
+        data_type: varchar
+        quote: true
+      - name: POL_NBR
+        data_type: ubigint
+        quote: true
+      - name: BIL_ACCOUNT_NBR
+        data_type: bigint
+        quote: true
+      - name: CUR_BIL_PLAN_CD
+        data_type: varchar
+        quote: true
+      - name: CURRENT_BILLING_PLAN
+        data_type: varchar
+        quote: true
+      - name: BIL_ISSUE_IND
+        data_type: varchar
+        quote: true
+      - name: BIL_POLICY_ISSUE_IND_DESC
+        data_type: varchar
+        quote: true
 
   - name: stg__cur_cb
     description: 'Staging model that joins current Cincibill policies with account summaries. It references `lkp__dates`.'
     columns:
       - name: billing_sb_policy_key
         description: 'Key for billing small business policy.'
+        data_type: bigint
       # Add other relevant column descriptions from the join.
       - name: placeholder_column
         description: 'This is a placeholder. Describe other relevant columns.'
+      - name: billing_acct_key
+        data_type: bigint
+      - name: billing_activity_date
+        data_type: date
+      - name: billing_activity_sequence_numb
+        data_type: bigint
+      - name: billing_activity_amt
+        data_type: double
+      - name: associated_policy_key
+        data_type: hugeint
+      - name: associated_sb_policy_key
+        data_type: uinteger
+      - name: billing_policy_key
+        data_type: hugeint

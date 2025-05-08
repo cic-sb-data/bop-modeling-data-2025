@@ -8,23 +8,33 @@ models:
         description: 'Identifier for the policy chain.'
         data_tests:
           - not_null
+        data_type: uinteger
       - name: company_numb
         description: 'Company number component of the policy key.'
         data_tests:
           - not_null
+        data_type: utinyint
       - name: policy_sym
         description: 'Policy symbol component of the policy key.'
         data_tests:
           - not_null
+        data_type: varchar
       - name: policy_numb
         description: 'Policy number component of the policy key.'
         data_tests:
           - not_null
+        data_type: uinteger
       - name: policy_module
         description: 'Policy module component of the policy key.'
         data_tests:
           - not_null
+        data_type: uinteger
       - name: policy_eff_date
         description: 'Policy effective date component of the policy key.'
         data_tests:
           - not_null
+        data_type: timestamp
+      - name: five_key_hash
+        data_type: hugeint
+      - name: three_key_hash
+        data_type: hugeint
