@@ -1,0 +1,20 @@
+# Add patterns to ignore here, one per line
+# Example:
+# *.log
+# tmp/
+
+manifest.json
+static_index.html
+.gitignore
+.gitinclude
+.DS_Store
+.git
+.for_setting_environment.py
+
+analyses/
+dbt_packages/
+logs/
+macros/
+seeds/
+snapshots/
+target/

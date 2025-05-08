@@ -169,12 +169,9 @@ cython_debug/
 *.duckdb
 
 # repomix outputs
-.repomixignore
-repomix.config.json
 remomix-output.xml
 repomix-output.xml
 
-*.prompt
 jaffle-shop/
 
 bop_modeling_data/dbt_packages/codegen/.circleci/
