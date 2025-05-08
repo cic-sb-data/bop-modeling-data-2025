@@ -1,11 +1,31 @@
-version: 2
-
 models:
   - name: stg__cur_cb__xcd_bil_act_summary
     description: 'Staging model for current Cincibill billing account summary. Derived from `raw__cur_cb__xcd_bil_act_summary` (assuming a raw source for current_cincibill).'
     columns:
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting.'
+      - name: billing_acct_key
+        description: 'Hashed billing account key.'
+        data_tests:
+          - not_null
+      - name: billing_activity_date
+        description: 'Date of the billing activity.'
+        data_tests:
+          - not_null
+      - name: billing_activity_amt
+        description: 'Amount of the billing activity.'
+        data_tests:
+          - not_null
+      - name: billing_activity_desc_cd
+        description: 'Billing activity description code.'
+      - name: policy_sym
+        description: 'Policy symbol associated with the billing activity.'
+      - name: policy_numb
+        description: 'Policy number associated with the billing activity.'
+      - name: billing_activity_sequence_numb
+        description: 'Sequence number for the billing activity.'
+      - name: billing_acct_id
+        description: 'Original billing account ID.'
+      - name: billing_activity_desc_reason_type
+        description: 'Reason type for the billing activity description.'
 
   - name: stg__cur_cb__xcd_bil_cash_dsp
     description: 'Staging model for current Cincibill billing cash disbursements. Derived from `raw__cur_cb__xcd_bil_cash_dsp`.'

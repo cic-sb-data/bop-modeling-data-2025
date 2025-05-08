@@ -4,7 +4,7 @@ with
 {{ with_ref('lkp__dates', 'dates') }},
 
 add_activity_transaction_key as (
-    select 
+    select distinct
         md5_number(
             try_cast(billing_acct_key as varchar)
             || try_cast(year(billing_activity_date) as varchar)
@@ -18,7 +18,10 @@ add_activity_transaction_key as (
         associated_policy_key,
         associated_sb_policy_key,
         billing_activity_date,
-        billing_activity_amt
+        billing_activity_amt,
+        -- Pass through NPC-related columns from the raw source
+        bil_acy_des_cd,
+        bil_des_rea_typ
 
     from raw
     order by 

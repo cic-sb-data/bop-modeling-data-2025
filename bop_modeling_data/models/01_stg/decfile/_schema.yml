@@ -1,9 +1,36 @@
-version: 2
-
 models:
   - name: stg__decfile__sb_policy_lookup
     description: "Staging model for small business policy lookup data from the 'decfile' source. It likely performs basic cleaning, renaming, and type casting on `raw__decfile__sb_policy_lookup`."
     columns:
-      # Add relevant column descriptions after transformations.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns.'
+      - name: sb_policy_key
+        description: 'Unique integer key for each policy five-key and line of business (e.g., prop or liab) combination.'
+        data_tests:
+          - unique
+          - not_null
+      - name: policy_chain_id
+        data_tests:
+          - not_null
+      - name: lob
+        description: 'Line of business. Must be one of ["prop", "liab"].'
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['prop', 'liab']
+      - name: company_numb
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1, 3, 5, 7, 4]
+      - name: policy_sym
+        data_tests:
+          - not_null
+          
+      - name: policy_numb
+        data_tests:
+          - not_null
+      - name: policy_module
+        data_tests:
+          - not_null
+      - name: policy_eff_date
+        data_tests:
+          - not_null

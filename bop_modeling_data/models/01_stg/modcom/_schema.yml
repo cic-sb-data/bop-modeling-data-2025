@@ -4,6 +4,27 @@ models:
   - name: stg__modcom__policy_chain_v3
     description: 'Staging model for policy chain v3 data from Modcom. It adds keys to the raw data from `raw__modcom__policy_chain_v3`.'
     columns:
-      # Add relevant column descriptions after key addition and transformations.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns.'
+      - name: policy_chain_id
+        description: 'Identifier for the policy chain.'
+        data_tests:
+          - not_null
+      - name: company_numb
+        description: 'Company number component of the policy key.'
+        data_tests:
+          - not_null
+      - name: policy_sym
+        description: 'Policy symbol component of the policy key.'
+        data_tests:
+          - not_null
+      - name: policy_numb
+        description: 'Policy number component of the policy key.'
+        data_tests:
+          - not_null
+      - name: policy_module
+        description: 'Policy module component of the policy key.'
+        data_tests:
+          - not_null
+      - name: policy_eff_date
+        description: 'Policy effective date component of the policy key.'
+        data_tests:
+          - not_null

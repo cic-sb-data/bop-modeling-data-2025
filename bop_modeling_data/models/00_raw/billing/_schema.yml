@@ -2,68 +2,597 @@ version: 2
 
 models:
   - name: raw__screngn__xcd_bil_account
-    description: "Raw model for billing account information from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_account'."
+    description: |
+      "Raw model for the billing account table from SAS. It selects all columns from `SCRENGN.XCD_BIL_ACCOUNT` in SAS.  
+      #### From XCD docs: 
+
+      PURPOSE: Information regarding a specific billing account. Includes the key information to access all rules and plans governing it. 
+      CREATED: Information is added only ONCE. 
+      HISTORY REQUIREMENT: No history is retained for this information. 
+      PRIMARY KEY: BIL-ACCOUNT-ID"
     columns:
       - name: bil_account_id
         description: 'Billing account identifier.'
+        data_type: varchar
       - name: bil_account_id_hash
-        description: "Hashed billing account identifier. {{ doc('bil_account_id_hash') }}"
-      # Add other relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe other relevant columns from the source table.'
+        description: "Hashed billing account identifier. `sha256` hash of `bil_account_id`. Can be used in joins since an integer should be easier to lookup."
+        data_type: bigint
+      - name: BIL_ACCOUNT_NBR
+        data_type: bigint
+        quote: true
+      - name: BIL_CLASS_CD
+        data_type: varchar
+        quote: true
+      - name: BAT_PAY_CLT_ID
+        data_type: varchar
+        quote: true
+      - name: BAT_START_DUE_DT
+        data_type: varchar
+        quote: true
+      - name: BAT_LAST_DAY_IND
+        data_type: bigint
+        quote: true
+      - name: BIL_START_RFR_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_RFR_LST_DAY
+        data_type: bigint
+        quote: true
+      - name: BIL_SUS_FU_REA_CD
+        data_type: varchar
+        quote: true
+      - name: BAT_PREV_BAL_AMT
+        data_type: double
+        quote: true
+      - name: BIL_LOK_TS
+        data_type: varchar
+        quote: true
+      - name: BAT_CASH_STATUS_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_SUS_DSB_REA_CD
+        data_type: varchar
+        quote: true
+      - name: APP_MIGRATION_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_START_DED_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_START_DED_RFR_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_TYPE_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_TYPE_DESC
+        data_type: varchar
+        quote: true
+      - name: BAT_STATUS_CD
+        data_type: varchar
+        quote: true
+      - name: BAT_STATUS_DESC
+        data_type: varchar
+        quote: true
+      - name: BIL_PRESENTMENT_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_PRESENTMENT_DESC
+        data_type: varchar
+        quote: true
+      - name: BIL_COLLECTION_MTH
+        data_type: varchar
+        quote: true
+      - name: BIL_COLLECTION_METHOD_DESC
+        data_type: varchar
+        quote: true
+      - name: BIL_COLLECTION_PLN
+        data_type: varchar
+        quote: true
+      - name: BIL_COLLECTION_PLN_DESC
+        data_type: varchar
+        quote: true
 
   - name: raw__screngn__xcd_bil_act_summary
-    description: "Raw model for billing account summary from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_act_summary'."
+    description: |
+      "Raw model for the billing activity summary table from SAS. Note that `act` refers to *activity*, not to *account* as I initially expected. It selects all columns from `SCRENGN.XCD_BIL_ACT_SUMMARY` in SAS.
+      
+      DESCRIPTION: All activity that has occurred on a payor's billing account. Information stored here is used for account summary document and invoice descriptions. 
+      PRIMARY KEY: [BIL-ACCOUNT-ID, BIL-ACY-DT, BIL-ACY-SEQ]
+      "
     columns:
       # Add relevant column descriptions from the source table.
       - name: placeholder_column
         description: 'This is a placeholder. Describe relevant columns from the source table.'
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_SEQ
+        data_type: bigint
+        quote: true
+      - name: POL_SYMBOL_CD
+        description: 1-3 character policy symbol. Referred to as `policy_sym` in other contexts, and will be renamed downstream.
+        data_type: varchar
+        quote: true
+      - name: POL_NBR
+        description: Up to 7-digit policy number. Referred to as `policy_numb` in other contexts, and will be renamed downstream.
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_DES_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_DES_REA_TYP
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_DES1_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_DES2_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_AMT
+        data_type: double
+        quote: true
+      - name: USER_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_TS
+        data_type: varchar
+        quote: true
+      - name: BAS_ADD_DATA_TXT
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
 
   - name: raw__screngn__xcd_bil_cash_dsp
-    description: "Raw model for billing cash disbursements from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_cash_dsp'."
+    description: "Raw model for the billing cash deposit table from SAS. It selects all columns from `SCRENGN.XCD_BIL_CASH_DSP` in SAS."
     columns:
       # Add relevant column descriptions from the source table.
       - name: placeholder_column
         description: 'This is a placeholder. Describe relevant columns from the source table.'
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_DTB_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_DTB_SEQ_NBR
+        data_type: bigint
+        quote: true
+      - name: BIL_DSP_SEQ_NBR
+        data_type: bigint
+        quote: true
+      - name: BIL_SEQ_NBR
+        data_type: bigint
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_SYMBOL_CD
+        description: 1-3 character policy symbol. Referred to as `policy_sym` in other contexts, and will be renamed downstream.
+        data_type: varchar
+        quote: true
+      - name: POL_NBR
+        description: Up to 7-digit policy number. Referred to as `policy_numb` in other contexts, and will be renamed downstream.
+        data_type: varchar
+        quote: true
+      - name: POL_EFFECTIVE_DT
+        data_type: varchar
+        quote: true
+      - name: DWS_STATUS_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_REVS_RSUS_IND
+        data_type: varchar
+        quote: true
+      - name: BIL_DSP_REASON_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_DSP_AMT
+        data_type: double
+        quote: true
+      - name: BIL_ADJ_DUE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_INV_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_DSP_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_DSP_TYPE_CD
+        data_type: varchar
+        quote: true
+      - name: ACTIVITY
+        data_type: varchar
+        quote: true
+      - name: BIL_CRG_TYPE_CD
+        data_type: varchar
+        quote: true
+      - name: PAYMENT_IDENTIFIER
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
 
   - name: raw__screngn__xcd_bil_cash_receipt
-    description: "Raw model for billing cash receipts from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_cash_receipt'."
+    description: "Raw model for the billing cash receipt table from SAS. It selects all columns from `SCRENGN.XCD_BIL_CASH_RECEIPT` in SAS."
     columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_DTB_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_DTB_SEQ_NBR
+        data_type: bigint
+        quote: true
+      - name: BIL_DEPOSIT_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_RCT_AMT
+        data_type: double
+        quote: true
+      - name: BIL_RCT_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_RCT_RECEIVE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_CSH_ETR_MTH_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_RCT_TYPE_CD
+        data_type: varchar
+        quote: true
+      - name: PAYMENT_TYPE
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
 
   - name: raw__screngn__xcd_bil_des_reason
-    description: "Raw model for billing designation reasons from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_des_reason'."
+    description: "Raw model for the billing description reason table from SAS. It selects all columns from `SCRENGN.XCD_BIL_DES_REASON` in SAS."
     columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
+      - name: BIL_DES_REA_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_DES_REA_TYP
+        data_type: varchar
+        quote: true
+      - name: PRI_LGG_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_DES_REA_DES
+        data_type: varchar
+        quote: true
+      - name: BDR_LONG_DES
+        data_type: varchar
+        quote: true
+      - name: BIL_ACT_BAL_SUM_CD
+        data_type: varchar
+        quote: true
 
   - name: raw__screngn__xcd_bil_ist_schedule
-    description: "Raw model for billing installment schedules from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_ist_schedule'."
+    description: "Raw model for the billing ist schedule table from SAS. It selects all columns from `SCRENGN.XCD_BIL_IST_SCHEDULE` in SAS."
     columns:
       # Add relevant column descriptions from the source table.
       - name: placeholder_column
         description: 'This is a placeholder. Describe relevant columns from the source table.'
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_SEQ_NBR
+        data_type: bigint
+        quote: true
+      - name: POL_EFFECTIVE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_INV_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_ADJ_DUE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_REFERENCE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_PRM_IST_AMT
+        data_type: double
+        quote: true
+      - name: BIS_CRE_FUT_AMT
+        data_type: double
+        quote: true
+      - name: BIS_CNC_FUT_AMT
+        data_type: double
+        quote: true
+      - name: BIS_CRE_OPN_AMT
+        data_type: double
+        quote: true
+      - name: BIS_CNC_OPN_AMT
+        data_type: double
+        quote: true
+      - name: BIS_PRM_PAID_AMT
+        data_type: double
+        quote: true
+      - name: BIS_WRO_PRM_AMT
+        data_type: double
+        quote: true
+      - name: BIS_CRE_PAID_AMT
+        data_type: double
+        quote: true
+      - name: BIL_INVOICE_CD
+        data_type: varchar
+        quote: true
+      - name: INVOICED
+        data_type: boolean
+        quote: true
+      - name: BIS_NON_TRM_DT_IND
+        data_type: varchar
+        quote: true
+      - name: INVOICE_TYPE
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
 
   - name: raw__screngn__xcd_bil_pol_proc_req
-    description: "Raw model for billing policy processing requests from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_pol_proc_req'."
+    description: "Raw model for the billing policy processing requests table from SAS. It selects all columns from `SCRENGN.XCD_BIL_POL_PROC_REQ` in SAS."
     columns:
       # Add relevant column descriptions from the source table.
       - name: placeholder_column
         description: 'This is a placeholder. Describe relevant columns from the source table.'
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_REQUEST_TYP
+        data_type: varchar
+        quote: true
+      - name: BIL_ACY_TS
+        data_type: varchar
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_EFFECTIVE_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_CONTEXT
+        data_type: varchar
+        quote: true
+      - name: BIL_ACT_DT
+        data_type: varchar
+        quote: true
+      - name: BIL_PROCESS_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_LST_MDF_TS
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
+      - name: MASTER_COMPANY_NBR
+        data_type: varchar
+        quote: true
+      - name: PLN_EXP_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_ISU_CLT_ID
+        data_type: varchar
+        quote: true
+      - name: BPT_ISU_ADR_SEQ
+        data_type: bigint
+        quote: true
+      - name: BPT_AGT_CLT_ID
+        data_type: varchar
+        quote: true
+      - name: BPT_AGT_ADR_SEQ
+        data_type: bigint
+        quote: true
+      - name: LOB_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_STATE_PVN_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_COUNTRY_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_WRO_PRC_IND
+        data_type: varchar
+        quote: true
+      - name: BIL_SUS_FU_REA_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_STATUS_EFF_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_AGREEMENT_IND
+        data_type: varchar
+        quote: true
+      - name: BPT_ISSUE_SYS_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_TO_FRO_TRF_NBR
+        data_type: bigint
+        quote: true
+      - name: BPT_AUDIT_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_TERM_SPLIT_IND
+        data_type: varchar
+        quote: true
+      - name: BPT_BELOW_MIN_CNT
+        data_type: bigint
+        quote: true
+      - name: BPT_POL_UW_STA_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_UW_STA_EFF_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_POL_COL_AMT
+        data_type: double
+        quote: true
+      - name: BPT_ACT_COL_CD
+        data_type: varchar
+        quote: true
+      - name: CFC_SVC_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_PLAN_CD
+        data_type: varchar
+        quote: true
+      - name: TERM_BILLING_PLAN
+        data_type: varchar
+        quote: true
+      - name: BIL_POL_STATUS_CD
+        data_type: varchar
+        quote: true
+      - name: BILLING_POLICY_STATUS
+        data_type: varchar
+        quote: true
 
   - name: raw__screngn__xcd_bil_policy_trm
-    description: "Raw model for billing policy terms from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_policy_trm'."
+    description: "Raw model for the billing policy term table from SAS. It selects all columns from `SCRENGN.XCD_BIL_POLICY_TRM` in SAS."
     columns:
       # Add relevant column descriptions from the source table.
       - name: placeholder_column
         description: 'This is a placeholder. Describe relevant columns from the source table.'
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_EFFECTIVE_DT
+        data_type: varchar
+        quote: true
+      - name: MASTER_COMPANY_NBR
+        data_type: varchar
+        quote: true
+      - name: PLN_EXP_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_ISU_CLT_ID
+        data_type: varchar
+        quote: true
+      - name: BPT_ISU_ADR_SEQ
+        data_type: bigint
+        quote: true
+      - name: BPT_AGT_CLT_ID
+        data_type: varchar
+        quote: true
+      - name: BPT_AGT_ADR_SEQ
+        data_type: bigint
+        quote: true
+      - name: LOB_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_STATE_PVN_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_COUNTRY_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_WRO_PRC_IND
+        data_type: varchar
+        quote: true
+      - name: BIL_SUS_FU_REA_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_STATUS_EFF_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_AGREEMENT_IND
+        data_type: varchar
+        quote: true
+      - name: BPT_ISSUE_SYS_ID
+        data_type: varchar
+        quote: true
+      - name: BIL_TO_FRO_TRF_NBR
+        data_type: bigint
+        quote: true
+      - name: BPT_AUDIT_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_TERM_SPLIT_IND
+        data_type: varchar
+        quote: true
+      - name: BPT_BELOW_MIN_CNT
+        data_type: bigint
+        quote: true
+      - name: BPT_POL_UW_STA_CD
+        data_type: varchar
+        quote: true
+      - name: BPT_UW_STA_EFF_DT
+        data_type: varchar
+        quote: true
+      - name: BPT_POL_COL_AMT
+        data_type: double
+        quote: true
+      - name: BPT_ACT_COL_CD
+        data_type: varchar
+        quote: true
+      - name: CFC_SVC_CD
+        data_type: varchar
+        quote: true
+      - name: BIL_PLAN_CD
+        data_type: varchar
+        quote: true
+      - name: TERM_BILLING_PLAN
+        data_type: varchar
+        quote: true
+      - name: BIL_POL_STATUS_CD
+        data_type: varchar
+        quote: true
+      - name: BILLING_POLICY_STATUS
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
 
   - name: raw__screngn__xcd_bil_policy
-    description: "Raw model for billing policies from the 'screngn' source. It likely selects all columns from an external source table named 'xcd_bil_policy'."
+    description: "Raw model for the billing policy table from SAS. It selects all columns from `SCRENGN.XCD_BIL_POLICY` in SAS."
     columns:
       # Add relevant column descriptions from the source table.
       - name: placeholder_column
         description: 'This is a placeholder. Describe relevant columns from the source table.'
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        quote: true
+      - name: XCD_POLICY_ID
+        data_type: varchar
+        quote: true
+      - name: POL_SYMBOL_CD
+        description: 1-3 character policy symbol. Referred to as `policy_sym` in other contexts, and will be renamed downstream.
+        data_type: varchar
+        quote: true
+      - name: POL_NBR
+        description: Up to 7-digit policy number. Referred to as `policy_numb` in other contexts, and will be renamed downstream.
+        data_type: varchar
+        quote: true
+      - name: BIL_ACCOUNT_NBR
+        data_type: bigint
+        quote: true
+      - name: CUR_BIL_PLAN_CD
+        data_type: varchar
+        quote: true
+      - name: CURRENT_BILLING_PLAN
+        data_type: varchar
+        quote: true
+      - name: BIL_ISSUE_IND
+        data_type: varchar
+        quote: true
+      - name: BIL_POLICY_ISSUE_IND_DESC
+        data_type: varchar
+        quote: true
+      - name: bil_account_id_hash
+        data_type: bigint
