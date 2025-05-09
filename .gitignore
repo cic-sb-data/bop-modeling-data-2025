@@ -221,3 +221,5 @@ bop_modeling_data/dbt_packages/dbt_utils/dev-requirements.txt
 bop_modeling_data/dbt_packages/dbt_utils/docker-compose.yml
 bop_modeling_data/dbt_packages/dbt_project_evaluator/run_tox_tests.sh
 bop_modeling_data/dbt_packages/dbt_project_evaluator/supported_adapters.env
+.DS_Store
+uv.lock

@@ -5,14 +5,24 @@ models:
     description: 'Fact model for associated policy effective dates. It references `lkp__associated_policies` and `lkp__dates`.'
     columns:
       - name: associated_policy_key
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
         data_type: hugeint
       - name: policy_eff_date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
         data_type: date
       - name: n_prior_years
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
         data_type: integer
       - name: prior_year_start
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
         data_type: date
       - name: prior_year_end
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
         data_type: date
 
   - name: fct__billing_activity
@@ -20,6 +30,8 @@ models:
     columns:
       - name: activity_transaction_key
         description: 'Key for billing activity transactions.'
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: activity_trans_key
         data_tests:
           - dbt_expectations.expect_column_to_exist
@@ -41,31 +53,60 @@ models:
         data_type: uinteger
       - name: billing_activity_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_activity_amt
         data_type: double
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: fct__prior_activity_dates
-    description: 'Fact model for prior activity dates, filtering out activity not knowable at policy effective date. It uses the `make_n_prior_year_cols` macro and references `fct__associated_policy_eff_date` and `fct__billing_activity`.'
+    description: |
+      ## `fct__prior_activity_dates`
+      
+      Fact model for prior activity dates, filtering out activity not knowable at policy effective date. It uses the `make_n_prior_year_cols` macro and references `fct__associated_policy_eff_date` and `fct__billing_activity`.'
     columns:
       - name: activity_trans_key
         data_type: hugeint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: billing_activity_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: policy_eff_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: eval_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: yr1_prior_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: yr2_prior_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: yr3_prior_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: yr4_prior_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: yr5_prior_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: yr6_prior_date
         data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: prior_year
         data_type: integer
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
