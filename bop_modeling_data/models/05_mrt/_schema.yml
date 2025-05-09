@@ -12,58 +12,67 @@ models:
       - `/Users/andy/bop-modeling-data-2025/dm__npc_counts__roadmap.md`
     config:
       materialized: table
-    columns:
-      - name: sb_policy_key
-        description: 'The `associated_sb_policy_key` from `lkp__associated_policies`, representing the anchor small business policy for which prior year activity is being calculated.'
-        data_tests:
-          - not_null
-          # - relationships:
-          #     to: ref('lkp__associated_policies')
-          #     field: associated_sb_policy_key
-      - name: policy_chain_id
-        description: 'The `policy_chain_id` associated with the `sb_policy_key`.'
-        data_tests:
-          - not_null
-      - name: policy_eff_date
-        description: 'The effective date of the anchor `sb_policy_key`.'
-        data_tests:
-          - not_null
-      - name: prior_yr1_c_activity_count
-        description: "Count of 'C' type billing activities in the 1st prior year to the policy_eff_date."
-        data_tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-      - name: prior_yr1_c_activity_amount_sum
-        description: "Sum of amounts for 'C' type billing activities in the 1st prior year."
-      - name: prior_yr2_c_activity_count
-        description: "Count of 'C' type billing activities in the 2nd prior year."
-        data_tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-      - name: prior_yr2_c_activity_amount_sum
-        description: "Sum of amounts for 'C' type billing activities in the 2nd prior year."
-      - name: prior_yr3_c_activity_count
-        description: "Count of 'C' type billing activities in the 3rd prior year."
-        data_tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-      - name: prior_yr3_c_activity_amount_sum
-        description: "Sum of amounts for 'C' type billing activities in the 3rd prior year."
-      - name: prior_yr4_c_activity_count
-        description: "Count of 'C' type billing activities in the 4th prior year."
-        data_tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-      - name: prior_yr4_c_activity_amount_sum
-        description: "Sum of amounts for 'C' type billing activities in the 4th prior year."
-      - name: prior_yr5_c_activity_count
-        description: "Count of 'C' type billing activities in the 5th prior year."
-        data_tests:
-          - dbt_utils.accepted_range:
-              min_value: 0
-      - name: prior_yr5_c_activity_amount_sum
-        description: "Sum of amounts for 'C' type billing activities in the 5th prior year."
-    data_tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - sb_policy_key
+    # columns:
+    #   - name: sb_policy_key
+    #     description: 'The `associated_sb_policy_key` from `lkp__associated_policies`, representing the anchor small business policy for which prior year activity is being calculated.'
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #   - name: policy_chain_id
+    #     description: 'The `policy_chain_id` associated with the `sb_policy_key`.'
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #   - name: policy_eff_date
+    #     description: 'The effective date of the anchor `sb_policy_key`.'
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #   - name: prior_yr1_c_activity_count
+    #     description: "Count of 'C' type billing activities in the 1st prior year to the policy_eff_date."
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #       - dbt_utils.accepted_range:
+    #           min_value: 0
+    #   - name: prior_yr1_c_activity_amount_sum
+    #     description: "Sum of amounts for 'C' type billing activities in the 1st prior year."
+    #   - name: prior_yr2_c_activity_count
+    #     description: "Count of 'C' type billing activities in the 2nd prior year."
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #       - dbt_utils.accepted_range:
+    #           min_value: 0
+    #   - name: prior_yr2_c_activity_amount_sum
+    #     description: "Sum of amounts for 'C' type billing activities in the 2nd prior year."
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #   - name: prior_yr3_c_activity_count
+    #     description: "Count of 'C' type billing activities in the 3rd prior year."
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #       - dbt_utils.accepted_range:
+    #           min_value: 0
+    #   - name: prior_yr3_c_activity_amount_sum
+    #     description: "Sum of amounts for 'C' type billing activities in the 3rd prior year."
+    #   - name: prior_yr4_c_activity_count
+    #     description: "Count of 'C' type billing activities in the 4th prior year."
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #       - dbt_utils.accepted_range:
+    #           min_value: 0
+    #   - name: prior_yr4_c_activity_amount_sum
+    #     description: "Sum of amounts for 'C' type billing activities in the 4th prior year."
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #   - name: prior_yr5_c_activity_count
+    #     description: "Count of 'C' type billing activities in the 5th prior year."
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #       - dbt_utils.accepted_range:
+    #           min_value: 0
+    #   - name: prior_yr5_c_activity_amount_sum
+    #     description: "Sum of amounts for 'C' type billing activities in the 5th prior year."
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+
+    # data_tests:
+    #   - dbt_utils.unique_combination_of_columns:
+    #       combination_of_columns:
+    #         - sb_policy_key

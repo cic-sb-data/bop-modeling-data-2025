@@ -106,16 +106,6 @@ models:
       - name: CURRENT_BILLING_PLAN
         data_type: varchar
         quote: true
-      - name: BIL_ISSUE_IND
-        data_type: varchar
-        data_tests:
-          - dbt_expectations.expect_column_to_exist
-        quote: true
-      - name: BIL_POLICY_ISSUE_IND_DESC
-        data_type: varchar
-        data_tests:
-          - dbt_expectations.expect_column_to_exist
-        quote: true
 
   - name: stg__cur_cb
     description: 'Staging model that joins current Cincibill policies with account summaries. It references `lkp__dates`.'

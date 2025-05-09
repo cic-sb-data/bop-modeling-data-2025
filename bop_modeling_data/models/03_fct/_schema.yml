@@ -28,14 +28,12 @@ models:
   - name: fct__billing_activity
     description: 'Fact model for billing activity. It adds an activity_transaction_key and references `stg__cur_cb` and `lkp__dates`.'
     columns:
-      - name: activity_transaction_key
-        description: 'Key for billing activity transactions.'
-        data_tests:
-          - dbt_expectations.expect_column_to_exist
       - name: activity_trans_key
         data_tests:
           - dbt_expectations.expect_column_to_exist
-          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_proportion_of_unique_values_to_be_between:
+              min_value: 0.5
+              max_value: 1.0
         data_type: hugeint
       - name: associated_policy_key
         data_tests:

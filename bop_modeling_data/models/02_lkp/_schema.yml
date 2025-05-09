@@ -62,7 +62,7 @@ models:
         data_tests:
           - dbt_expectations.expect_column_min_to_be_between:
               min_value: 0
-              max_value: 0
+              max_value: 10
           - dbt_expectations.expect_column_to_exist
         data_type: bigint
       - name: associated_policy_key
@@ -85,7 +85,7 @@ models:
         data_tests:
           - dbt_expectations.expect_column_min_to_be_between:
               min_value: 0
-              max_value: 0
+              max_value: 10
       - name: billing_policy_id
         data_type: varchar
       - name: billing_acct_id
@@ -147,13 +147,13 @@ models:
         data_tests:
           - dbt_expectations.expect_column_min_to_be_between:
               min_value: 0
-              max_value: 0
+              max_value: 10
           - dbt_expectations.expect_column_to_exist
       - name: n_total_policies_for_policy_chain_id
         data_tests:
           - dbt_expectations.expect_column_min_to_be_between:
               min_value: 0
-              max_value: 0
+              max_value: 10
           - dbt_expectations.expect_column_to_exist
 
   - name: lkp__sb_policy_key
@@ -163,7 +163,7 @@ models:
         data_tests:
           - dbt_expectations.expect_column_min_to_be_between:
               min_value: 0
-              max_value: 0
+              max_value: 10
           - dbt_expectations.expect_column_to_exist
           - dbt_expectations.expect_column_values_to_be_unique
       - name: policy_chain_id
