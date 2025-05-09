@@ -9,6 +9,7 @@ raw as (
     )
 
     from {{ ref('raw__screngn__xcd_bil_act_summary') }}
+    where {{ npc_event() }}
 )
 
 select *

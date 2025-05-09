@@ -80,31 +80,44 @@ models:
         data_type: date
         data_tests:
           - dbt_expectations.expect_column_to_exist
-      - name: yr1_prior_date
+      - name: prev_1yr_start
         data_type: date
         data_tests:
           - dbt_expectations.expect_column_to_exist
-      - name: yr2_prior_date
+      - name: prev_2yr_start
         data_type: date
         data_tests:
           - dbt_expectations.expect_column_to_exist
-      - name: yr3_prior_date
+      - name: prev_3yr_start
         data_type: date
         data_tests:
           - dbt_expectations.expect_column_to_exist
-      - name: yr4_prior_date
+      - name: prev_4yr_start
         data_type: date
         data_tests:
           - dbt_expectations.expect_column_to_exist
-      - name: yr5_prior_date
+      - name: prev_5yr_start
         data_type: date
         data_tests:
           - dbt_expectations.expect_column_to_exist
-      - name: yr6_prior_date
+
+      - name: prev_1yr_end
         data_type: date
         data_tests:
           - dbt_expectations.expect_column_to_exist
-      - name: prior_year
-        data_type: integer
+      - name: prev_2yr_end
+        data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: prev_3yr_end
+        data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: prev_4yr_end
+        data_type: date
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: prev_5yr_end
+        data_type: date
         data_tests:
           - dbt_expectations.expect_column_to_exist

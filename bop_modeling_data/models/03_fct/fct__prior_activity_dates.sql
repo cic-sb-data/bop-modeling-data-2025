@@ -1,17 +1,22 @@
 with
 
 -- Policy effective date <--> associated policy key lookup
-policy_eff_date as (
-    select
+dts as (
+    select distinct
         associated_policy_key,
-        policy_eff_date
+        policy_eff_date,
+
+        {{ eval_date('policy_eff_date') }} as eval_date,
+        {{ prev_yr_start_1toN('policy_eff_date', N=5) }},
+        {{ prev_yr_end_1toN('policy_eff_date', N=5) }}
 
     from {{ ref('fct__associated_policy_eff_date') }}
 ),
 
+
 -- billing activity transaction <---> associated policy key lookup
 activity as (
-    select
+    select distinct
         associated_policy_key,
         activity_trans_key,
         billing_activity_date
@@ -29,20 +34,16 @@ joined as (
     select distinct
         activity.activity_trans_key,
         activity.billing_activity_date,
-        policy_eff_date.policy_eff_date
+        
+        dts.* exclude (associated_policy_key)
 
     from activity 
-    left join policy_eff_date 
-        on activity.associated_policy_key = policy_eff_date.associated_policy_key
+    left join dts 
+        on activity.associated_policy_key = dts.associated_policy_key
     
-    where policy_eff_date.policy_eff_date is not null
-        and policy_eff_date.policy_eff_date < activity.billing_activity_date
-),
-
-prior_year_columns as (
-    {{ make_n_prior_year_cols('joined') }}
+    where dts.policy_eff_date is not null
+        and dts.eval_date < activity.billing_activity_date
 )
 
 select *
-from prior_year_columns
-where prior_year is not null
+from joined
