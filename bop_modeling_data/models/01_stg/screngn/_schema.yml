@@ -4,18 +4,157 @@ models:
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: ref("raw__screngn__xcd_bil_account")
+    columns:
+      - name: billing_account_key
+        description: |
+          `md5` hash of the primary key for the `BIL-ACCOUNT` table. See the `billing_account_key` macro.
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_values_to_not_be_null
+      - name: BIL_ACCOUNT_ID
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_ACCOUNT_NBR
+        data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_CLASS_CD
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BAT_PAY_CLT_ID
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BAT_START_DUE_DT
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BAT_LAST_DAY_IND
+        data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_START_RFR_DT
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_RFR_LST_DAY
+        data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_SUS_FU_REA_CD
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BAT_PREV_BAL_AMT
+        data_type: double
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_LOK_TS
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BAT_CASH_STATUS_CD
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_SUS_DSB_REA_CD
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: APP_MIGRATION_CD
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_START_DED_DT
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_START_DED_RFR_DT
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_TYPE_CD
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_TYPE_DESC
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BAT_STATUS_CD
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BAT_STATUS_DESC
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_PRESENTMENT_CD
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_PRESENTMENT_DESC
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_COLLECTION_MTH
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_COLLECTION_METHOD_DESC
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_COLLECTION_PLN
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: BIL_COLLECTION_PLN_DESC
+        data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+      - name: bil_account_id_hash
+        description: Hashed billing account identifier, likely from `raw__screngn__xcd_bil_account.bil_account_id_hash`. See `sha256` hash of `bil_account_id`. Can be used in joins since an integer should be easier to lookup..
+        data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: stg__screngn__xcd_bil_act_summary
-    description: "Staging model for billing account summary from the 'screngn' source. Derived from `raw__screngn__xcd_bil_act_summary`."
-    data_tests:
-      - dbt_expectations.expect_table_row_count_to_equal_other_table:
-          compare_model: ref("raw__screngn__xcd_bil_act_summary")
+    description: "Staging model for billing account summary from the 'screngn' source. Derived from `raw__screngn__xcd_bil_act_summary`. Note that this model has fewer rows than its `raw` counterpart since we are filtering to NPC events at this step."
+    columns:
+      - name: billing_activity_summary_key
+        description: |
+          `md5` hash of the primary key for the `BIL-ACT-SUMMARY` table. See the `billing_activity_summary_key` macro.
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_values_to_not_be_null
 
   - name: stg__screngn__xcd_bil_cash_dsp
-    description: "Staging model for billing cash disbursements from the 'screngn' source. Derived from `raw__screngn__xcd_bil_cash_dsp`."
+    description: |
+      Staging model for billing cash dispositions from the 'screngn' source. Derived from `raw__screngn__xcd_bil_cash_dsp`.  
+
+      PURPOSE: Information on all applied, disbursed, suspended, written-off, transferred, and reversed payments for a payors billing account.   
+      CREATED: Created whenever one of the above mentioned activities occur.   
+      PRIMARY KEY:  
+        - BIL-ACCOUNT-ID  
+        - BIL-DTB-DT  
+        - BIL-DTB-SEQ-NBR  
+        - BIL-DSP-SEQ-NBR  
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: ref("raw__screngn__xcd_bil_cash_dsp")
+    columns:
+      - name: billing_cash_disposition_key
+        description: |
+          `md5` hash of the primary key for the `BIL-CASH-DSP` table. See the `billing_cash_disposition_key` macro.
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_values_to_not_be_null
 
   - name: stg__screngn__xcd_bil_cash_receipt
     description: "Staging model for billing cash receipts from the 'screngn' source. Derived from `raw__screngn__xcd_bil_cash_receipt`."
@@ -46,3 +185,11 @@ models:
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: ref("raw__screngn__xcd_bil_policy")
+    columns:
+      - name: billing_policy_key
+        description: |
+          `md5` hash of the primary key for the `BIL-POLICY` table. See the `billing_policy_key` macro.
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_values_to_not_be_null

@@ -18,38 +18,55 @@ models:
         description: 'Surrogate key (hash of the five-key components) for each policy instance within a policy chain.'
         data_tests:
           - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_not_be_null
       - name: associated_sb_policy_key
         description: 'The sb_policy_key from the decfile that is associated with this policy chain instance.'
         data_tests:
           - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_not_be_null
       - name: policy_chain_id
         description: 'Identifier for the policy chain.'
         data_tests:
           - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_not_be_null
       - name: company_numb
         description: "Company number component of the policy's five-key."
         data_tests:
           - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_in_set:
+              value_set: [1, 3, 5, 7]
       - name: policy_sym
         description: "Policy symbol component of the policy's five-key."
         data_tests:
           - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_value_lengths_to_be_between:
+              min_value: 1
+              max_value: 3
       - name: policy_numb
         description: "Policy number component of the policy's five-key."
         data_tests:
           - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1
+              max_value: 9999999
       - name: policy_module
         description: "Policy module component of the policy's five-key."
         data_tests:
           - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 999
       - name: policy_eff_date
         description: "Policy effective date component of the policy's five-key."
         data_tests:
           - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_not_be_null
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: date
-      - name: __is_gt1_five_key_in_table
-        data_type: utinyint
     data_tests:
       - dbt_expectations.expect_compound_columns_to_be_unique:
           column_list: [ "associated_policy_key", "associated_sb_policy_key" ]

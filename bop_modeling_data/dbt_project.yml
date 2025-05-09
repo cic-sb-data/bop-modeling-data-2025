@@ -15,8 +15,6 @@ clean-targets:
 
 models:
   bop_modeling_data:
-    +post-hook:
-      - "{{ dbt_eda_tools.get_preview(10) }}"
     +materialized: view
     +docs:
       show: true
@@ -32,14 +30,14 @@ models:
       +materialized: table
       +tags:
         - lkp
-    03_dim:
-      +materialized: view
-      +tags:
-        - dim
-    04_fct:
+    03_fct:
       +materialized: view
       +tags:
         - fct
+    04_dim:
+      +materialized: view
+      +tags:
+        - dim
     05_mrt:
       +materialized: table
       +tags:
@@ -54,6 +52,10 @@ models:
       +tags:
         - tmp
 
+tests:
+  +store_failures: true 
+  +schema: test_failures
+
 vars:
   raw_csv_loc: '/sas/data/project/EG/ActShared/SmallBusiness/Modeling/dat/raw_csv'
   decfile_loc: '/sas/data/project/EG/ActShared/SmallBusiness/DecisionSupportFile/Development/2025/20250228'
@@ -62,3 +64,4 @@ vars:
     
 flags:
   send_anonymous_usage_stats: false
+

@@ -2,6 +2,7 @@ with
 
 raw as (
     select
+        {{ billing_policy_key() }},
         bil_account_id,
         bil_account_id_hash,
         * exclude(

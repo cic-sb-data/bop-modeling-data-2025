@@ -4,6 +4,7 @@ with
 
 renamed_casted as (
     select 
+        {{ billing_account_key() }},
         BIL_ACCOUNT_ID as billing_acct_id,
         try_cast(BIL_ACCOUNT_NBR as ubigint) as billing_acct_numb,
         BIL_CLASS_CD as billing_class_cd,
@@ -40,4 +41,4 @@ renamed_casted as (
 )
 
 select *
-from raw
+from renamed_casted

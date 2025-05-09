@@ -14,6 +14,10 @@ raw as (
         ) 
 
     from {{ ref('raw__screngn__xcd_bil_cash_receipt') }}
+),
+
+dedup as (
+    select 
 )
 
 select *

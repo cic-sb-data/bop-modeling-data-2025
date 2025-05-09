@@ -14,84 +14,114 @@ models:
       - name: bil_account_id
         description: 'Billing account identifier.'
         data_type: varchar
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
+          - dbt_expectations.expect_column_values_to_be_unique
       - name: bil_account_id_hash
         description: "Hashed billing account identifier. `sha256` hash of `bil_account_id`. Can be used in joins since an integer should be easier to lookup."
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACCOUNT_NBR
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_CLASS_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BAT_PAY_CLT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BAT_START_DUE_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BAT_LAST_DAY_IND
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_START_RFR_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_RFR_LST_DAY
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_SUS_FU_REA_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BAT_PREV_BAL_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_LOK_TS
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BAT_CASH_STATUS_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_SUS_DSB_REA_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: APP_MIGRATION_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_START_DED_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_START_DED_RFR_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_TYPE_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_TYPE_DESC
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BAT_STATUS_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BAT_STATUS_DESC
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_PRESENTMENT_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_PRESENTMENT_DESC
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_COLLECTION_MTH
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_COLLECTION_METHOD_DESC
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_COLLECTION_PLN
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_COLLECTION_PLN_DESC
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: raw__screngn__xcd_bil_act_summary
     description: >
@@ -103,478 +133,527 @@ models:
     columns:
       - name: BIL_ACCOUNT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACY_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACY_SEQ
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: POL_SYMBOL_CD
         description: 1-3 character policy symbol. Referred to as `policy_sym` in other contexts, and will be renamed downstream.
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: POL_NBR
         description: Up to 7-digit policy number. Referred to as `policy_numb` in other contexts, and will be renamed downstream.
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACY_DES_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DES_REA_TYP
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACY_DES1_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACY_DES2_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACY_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: USER_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACY_TS
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BAS_ADD_DATA_TXT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: bil_account_id_hash
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: raw__screngn__xcd_bil_cash_dsp
     description: "Raw model for the billing cash deposit table from SAS. It selects all columns from `SCRENGN.XCD_BIL_CASH_DSP` in SAS."
     columns:
       - name: BIL_ACCOUNT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DTB_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DTB_SEQ_NBR
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DSP_SEQ_NBR
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_SEQ_NBR
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: XCD_POLICY_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: POL_SYMBOL_CD
         description: 1-3 character policy symbol. Referred to as `policy_sym` in other contexts, and will be renamed downstream.
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: POL_NBR
         description: Up to 7-digit policy number. Referred to as `policy_numb` in other contexts, and will be renamed downstream.
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: POL_EFFECTIVE_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: DWS_STATUS_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_REVS_RSUS_IND
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DSP_REASON_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DSP_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ADJ_DUE_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_INV_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DSP_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DSP_TYPE_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: ACTIVITY
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_CRG_TYPE_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: PAYMENT_IDENTIFIER
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: bil_account_id_hash
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: raw__screngn__xcd_bil_cash_receipt
     description: "Raw model for the billing cash receipt table from SAS. It selects all columns from `SCRENGN.XCD_BIL_CASH_RECEIPT` in SAS."
     columns:
       - name: BIL_ACCOUNT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DTB_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DTB_SEQ_NBR
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DEPOSIT_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_RCT_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_RCT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_RCT_RECEIVE_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_CSH_ETR_MTH_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_RCT_TYPE_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: PAYMENT_TYPE
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: bil_account_id_hash
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: raw__screngn__xcd_bil_des_reason
     description: "Raw model for the billing description reason table from SAS. It selects all columns from `SCRENGN.XCD_BIL_DES_REASON` in SAS."
     columns:
       - name: BIL_DES_REA_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DES_REA_TYP
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: PRI_LGG_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_DES_REA_DES
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BDR_LONG_DES
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACT_BAL_SUM_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: raw__screngn__xcd_bil_ist_schedule
     description: "Raw model for the billing ist schedule table from SAS. It selects all columns from `SCRENGN.XCD_BIL_IST_SCHEDULE` in SAS."
     columns:
       - name: BIL_ACCOUNT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: XCD_POLICY_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_SEQ_NBR
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: POL_EFFECTIVE_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_INV_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ADJ_DUE_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_REFERENCE_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_PRM_IST_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIS_CRE_FUT_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIS_CNC_FUT_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIS_CRE_OPN_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIS_CNC_OPN_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIS_PRM_PAID_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIS_WRO_PRM_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIS_CRE_PAID_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_INVOICE_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: INVOICED
         data_type: boolean
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIS_NON_TRM_DT_IND
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: INVOICE_TYPE
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: bil_account_id_hash
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: raw__screngn__xcd_bil_pol_proc_req
     description: "Raw model for the billing policy processing requests table from SAS. It selects all columns from `SCRENGN.XCD_BIL_POL_PROC_REQ` in SAS."
     columns:
       - name: BIL_ACCOUNT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_REQUEST_TYP
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACY_TS
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: XCD_POLICY_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: POL_EFFECTIVE_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_CONTEXT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACT_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_PROCESS_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_LST_MDF_TS
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: bil_account_id_hash
         data_type: bigint
-      - name: MASTER_COMPANY_NBR
-        data_type: varchar
-        quote: true
-      - name: PLN_EXP_DT
-        data_type: varchar
-        quote: true
-      - name: BPT_ISU_CLT_ID
-        data_type: varchar
-        quote: true
-      - name: BPT_ISU_ADR_SEQ
-        data_type: bigint
-        quote: true
-      - name: BPT_AGT_CLT_ID
-        data_type: varchar
-        quote: true
-      - name: BPT_AGT_ADR_SEQ
-        data_type: bigint
-        quote: true
-      - name: LOB_CD
-        data_type: varchar
-        quote: true
-      - name: BIL_STATE_PVN_CD
-        data_type: varchar
-        quote: true
-      - name: BIL_COUNTRY_CD
-        data_type: varchar
-        quote: true
-      - name: BPT_WRO_PRC_IND
-        data_type: varchar
-        quote: true
-      - name: BIL_SUS_FU_REA_CD
-        data_type: varchar
-        quote: true
-      - name: BPT_STATUS_EFF_DT
-        data_type: varchar
-        quote: true
-      - name: BPT_AGREEMENT_IND
-        data_type: varchar
-        quote: true
-      - name: BPT_ISSUE_SYS_ID
-        data_type: varchar
-        quote: true
-      - name: BIL_TO_FRO_TRF_NBR
-        data_type: bigint
-        quote: true
-      - name: BPT_AUDIT_CD
-        data_type: varchar
-        quote: true
-      - name: BPT_TERM_SPLIT_IND
-        data_type: varchar
-        quote: true
-      - name: BPT_BELOW_MIN_CNT
-        data_type: bigint
-        quote: true
-      - name: BPT_POL_UW_STA_CD
-        data_type: varchar
-        quote: true
-      - name: BPT_UW_STA_EFF_DT
-        data_type: varchar
-        quote: true
-      - name: BPT_POL_COL_AMT
-        data_type: double
-        quote: true
-      - name: BPT_ACT_COL_CD
-        data_type: varchar
-        quote: true
-      - name: CFC_SVC_CD
-        data_type: varchar
-        quote: true
-      - name: BIL_PLAN_CD
-        data_type: varchar
-        quote: true
-      - name: TERM_BILLING_PLAN
-        data_type: varchar
-        quote: true
-      - name: BIL_POL_STATUS_CD
-        data_type: varchar
-        quote: true
-      - name: BILLING_POLICY_STATUS
-        data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: raw__screngn__xcd_bil_policy_trm
     description: "Raw model for the billing policy term table from SAS. It selects all columns from `SCRENGN.XCD_BIL_POLICY_TRM` in SAS."
     columns:
       - name: BIL_ACCOUNT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: XCD_POLICY_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: POL_EFFECTIVE_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: MASTER_COMPANY_NBR
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: PLN_EXP_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_ISU_CLT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_ISU_ADR_SEQ
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_AGT_CLT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_AGT_ADR_SEQ
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: LOB_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_STATE_PVN_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_COUNTRY_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_WRO_PRC_IND
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_SUS_FU_REA_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_STATUS_EFF_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_AGREEMENT_IND
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_ISSUE_SYS_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_TO_FRO_TRF_NBR
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_AUDIT_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_TERM_SPLIT_IND
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_BELOW_MIN_CNT
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_POL_UW_STA_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_UW_STA_EFF_DT
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_POL_COL_AMT
         data_type: double
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BPT_ACT_COL_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: CFC_SVC_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_PLAN_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: TERM_BILLING_PLAN
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_POL_STATUS_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BILLING_POLICY_STATUS
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: bil_account_id_hash
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
 
   - name: raw__screngn__xcd_bil_policy
     description: "Raw model for the billing policy table from SAS. It selects all columns from `SCRENGN.XCD_BIL_POLICY` in SAS."
     columns:
       - name: BIL_ACCOUNT_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: XCD_POLICY_ID
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: POL_SYMBOL_CD
         description: 1-3 character policy symbol. Referred to as `policy_sym` in other contexts, and will be renamed downstream.
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: POL_NBR
         description: Up to 7-digit policy number. Referred to as `policy_numb` in other contexts, and will be renamed downstream.
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ACCOUNT_NBR
         data_type: bigint
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: CUR_BIL_PLAN_CD
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: CURRENT_BILLING_PLAN
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_ISSUE_IND
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: BIL_POLICY_ISSUE_IND_DESC
         data_type: varchar
-        quote: true
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
       - name: bil_account_id_hash
         data_type: bigint
+        data_tests:
+          - dbt_expectations.expect_column_to_exist
