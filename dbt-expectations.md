@@ -20,6 +20,7 @@ Below is a breakdown of each model, its columns, existing tests, untested column
             *   `dbt_expectations.expect_column_values_to_not_be_null`
             *   `dbt_expectations.expect_column_values_to_be_unique` (if it's a primary key)
             *   `dbt_expectations.expect_column_values_to_match_regex` (if there's a known format)
+            *   `dbt_expectations.expect_column_value_lengths_to_be_between` (if has known length constraints)
     *   `bil_account_id_hash` (bigint)
         *   Currently Tested: None
         *   Untested
@@ -38,14 +39,22 @@ Below is a breakdown of each model, its columns, existing tests, untested column
         *   Recommendations:
             *   `dbt_expectations.expect_column_values_to_be_in_set` (if known codes)
             *   `dbt_expectations.expect_column_values_to_not_be_null` (if applicable)
+            *   `dbt_expectations.expect_column_value_lengths_to_equal` (if it's a fixed-length code)
+            *   `dbt_expectations.expect_column_values_to_have_consistent_casing` (if casing matters)
     *   ... (Other columns in `raw__screngn__xcd_bil_account` follow a similar pattern: all are currently untested at the column level in the schema)
-    *   **General Recommendation for `raw__screngn__xcd_bil_account`:** For all key/ID columns, add `dbt_expectations.expect_column_values_to_not_be_null` and `dbt_expectations.expect_column_values_to_be_unique` tests. For code columns (`_CD`), use `dbt_expectations.expect_column_values_to_be_in_set`. For date columns that are actual date types (`_DT`), use `dbt_expectations.expect_column_values_to_be_of_type: column_type: date`. If they are strings representing dates, use `dbt_expectations.expect_column_values_to_match_regex` with an appropriate pattern (e.g., for 'YYYY-MM-DD'). For amounts (`_AMT`), consider `dbt_expectations.expect_column_values_to_be_of_type: column_type: double` (or `numeric`) and potentially range checks using `dbt_expectations.expect_column_values_to_be_between`.
+    *   **General Recommendation for `raw__screngn__xcd_bil_account`:** For all key/ID columns, add `dbt_expectations.expect_column_values_to_not_be_null` and `dbt_expectations.expect_column_values_to_be_unique` tests. For code columns (`_CD`), use `dbt_expectations.expect_column_values_to_be_in_set`, `dbt_expectations.expect_column_value_lengths_to_equal` (if fixed-length), and `dbt_expectations.expect_column_values_to_have_consistent_casing`. For date columns that are actual date types (`_DT`), use `dbt_expectations.expect_column_values_to_be_of_type: column_type: date`. If they are strings representing dates, use `dbt_expectations.expect_column_values_to_match_regex` with an appropriate pattern (e.g., for 'YYYY-MM-DD'). For timestamp columns (`_TS`), use `dbt_expectations.expect_column_values_to_be_of_type: column_type: timestamp`. For amounts (`_AMT`), consider `dbt_expectations.expect_column_values_to_be_of_type: column_type: double` (or `numeric`) and potentially range checks using `dbt_expectations.expect_column_values_to_be_between`.
 
 #### Model: `raw__screngn__xcd_bil_act_summary`
 *   **Description:** Raw model for billing activity summary.
 *   **Columns:** `BIL_ACCOUNT_ID`, `BIL_ACY_DT`, `BIL_ACY_SEQ`, `POL_SYMBOL_CD`, `POL_NBR`, `BIL_ACY_DES_CD`, `BIL_DES_REA_TYP`, `BIL_ACY_DES1_DT`, `BIL_ACY_DES2_DT`, `BIL_ACY_AMT`, `USER_ID`, `BIL_ACY_TS`, `BAS_ADD_DATA_TXT`, `bil_account_id_hash`
     *   All columns are currently untested at the column level in the schema.
-    *   **Recommendations:** Similar to `raw__screngn__xcd_bil_account`. Apply `not_null`, `unique` for keys (`BIL_ACCOUNT_ID`, `BIL_ACY_DT`, `BIL_ACY_SEQ` as a composite key likely). Test formats for dates (`_DT`), types for amounts (`_AMT`), and accepted values for codes (`_CD`).
+    *   **Recommendations:** Similar to `raw__screngn__xcd_bil_account`.
+        *   Apply `dbt_expectations.expect_column_values_to_not_be_null` and `dbt_expectations.expect_column_values_to_be_unique` (or `dbt_expectations.expect_compound_columns_to_be_unique` for composite keys like `BIL_ACCOUNT_ID`, `BIL_ACY_DT`, `BIL_ACY_SEQ`).
+        *   For `BIL_ACY_DT`, `BIL_ACY_DES1_DT`, `BIL_ACY_DES2_DT`: `dbt_expectations.expect_column_values_to_be_of_type: column_type: date` (or `dbt_expectations.expect_column_values_to_match_regex` if string).
+        *   For `BIL_ACY_TS`: `dbt_expectations.expect_column_values_to_be_of_type: column_type: timestamp`.
+        *   For `BIL_ACY_AMT`: `dbt_expectations.expect_column_values_to_be_of_type: column_type: double` (or `numeric`), `dbt_expectations.expect_column_values_to_be_between` (for range).
+        *   For `POL_SYMBOL_CD`, `BIL_ACY_DES_CD`, `BIL_DES_REA_TYP`: `dbt_expectations.expect_column_values_to_be_in_set` (for known codes), `dbt_expectations.expect_column_value_lengths_to_equal` (if fixed-length), `dbt_expectations.expect_column_values_to_have_consistent_casing`.
+        *   For `USER_ID`, `BAS_ADD_DATA_TXT`: `dbt_expectations.expect_column_values_to_not_be_null` (if applicable), `dbt_expectations.expect_column_value_lengths_to_be_between`.
 
 #### Model: `raw__screngn__xcd_bil_cash_dsp`
 *   **Description:** Raw model for billing cash deposit.
@@ -63,13 +72,15 @@ Below is a breakdown of each model, its columns, existing tests, untested column
 *   **Description:** Raw model for billing description reason.
 *   **Columns:** `BIL_DES_REA_CD`, `BIL_DES_REA_TYP`, `PRI_LGG_CD`, `BIL_DES_REA_DES`, `BDR_LONG_DES`, `BIL_ACT_BAL_SUM_CD`
     *   All columns are currently untested.
-    *   **Recommendations:** Primarily `expect_column_values_to_be_in_set` for code columns, `not_null` where applicable.
+    *   **Recommendations:**
+        *   For code columns (`BIL_DES_REA_CD`, `BIL_DES_REA_TYP`, `PRI_LGG_CD`, `BIL_ACT_BAL_SUM_CD`): `dbt_expectations.expect_column_values_to_be_in_set`, `dbt_expectations.expect_column_values_to_not_be_null` (if applicable), `dbt_expectations.expect_column_value_lengths_to_equal` (if fixed-length), `dbt_expectations.expect_column_values_to_have_consistent_casing`.
+        *   For description columns (`BIL_DES_REA_DES`, `BDR_LONG_DES`): `dbt_expectations.expect_column_value_lengths_to_be_between`, `dbt_expectations.expect_column_values_to_not_be_null` (if applicable).
 
 #### Model: `raw__screngn__xcd_bil_ist_schedule`
 *   **Description:** Raw model for billing ist schedule.
-*   **Columns:** `BIL_ACCOUNT_ID`, `XCD_POLICY_ID`, `BIL_SEQ_NBR`, ..., `bil_account_id_hash`
+*   **Columns:** `BIL_ACCOUNT_ID`, `XCD_POLICY_ID`, `BIL_SEQ_NBR`, ..., `bil_account_id_hash`, `INVOICED` (example, assuming it exists)
     *   All columns are currently untested.
-    *   **Recommendations:** Similar to other raw tables; keys, dates, amounts, booleans (`INVOICED`).
+    *   **Recommendations:** Similar to other raw tables; keys (`not_null`, `unique`/`compound_unique`), dates (`type` or `regex`), amounts (`type`, `range`). For boolean-like columns such as `INVOICED` (if it represents Y/N or 0/1): `dbt_expectations.expect_column_values_to_be_in_set: value_set: ['Y', 'N']` (or `[0,1]`).
 
 #### Model: `raw__screngn__xcd_bil_pol_proc_req`
 *   **Description:** Raw model for billing policy processing requests.
@@ -136,7 +147,9 @@ Below is a breakdown of each model, its columns, existing tests, untested column
     *   `billing_activity_desc_cd`: `dbt_expectations.expect_column_to_exist`
         *   Recommendations: `dbt_expectations.expect_column_values_to_be_in_set` (if known codes)
     *   `policy_sym`: `dbt_expectations.expect_column_to_exist`
+        *   Recommendations: `dbt_expectations.expect_column_value_lengths_to_be_between` (if symbol has known length constraints, e.g., 2-4 chars), `dbt_expectations.expect_column_values_to_have_consistent_casing`.
     *   `policy_numb`: `dbt_expectations.expect_column_to_exist`
+        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`, `dbt_expectations.expect_column_values_to_be_between: min_value: 0, max_value: 9999999`
     *   `billing_activity_sequence_numb`: `dbt_expectations.expect_column_to_exist`
         *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`
     *   `billing_acct_id`: `dbt_expectations.expect_column_to_exist`
@@ -220,10 +233,12 @@ Below is a breakdown of each model, its columns, existing tests, untested column
 *   **General Note:** Models in this directory (`stg__screngn__xcd_bil_account`, `stg__screngn__xcd_bil_act_summary`, etc.) have model-level tests (`dbt_expectations.expect_table_row_count_to_equal_other_table`) comparing them to their raw counterparts. However, column-level tests are not specified in the provided schema snippets.
 *   **Recommendation:** For all staging models in this directory, add column-level tests. This includes:
     *   `dbt_expectations.expect_column_values_to_not_be_null` for critical identifiers and attributes.
-    *   Type checking (e.g., `expect_column_values_to_be_of_type`).
-    *   Format checking for dates if they are strings (e.g., `expect_column_values_to_match_strftime_format`).
+    *   Type checking (e.g., `dbt_expectations.expect_column_values_to_be_of_type: column_type: date` or `dbt_expectations.expect_column_values_to_be_of_type: column_type: timestamp` or `dbt_expectations.expect_column_values_to_be_of_type: column_type: numeric`).
+    *   Format checking for dates if they are strings (e.g., `dbt_expectations.expect_column_values_to_match_regex` with a pattern like `'^\\d{4}-\\d{2}-\\d{2}$'` for YYYY-MM-DD).
     *   `dbt_expectations.expect_column_values_to_be_in_set` for categorical/code columns.
-    *   Uniqueness for primary keys (`expect_column_values_to_be_unique`).
+    *   `dbt_expectations.expect_column_value_lengths_to_equal` or `dbt_expectations.expect_column_value_lengths_to_be_between` for string identifiers/codes.
+    *   `dbt_expectations.expect_column_values_to_have_consistent_casing` for relevant string columns.
+    *   Uniqueness for primary keys (`dbt_expectations.expect_column_values_to_be_unique`) or compound keys (`dbt_expectations.expect_compound_columns_to_be_unique`).
     *   Referential integrity (`relationships` test) if they link to other staging or lookup tables.
 
 ---
@@ -248,16 +263,16 @@ Below is a breakdown of each model, its columns, existing tests, untested column
 
 #### Model: `lkp__billing_policies`
 *   **Columns:**
-    *   `billing_sb_policy_key`: `dbt_expectations.expect_column_min_to_be_between: min_value: 0, max_value: 10`, `dbt_expectations.expect_column_to_exist`
-        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`, `relationships` test. The `min_to_be_between` seems very specific and might warrant a review if "10" is an arbitrary upper bound for a key.
+    *   `billing_sb_policy_key`: `dbt_expectations.expect_column_values_to_be_between: min_value: 0, max_value: 10` (Review this range), `dbt_expectations.expect_column_to_exist`
+        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`, `relationships` test. The `expect_column_values_to_be_between` with `max_value: 10` seems very specific and might warrant a review if "10" is an arbitrary upper bound for a key or if it's a count of something else. If it's a key, uniqueness and not_null are more typical.
     *   `associated_policy_key`: `dbt_expectations.expect_column_to_exist`, `relationships: field: associated_policy_key, to: ref('lkp__associated_policies')`
         *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`.
     *   `billing_acct_key`: `dbt_expectations.expect_column_to_exist`
         *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`.
     *   `billing_policy_key`: `dbt_expectations.expect_column_to_exist`
         *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`.
-    *   `associated_sb_policy_key`: `dbt_expectations.expect_column_min_to_be_between: min_value: 0, max_value: 10`
-        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`, `relationships` test.
+    *   `associated_sb_policy_key`: `dbt_expectations.expect_column_values_to_be_between: min_value: 0, max_value: 10` (Review this range)
+        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`, `relationships` test. Review range as above.
     *   `billing_policy_id`, `billing_acct_id`, `policy_sym`, `policy_numb`, `policy_eff_date`: Untested.
         *   Recommendations: `not_null` for IDs and dates. Type check for date.
 
@@ -277,13 +292,13 @@ Below is a breakdown of each model, its columns, existing tests, untested column
 *   **Columns:**
     *   `policy_chain_id`: `dbt_expectations.expect_column_to_exist`, `relationships: to: ref('stg__decfile__sb_policy_lookup'), field: policy_chain_id`, `relationships: to: ref('stg__modcom__policy_chain_v3'), field: policy_chain_id`
         *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`, `dbt_expectations.expect_column_values_to_be_unique` (as it's the key of this lookup).
-    *   `n_sb_policies_for_policy_chain_id`, `n_total_policies_for_policy_chain_id`: Both have `dbt_expectations.expect_column_min_to_be_between: min_value: 0, max_value: 10` and `dbt_expectations.expect_column_to_exist`.
-        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`. The range `0-10` seems very restrictive for counts; verify if this is correct or if a more general `min_value: 0` is sufficient.
+    *   `n_sb_policies_for_policy_chain_id`, `n_total_policies_for_policy_chain_id`: Both have `dbt_expectations.expect_column_values_to_be_between: min_value: 0, max_value: 10` (Review this range) and `dbt_expectations.expect_column_to_exist`.
+        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`. The range `0-10` seems very restrictive for counts; verify if this is correct or if a more general `dbt_expectations.expect_column_values_to_be_between: min_value: 0` is sufficient.
 
 #### Model: `lkp__sb_policy_key`
 *   **Columns:**
-    *   `sb_policy_key`: `dbt_expectations.expect_column_min_to_be_between: min_value: 0, max_value: 10`, `dbt_expectations.expect_column_to_exist`, `dbt_expectations.expect_column_values_to_be_unique`
-        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`. Review the `min_to_be_between` range.
+    *   `sb_policy_key`: `dbt_expectations.expect_column_values_to_be_between: min_value: 0, max_value: 10` (Review this range), `dbt_expectations.expect_column_to_exist`, `dbt_expectations.expect_column_values_to_be_unique`
+        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`. Review the `expect_column_values_to_be_between` range.
     *   `policy_chain_id`, `lob`, `company_numb`, `policy_sym`, `policy_numb`, `policy_module`, `policy_eff_date`: All have `dbt_expectations.expect_column_to_exist`. `lob` also has `expect_column_values_to_be_in_set`.
         *   Recommendations: Add `dbt_expectations.expect_column_values_to_not_be_null` for all. Type check for `policy_eff_date`.
 
@@ -304,13 +319,13 @@ Below is a breakdown of each model, its columns, existing tests, untested column
     *   `associated_sb_policy_key`: `dbt_expectations.expect_column_to_exist`, `relationships: field: associated_sb_policy_key, to: ref('lkp__associated_policies')`
         *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`.
     *   `billing_activity_date`: `dbt_expectations.expect_column_to_exist`
-        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`, type check.
+        *   Recommendations: `dbt_expectations.expect_column_values_to_not_be_null`, `dbt_expectations.expect_column_values_to_be_of_type: column_type: date`, `dbt_expectations.expect_row_values_to_have_recent_data` (if applicable for the fact table).
     *   `billing_activity_amt`: `dbt_expectations.expect_column_to_exist`
-        *   Recommendations: Type check.
+        *   Recommendations: `dbt_expectations.expect_column_values_to_be_of_type: column_type: numeric` (or `double`), `dbt_expectations.expect_column_mean_to_be_between` (if there are expected averages).
 
 #### Model: `fct__prior_activity_dates`
 *   **Columns:** `activity_trans_key`, `billing_activity_date`, `policy_eff_date`, `eval_date`, `prev_1yr_start` to `prev_5yr_start`, `prev_1yr_end` to `prev_5yr_end`: All have `dbt_expectations.expect_column_to_exist`.
-    *   Recommendations: Add `dbt_expectations.expect_column_values_to_not_be_null` for all key and date columns. Type checks for dates. `relationships` for `activity_trans_key`.
+    *   Recommendations: Add `dbt_expectations.expect_column_values_to_not_be_null` for all key and date columns. `dbt_expectations.expect_column_values_to_be_of_type: column_type: date` for all date columns. `relationships` for `activity_trans_key`. Consider `dbt_expectations.expect_column_pair_values_A_to_be_greater_than_B` (e.g. `prev_1yr_end` > `prev_1yr_start`).
 
 ---
 
@@ -321,9 +336,11 @@ Below is a breakdown of each model, its columns, existing tests, untested column
 *   **Columns (from commented section):** `sb_policy_key`, `policy_chain_id`, `policy_eff_date`, `prior_yr1_c_activity_count`, `prior_yr1_c_activity_amount_sum`, ..., `prior_yr5_c_activity_amount_sum`.
 *   **Recommendations:**
     *   Uncomment the existing tests if they are still relevant.
-    *   For `sb_policy_key`, `policy_chain_id`, `policy_eff_date`: Add `dbt_expectations.expect_column_values_to_not_be_null`. Add `relationships` tests. Consider `dbt_expectations.expect_compound_columns_to_be_unique: column_list: ["sb_policy_key", "policy_eff_date"]` (or similar, depending on grain).
+    *   For `sb_policy_key`, `policy_chain_id`: Add `dbt_expectations.expect_column_values_to_not_be_null`, `relationships` tests.
+    *   For `policy_eff_date`: Add `dbt_expectations.expect_column_values_to_not_be_null`, `dbt_expectations.expect_column_values_to_be_of_type: column_type: date`, `dbt_expectations.expect_row_values_to_have_recent_data` (if applicable to the mart's refresh cycle).
+    *   Consider `dbt_expectations.expect_compound_columns_to_be_unique: column_list: ["sb_policy_key", "policy_eff_date"]` (or similar, depending on grain).
     *   For count columns (`_count`): Add `dbt_expectations.expect_column_values_to_be_of_type: column_type: integer` (or appropriate numeric type), `dbt_expectations.expect_column_values_to_be_between: min_value: 0`.
-    *   For amount sum columns (`_amount_sum`): Add `dbt_expectations.expect_column_values_to_be_of_type: column_type: numeric` (or double/decimal).
+    *   For amount sum columns (`_amount_sum`): Add `dbt_expectations.expect_column_values_to_be_of_type: column_type: numeric` (or `double`/`decimal`), consider `dbt_expectations.expect_column_mean_to_be_between` or `dbt_expectations.expect_column_sum_to_be_between` if there are expected ranges for these aggregates.
 
 ---
 
