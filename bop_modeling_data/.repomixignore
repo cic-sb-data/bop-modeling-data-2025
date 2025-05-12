@@ -18,3 +18,9 @@ macros/
 seeds/
 snapshots/
 target/
+
+data-testing-plan.md
+dm__npc_counts__roadmap.md
+npc-counts.md 
+current-npc-logic.md
+current_npc_logic.sas
