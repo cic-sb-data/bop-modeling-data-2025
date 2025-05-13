@@ -4,7 +4,6 @@ with
 
 renamed_casted as (
     select 
-        {{ billing_account_key() }},
         BIL_ACCOUNT_ID as billing_acct_id,
         try_cast(BIL_ACCOUNT_NBR as ubigint) as billing_acct_numb,
         BIL_CLASS_CD as billing_class_cd,
@@ -24,7 +23,6 @@ renamed_casted as (
         BIL_COLLECTION_METHOD_DESC as billing_collection_method_desc,
         BIL_COLLECTION_PLN as billing_collection_plan,
         BIL_COLLECTION_PLN_DESC as billing_collection_plan_desc,
-        bil_account_id_hash, -- Keep hash generated in raw
 
         * replace (
             try_cast(bat_start_due_dt as date) as BAT_START_DUE_DT,
