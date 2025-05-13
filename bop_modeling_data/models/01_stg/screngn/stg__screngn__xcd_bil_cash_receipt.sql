@@ -3,7 +3,6 @@ with
 raw as (
     select 
         bil_account_id,
-        bil_account_id_hash,
         * exclude(
             bil_account_id,
             bil_account_id_hash
@@ -14,10 +13,6 @@ raw as (
         ) 
 
     from {{ ref('raw__screngn__xcd_bil_cash_receipt') }}
-),
-
-dedup as (
-    select 
 )
 
 select *

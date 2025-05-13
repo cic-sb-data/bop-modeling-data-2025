@@ -2,7 +2,6 @@ with
 
 raw as (
     select
-        {{ billing_activity_summary_key() }},
         * replace(
         {{ recode__sas_date_format('BIL_ACY_DT') }} as BIL_ACY_DT,
         {{ recode__sas_date_format('BIL_ACY_DES1_DT') }} as BIL_ACY_DES1_DT,

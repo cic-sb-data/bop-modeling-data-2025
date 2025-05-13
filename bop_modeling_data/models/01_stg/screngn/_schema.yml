@@ -147,14 +147,6 @@ models:
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: ref("raw__screngn__xcd_bil_cash_dsp")
-    columns:
-      - name: billing_cash_disposition_key
-        description: |
-          `md5` hash of the primary key for the `BIL-CASH-DSP` table. See the `billing_cash_disposition_key` macro.
-        data_tests:
-          - dbt_expectations.expect_column_to_exist
-          - dbt_expectations.expect_column_values_to_be_unique
-          - dbt_expectations.expect_column_values_to_not_be_null
 
   - name: stg__screngn__xcd_bil_cash_receipt
     description: "Staging model for billing cash receipts from the 'screngn' source. Derived from `raw__screngn__xcd_bil_cash_receipt`."

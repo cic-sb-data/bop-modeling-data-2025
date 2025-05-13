@@ -3,42 +3,22 @@
     ('BIL_ACCOUNT_ID', 'billing_acct_id'),
     ('BIL_ACY_DT', 'billing_activity_date'),
     ('BIL_ACY_SEQ', 'billing_activity_seq_numb')
-]-%}
+] -%}
 
-{%- set key_name = xcd_bil_table ~ '_key' -%}
-{%- set relation='raw__screngn__xcd_bil_' ~ xcd_bil_table -%}
-{%- set new_cols -%}
-{%- endset -%}
+with 
 
-with
+lkp as ({{ billing_table_lookup(xcd_bil_table, primary_keys) }}),
+add_acct_key as ({{ add_bil_account_key('lkp') }}),
 
-raw as (
-    select distinct 
-        {% for (old, new) in primary_keys %}
-            {{ old }} as {{ new }}{%- if not loop.last -%},{%- endif -%}
-        {% endfor %}
-    
-    from {{ ref(relation) }}
-    order by 
-        {% for (_, new) in primary_keys %}
-            {{ new }}{%- if not loop.last -%},{%- endif -%}
-        {% endfor %}
-),
-
-add_key as (
-    select 
-        row_number() over() as {{ key_name }},
-        {% for (_, new) in primary_keys %}
-            {{ new }}{%- if not loop.last -%},{%- endif -%}
-        {% endfor %}
-    from raw
-),
-
-sort_table as (
-    select *
-    from add_key
-    order by {{ key_name }}
+recoded as (
+    select
+        bil_act_summary_key,
+        bil_account_key,
+        {{ recode__sas_date_format('billing_activity_date') }} as billing_activity_date,
+        try_cast(billing_activity_seq_numb as uinteger) as billing_activity_seq_numb
+    from add_acct_key
 )
 
 select *
-from sort_table
+from recoded
+order by {{ _get_xcd_bil_key_name(xcd_bil_table) }}

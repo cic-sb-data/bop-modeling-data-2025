@@ -8,7 +8,7 @@ raw as (
 
 add_acct_key as (
     select 
-        row_number() over() as billing_acct_key,
+        row_number() over() as bil_account_key,
         billing_acct_id
     from raw
 ),
@@ -16,7 +16,7 @@ add_acct_key as (
 sort_table as (
     select *
     from add_acct_key
-    order by billing_acct_key
+    order by bil_account_key
 )
 
 select *
