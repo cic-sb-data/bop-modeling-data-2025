@@ -1,0 +1,8 @@
+
+target/
+ouput/
+logs/
+.venv/
+venv/
+requirements.txt
+.vscode/
