@@ -21,7 +21,7 @@ act_summary as (
         billing_activity_sequence_numb,
         billing_activity_amt
     
-    from {{ ref('stg__cur_cb__xcd_bil_act_summary') }}
+    from {{ ref('stg__screngn__xcd_bil_act_summary') }}
     where
         billing_activity_desc_cd='C' 
         and billing_activity_desc_reason_type is null

@@ -1,6 +1,6 @@
 with
 
-{{ with_ref('stg__cur_cb', 'raw') }},
+{{ with_ref('fct__cur_cb', 'raw') }},
 {{ with_ref('lkp__dates', 'dates') }},
 
 add_activity_transaction_key as (
@@ -18,6 +18,7 @@ add_activity_transaction_key as (
         associated_policy_key,
         associated_sb_policy_key,
         billing_activity_date,
+        billing_activity_sequence_numb,
         billing_activity_amt
 
     from raw

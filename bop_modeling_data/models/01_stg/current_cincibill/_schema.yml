@@ -53,8 +53,6 @@ models:
   - name: stg__cur_cb__xcd_bil_cash_dsp
     description: 'Staging model for current Cincibill billing cash disbursements. Derived from `raw__cur_cb__xcd_bil_cash_dsp`.'
     columns:
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns after basic cleaning, renaming, and type casting.'
       - name: billing_acct_key
         data_type: bigint
         data_tests:
@@ -115,9 +113,6 @@ models:
         data_type: bigint
         data_tests:
           - dbt_expectations.expect_column_to_exist
-      # Add other relevant column descriptions from the join.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe other relevant columns.'
       - name: billing_acct_key
         data_type: bigint
         data_tests:

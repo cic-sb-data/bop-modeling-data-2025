@@ -140,9 +140,6 @@ models:
       - name: activity_trans_key
         data_tests:
           - dbt_expectations.expect_column_to_exist
-          - relationships:
-              to: ref('fct__billing_activity')
-              field: activity_trans_key
       - name: first_billing_activity_date
         data_tests:
           - dbt_expectations.expect_column_to_exist

@@ -16,7 +16,6 @@ raw as (
         bil_acy_des_cd as billing_activity_desc_cd,
         bil_des_rea_typ as billing_activity_desc_reason_type
 
-    from {{ ref('stg__screngn__xcd_bil_act_summary') }}
     order by bil_account_id_hash 
 )
 

@@ -1,1 +1,0 @@
-{{dbt_eda_tools.describe('raw__screngn__xcd_bil_account')}}
