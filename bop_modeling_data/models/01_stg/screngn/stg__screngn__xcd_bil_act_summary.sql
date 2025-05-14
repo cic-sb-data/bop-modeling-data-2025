@@ -12,8 +12,8 @@ raw as (
     where {{ npc_event() }}
 ),
 
-act_desc_key as (select * from {{ ref('_lkp__xcd_activity_desc_key') }}),
-act_reason_key as (select * from {{ ref('_lkp__xcd_activity_reason_key') }}),
+act_desc_key as (select * from {{ ref('_lkp__xcd_act_desc_key') }}),
+act_reason_key as (select * from {{ ref('_lkp__xcd_act_reason_key') }}),
 act_summary_key as (select * from {{ ref('lkp__xcd_bil_act_summary_key') }}),
 
 recode_and_renamed as (

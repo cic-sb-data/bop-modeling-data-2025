@@ -14,7 +14,7 @@
 
         from {{ tbl }} as to_tbl
         left join raw
-            on to_tbl.billing_policy_id = raw.billing_policy_id
+            on to_tbl.bil_policy_id = raw.bil_policy_id
     ),
 
     reordered as (
