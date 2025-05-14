@@ -1,4 +1,5 @@
 target/
+dbt_packages/
 logs/
 dbt-env/
 integration_tests/seeds/*.yml

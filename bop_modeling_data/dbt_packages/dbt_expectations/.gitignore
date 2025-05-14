@@ -1,5 +1,6 @@
 
 target/
+dbt_packages/
 logs/
 .python-version
 integration_tests/.spark-warehouse

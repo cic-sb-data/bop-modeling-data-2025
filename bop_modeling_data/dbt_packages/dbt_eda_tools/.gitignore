@@ -1,6 +1,7 @@
 
 target/
 ouput/
+dbt_packages/
 logs/
 .venv/
 venv/
