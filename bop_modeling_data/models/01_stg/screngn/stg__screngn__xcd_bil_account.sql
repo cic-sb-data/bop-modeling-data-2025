@@ -36,7 +36,9 @@ renamed_casted as (
         )
 
     from raw
-)
+),
 
-select *
-from renamed_casted
+add_acct_key as ({{ add_bil_acct_key('renamed_casted') }})
+
+select * exclude (billing_acct_id)
+from add_acct_key

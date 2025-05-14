@@ -125,12 +125,11 @@ models:
   - name: stg__screngn__xcd_bil_act_summary
     description: "Staging model for billing account summary from the 'screngn' source. Derived from `raw__screngn__xcd_bil_act_summary`. Note that this model has fewer rows than its `raw` counterpart since we are filtering to NPC events at this step."
     columns:
-      - name: billing_activity_summary_key
+      - name: billing_activity_date
         description: |
-          `md5` hash of the primary key for the `BIL-ACT-SUMMARY` table. See the `billing_activity_summary_key` macro.
+          The date the activity occurred on the Billing Account, Third Party, or Agent Account. 
         data_tests:
           - dbt_expectations.expect_column_to_exist
-          - dbt_expectations.expect_column_values_to_be_unique
           - dbt_expectations.expect_column_values_to_not_be_null
 
   - name: stg__screngn__xcd_bil_cash_dsp
