@@ -14,7 +14,7 @@ static_index.html
 analyses/
 dbt_packages/
 logs/
-macros/
+# macros/
 seeds/
 snapshots/
 target/
@@ -24,3 +24,5 @@ dm__npc_counts__roadmap.md
 npc-counts.md 
 current-npc-logic.md
 current_npc_logic.sas
+
+_schema.yml

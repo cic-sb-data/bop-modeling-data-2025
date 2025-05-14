@@ -9,7 +9,7 @@
 
 with 
 
-lkp as ({{ billing_table_lookup(xcd_bil_table, primary_keys) }}),
+lkp as ({{ bil_table_lookup(xcd_bil_table, primary_keys) }}),
 add_acct_key as ({{ add_bil_account_key('lkp') }}),
 add_policy_key as ({{ add_bil_policy_key('add_acct_key') }}),
 
