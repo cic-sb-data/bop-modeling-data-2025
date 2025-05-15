@@ -28,7 +28,7 @@ recoded as (
         bil_account_key,
         {{ recode__sas_date_format('policy_eff_date') }} as policy_eff_date
 
-    from add_policy_key
+    from add_acct_key
 ),
 
 join_policy_key as (
