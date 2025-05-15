@@ -7,7 +7,7 @@ sb_pols as (
         sb_policy_key,
         lob
 
-    from {{ ref('lkp__sb_policy_key') }}
+    from {{ ref('sb_policy_key') }}
 )
 
 select * 
