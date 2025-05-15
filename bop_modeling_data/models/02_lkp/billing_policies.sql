@@ -10,7 +10,7 @@ raw_billing_pols as (
         try_cast(POL_NBR as uint32) as policy_numb,
         POL_EFFECTIVE_DT as policy_eff_date
 
-    from {{ ref('stg__screngn__xcd_bil_cash_dsp') }}
+    from {{ ref('screngn__xcd_bil_cash_dsp') }}
     order by
         billing_acct_key,
         billing_policy_key,
@@ -24,7 +24,7 @@ associated_policies as (
         policy_chain_id,
         {{ five_key() }}
 
-    from {{ ref('lkp__associated_policies') }}
+    from {{ ref('associated_policies') }}
 ),
 
 filter_raw_billing_policies as (

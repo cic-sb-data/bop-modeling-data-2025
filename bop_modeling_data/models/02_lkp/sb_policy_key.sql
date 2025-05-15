@@ -2,7 +2,7 @@ with
 
 raw as (
     select *
-    from {{ ref('stg__decfile__sb_policy_lookup') }}
+    from {{ ref('decfile__sb_policy_lookup') }}
 )
 
 select *

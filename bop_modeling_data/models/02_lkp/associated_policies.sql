@@ -13,7 +13,7 @@ sb_pol as (
         try_cast(sb_policy_key as uint32) as associated_sb_policy_key,
         try_cast(policy_chain_id as uinteger) as policy_chain_id
 
-    from {{ ref('stg__decfile__sb_policy_lookup') }}
+    from {{ ref('decfile__sb_policy_lookup') }}
     where   
         policy_chain_id is not null
         and sb_policy_key is not null
@@ -31,7 +31,7 @@ pchain as (
         try_cast(policy_module as uinteger) as policy_module,
         try_cast(policy_eff_date as date) as policy_eff_date
 
-    from {{ ref('stg__modcom__policy_chain_v3') }}
+    from {{ ref('modcom__policy_chain_v3') }}
 ),
 
 -- Join decfile policies (sb_policy_key) with policy chain data on policy_chain_id.
