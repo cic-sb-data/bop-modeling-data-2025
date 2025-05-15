@@ -46,5 +46,5 @@ join_policy_key as (
 )
 
 select *
-from recoded
+from join_policy_key
 order by {{ _get_xcd_bil_key_name(xcd_bil_table) }}
