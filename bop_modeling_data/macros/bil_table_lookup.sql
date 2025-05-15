@@ -43,7 +43,7 @@
 {%- macro _get_new_cols(primary_keys) -%}
     {% for old, new in primary_keys %}
         {{ new }}{%- if not loop.last -%},{%- endif -%}
-{{ log('xcd-bil-log-8') }}
+    {%- endfor %}
 {%- endmacro -%}
 
 {%- macro _get_xcd_bil_relation(xcd_bil_table) -%}
