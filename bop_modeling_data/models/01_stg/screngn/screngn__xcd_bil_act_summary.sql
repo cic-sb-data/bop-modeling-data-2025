@@ -37,7 +37,7 @@ recode_and_renamed as (
     from raw
 ),
 
-add_acct_key as ({{ add_bil_account_key('recode_and_renamed') }}),
+add_acct_key as ({{ add_acct_key('recode_and_renamed') }}),
 
 joined as (
     select 

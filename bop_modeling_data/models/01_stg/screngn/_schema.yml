@@ -177,9 +177,9 @@ models:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: ref("raw__screngn__xcd_bil_policy")
     columns:
-      - name: billing_policy_key
+      - name: bil_policy_key
         description: |
-          `md5` hash of the primary key for the `BIL-POLICY` table. See the `billing_policy_key` macro.
+          `md5` hash of the primary key for the `BIL-POLICY` table. See the `bil_policy_key` macro.
         data_tests:
           - dbt_expectations.expect_column_to_exist
           - dbt_expectations.expect_column_values_to_be_unique
