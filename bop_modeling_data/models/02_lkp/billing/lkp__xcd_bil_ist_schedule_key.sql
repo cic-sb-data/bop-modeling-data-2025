@@ -1,6 +1,6 @@
 {%- set xcd_bil_table='ist_schedule' -%}
 {%- set primary_keys = [
-    ('BIL_ACCOUNT_ID', 'billing_acct_id'),
+    ('BIL_ACCOUNT_ID', 'bil_acct_id'),
     ('XCD_POLICY_ID', 'billing_policy_id'),
     ('BIL_SEQ_NBR', 'billing_seq_numb')
 ]-%}

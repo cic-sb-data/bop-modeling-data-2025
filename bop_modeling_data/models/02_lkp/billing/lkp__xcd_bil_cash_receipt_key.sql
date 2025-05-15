@@ -1,6 +1,6 @@
 {%- set xcd_bil_table='cash_receipt' -%}
 {%- set primary_keys = [
-    ('BIL_ACCOUNT_ID', 'billing_acct_id'),
+    ('BIL_ACCOUNT_ID', 'bil_acct_id'),
     ('BIL_DTB_DT', 'billing_distribution_date'),
     ('BIL_DTB_SEQ_NBR', 'billing_distribution_seq_numb')
 ]-%}
