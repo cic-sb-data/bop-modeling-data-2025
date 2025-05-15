@@ -7,7 +7,7 @@
 with 
 
 lkp as ({{ bil_table_lookup(xcd_bil_table, primary_keys) }}),
-add_acct_key as ({{ add_bil_account_key('lkp') }}),
+add_acct_key as ({{ add_bil_acct_key('lkp') }}),
 
 recoded as (
     select
