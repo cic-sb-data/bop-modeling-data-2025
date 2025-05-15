@@ -1,0 +1,32 @@
+models:
+  - name: lkp__xcd_bil_policy_trm_key
+    columns:
+      - name: bil_policy_trm_key
+        description: |
+          The unique identifier for a row in `SCRENGN.bil_policy_trm`. Identifies billing policies at the:  
+          - Account 
+          - Policy
+          - Policy Effective Date
+          level. 
+        data_tests: 
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_values_to_be_increasing
+          - dbt_expectations.expect_column_to_exist
+      - name: bil_account_key
+        description: |
+          The unique identifier for a row in `SCRENGN.bil_account`. Identifies billing accounts at the:  
+          - Account 
+          level. 
+        data_tests: 
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_to_exist
+      - name: bil_policy_key
+        description: |
+          The unique identifier for a row in `SCRENGN.bil_policy`. Identifies billing policies at the:  
+          - Account 
+          - Policy
+          level. 
+        data_tests: 
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_to_exist
