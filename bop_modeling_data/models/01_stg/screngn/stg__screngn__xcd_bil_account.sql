@@ -1,3 +1,5 @@
+-- depends_on: {{ ref('lkp__xcd_bil_acct_key') }}
+
 with
 
 {{ with_ref('raw__screngn__xcd_bil_account', 'raw') }},
