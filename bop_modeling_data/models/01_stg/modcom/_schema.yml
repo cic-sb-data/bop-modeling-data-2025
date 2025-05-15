@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: stg__modcom__policy_chain_v3
+  - name: modcom__policy_chain_v3
     description: 'Staging model for policy chain v3 data from Modcom. It adds keys to the raw data from `raw__modcom__policy_chain_v3`.'
     columns:
       - name: policy_chain_id

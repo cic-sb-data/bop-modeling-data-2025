@@ -1,18 +1,18 @@
 models:
-  - name: lkp__associated_policies
+  - name: associated_policies
     description: |
       Critical lookup model that establishes relationships between policies within policy chains. 
       Its primary purpose is to enable the identification of all historically associated policies for any given policy processed in the decfile.
 
       Key functionalities:
       1. Creates associations between policies using their common `policy_chain_id`.
-      2. Links each policy (identified by its five-field compound key: `company_numb`, `policy_sym`, `policy_numb`, `policy_module`, `policy_eff_date`) within a chain to the corresponding `sb_policy_key` from the decfile source (`stg__decfile__sb_policy_lookup`).
-      3. Sources policy chain information from `stg__modcom__policy_chain_v3`.
+      2. Links each policy (identified by its five-field compound key: `company_numb`, `policy_sym`, `policy_numb`, `policy_module`, `policy_eff_date`) within a chain to the corresponding `sb_policy_key` from the decfile source (`decfile__sb_policy_lookup`).
+      3. Sources policy chain information from `modcom__policy_chain_v3`.
       4. Generates `associated_policy_key` (a hash key for the five-key) and `associated_sb_policy_key` (the `sb_policy_key` linked to the chain members).
-      5. Serves as a foundational lookup table for downstream analytical processes, including `lkp__billing_policies`, `fct__associated_policy_eff_date`, and `dm__npc_counts`.
+      5. Serves as a foundational lookup table for downstream analytical processes, including `billing_policies`, `fct__associated_policy_eff_date`, and `dm__npc_counts`.
 
       The model aims to provide a comprehensive view of all policies associated with a given `sb_policy_key` through its policy chain.
-      Refer to `/Users/andy/bop-modeling-data-2025/lkp__associated_policies.md` for detailed design, optimization plans, and historical context.
+      Refer to `/Users/andy/bop-modeling-data-2025/associated_policies.md` for detailed design, optimization plans, and historical context.
     columns:
       - name: associated_policy_key
         description: 'Surrogate key (hash of the five-key components) for each policy instance within a policy chain.'
@@ -71,7 +71,7 @@ models:
       - dbt_expectations.expect_compound_columns_to_be_unique:
           column_list: [ "associated_policy_key", "associated_sb_policy_key" ]
 
-  - name: lkp__billing_policies
+  - name: billing_policies
     description: 'Associates billing data with policies, linking sb_policy_key to billing system keys.'
     columns:
       - name: billing_sb_policy_key
@@ -87,7 +87,7 @@ models:
           - dbt_expectations.expect_column_to_exist
           - relationships:
               field: associated_policy_key
-              to: ref('lkp__associated_policies')
+              to: ref('associated_policies')
         data_type: hugeint
       - name: billing_acct_key
         data_tests:
@@ -114,7 +114,7 @@ models:
       - name: policy_eff_date
         data_type: date
 
-  - name: lkp__dates
+  - name: dates
     description: 'Generates a date dimension table, potentially including prior year flags or calculations.'
     columns:
       - name: input_date
@@ -134,7 +134,7 @@ models:
       - dbt_utils.expression_is_true:
           expression: 'prior_year_end >= prior_year_start'
 
-  - name: lkp__first_billing_activity_date
+  - name: first_billing_activity_date
     description: 'Determines the first billing activity date for relevant entities.'
     columns:
       - name: activity_trans_key
@@ -144,7 +144,7 @@ models:
         data_tests:
           - dbt_expectations.expect_column_to_exist
 
-  - name: lkp__policy_chain_ids
+  - name: policy_chain_ids
     description: 'Processes and provides distinct policy chain identifiers and associated counts.'
     columns:
       - name: policy_chain_id
@@ -152,10 +152,10 @@ models:
         data_tests:
           - dbt_expectations.expect_column_to_exist
           - relationships:
-              to: ref('stg__decfile__sb_policy_lookup')
+              to: ref('decfile__sb_policy_lookup')
               field: policy_chain_id
           - relationships:
-              to: ref('stg__modcom__policy_chain_v3')
+              to: ref('modcom__policy_chain_v3')
               field: policy_chain_id
       - name: n_sb_policies_for_policy_chain_id
         data_tests:
@@ -170,8 +170,8 @@ models:
               max_value: 10
           - dbt_expectations.expect_column_to_exist
 
-  - name: lkp__sb_policy_key
-    description: 'Provides a lookup for small business policy keys, primarily sourced from stg__decfile__sb_policy_lookup.'
+  - name: sb_policy_key
+    description: 'Provides a lookup for small business policy keys, primarily sourced from decfile__sb_policy_lookup.'
     columns:
       - name: sb_policy_key
         data_tests:

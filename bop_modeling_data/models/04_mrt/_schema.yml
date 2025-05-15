@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: dm__npc_counts
+  - name: npc_counts
     description: >-
       Based off the following legacy SAS code for BOP Generation 1.5 tier models (note that we are using `policy_eff_date` in place of `imageeffectivedate`):
 

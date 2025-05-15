@@ -1,5 +1,5 @@
 models:
-  - name: lkp__xcd_bil_policy_trm_key
+  - name: xcd_bil_policy_trm_key
     columns:
       - name: bil_policy_trm_key
         description: |

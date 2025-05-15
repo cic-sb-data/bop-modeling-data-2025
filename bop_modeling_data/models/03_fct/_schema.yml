@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: fct__associated_policy_eff_date
+  - name: associated_policy_eff_date
     description: 'Fact model for associated policy effective dates. It references `lkp__associated_policies` and `lkp__dates`.'
     columns:
       - name: associated_policy_key
@@ -25,14 +25,14 @@ models:
           - dbt_expectations.expect_column_to_exist
         data_type: date
 
-  - name: fct__billing_activity
+  - name: billing_activity
     description: 'Fact model for billing activity. It adds an activity_transaction_key and references `stg__cur_cb` and `lkp__dates`.'
 
-  - name: fct__prior_activity_dates
+  - name: prior_activity_dates
     description: |
-      ## `fct__prior_activity_dates`
+      ## `prior_activity_dates`
       
-      Fact model for prior activity dates, filtering out activity not knowable at policy effective date. It uses the `make_n_prior_year_cols` macro and references `fct__associated_policy_eff_date` and `fct__billing_activity`.'
+      Fact model for prior activity dates, filtering out activity not knowable at policy effective date. It uses the `make_n_prior_year_cols` macro and references `associated_policy_eff_date` and `billing_activity`.'
     columns:
       - name: activity_trans_key
         data_type: hugeint
