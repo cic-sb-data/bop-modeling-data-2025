@@ -17,7 +17,7 @@ policy_key as (
         bil_policy_id,
         policy_eff_date
 
-    from {{ ref('lkp__xcd_bil_policy_key') }}
+    from {{ ref('xcd_bil_policy_key') }}
     where bil_policy_key is not null
 ),
 
