@@ -12,7 +12,7 @@ add_acct_key as ({{ add_bil_acct_key('lkp') }}),
 
 policy_key as (
     select
-        bil_account_key,
+        bil_acct_key,
         bil_policy_key,
         bil_policy_id,
         policy_eff_date
@@ -25,7 +25,7 @@ recoded as (
     select
         bil_policy_trm_key,
         bil_policy_id,
-        bil_account_key,
+        bil_acct_key,
         {{ recode__sas_date_format('policy_eff_date') }} as policy_eff_date
 
     from add_acct_key
@@ -34,7 +34,7 @@ recoded as (
 join_policy_key as (
     select
         a.bil_policy_trm_key,
-        b.bil_account_key,
+        b.bil_acct_key,
         b.bil_policy_key,
         a.policy_eff_date
 
@@ -42,7 +42,7 @@ join_policy_key as (
     left join policy_key b
         on a.bil_policy_id = b.bil_policy_id
         and a.policy_eff_date = b.policy_eff_date
-        and a.bil_account_key = b.bil_account_key
+        and a.bil_acct_key = b.bil_acct_key
 )
 
 select *
