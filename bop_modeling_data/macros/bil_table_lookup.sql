@@ -56,3 +56,16 @@
     {{ key_name }}
 {%- endmacro -%}
 
+{%- macro _get_from_clause_with_join(tbl1, tbl2, join_on, how='left') -%}
+    {%- set join_type = how -%}
+    {%- set join_on = _get_join_on(join_on) -%}
+    {%- set from_clause = 'from ' ~ tbl1 ~ ' ' ~ join_type ~ ' join ' ~ tbl2 -%}
+    {{ from_clause }}
+{%- endmacro -%}
+
+{%- macro _get_join_on(tbl1, tbl2, join_on) -%}
+    {% for old, new in join_on %}
+        {{ tbl1 }}.{{ new }} = {{ tbl2 }}.{{ new }}{%- if not loop.last -%} and {%- endif -%}
+    {%- endfor %}
+{%- endmacro -%}
+

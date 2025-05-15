@@ -5,7 +5,6 @@ with
 raw as (
     select 
         bil_account_id,
-        bil_account_id_hash,
         * exclude(
             bil_account_id,
             bil_account_id_hash
@@ -17,7 +16,9 @@ raw as (
         ) 
 
     from {{ ref('raw__screngn__xcd_bil_policy_trm') }}
-)
+),
+
+add_acct_key as ({{ add_acct_key('raw') }}),
 
 select *
 from raw
