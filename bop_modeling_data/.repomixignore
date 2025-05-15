@@ -15,6 +15,9 @@ analyses/
 dbt_packages/
 logs/
 # macros/
+macros/packages/
+macros/expected_values/
+macros/expected_regex/
 seeds/
 snapshots/
 target/

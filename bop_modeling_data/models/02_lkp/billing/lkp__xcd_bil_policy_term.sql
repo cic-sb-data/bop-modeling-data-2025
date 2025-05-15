@@ -3,7 +3,7 @@
     ('BIL_ACCOUNT_ID', 'billing_acct_id'),
     ('XCD_POLICY_ID', 'billing_policy_id'),
     ('POL_SYMBOL_CD', 'policy_sym'),
-    ('POL_NBR', 'policy_numb')
+    ('POL_NBR', 'policy_numb'),
     ('POL_EFFECTIVE_DT', 'policy_eff_date')
 ]-%}
 
