@@ -43,8 +43,36 @@ join_policy_key as (
         on a.bil_policy_id = b.bil_policy_id
         and a.policy_eff_date = b.policy_eff_date
         and a.bil_acct_key = b.bil_acct_key
+),
+
+add_row_count_before as (
+    select count(*) as row_count_before 
+    from join_policy_key
+),
+
+add_row_count_after as (
+    select count(*) as row_count_after 
+    from join_policy_key
+    where bil_policy_key is not null
+),
+
+add_in_both_row_counts as (
+    select
+        joined.*,
+        before.row_count_before,
+        after.row_count_after
+    from join_policy_key joined
+    left join add_row_count_before before
+        on 1=1
+    left join add_row_count_after after
+        on 1=1
+    
+    where   
+        joined.bil_policy_key is not null
+        and joined.policy_eff_date is not null
+        and joined.bil_acct_key is not null
 )
 
 select *
-from join_policy_key
+from add_in_both_row_counts
 order by {{ _get_xcd_bil_key_name(xcd_bil_table) }}

@@ -25,7 +25,7 @@ recoded as (
         bil_acct_key,
         try_cast(bil_seq_numb as uinteger) as bil_seq_numb 
 
-    from add_policy_key
+    from add_acct_key
 ),
 
 joined as (
