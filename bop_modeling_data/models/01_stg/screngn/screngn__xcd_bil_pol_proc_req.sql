@@ -1,4 +1,4 @@
--- depends_on: {{ ref('lkp__xcd_bil_acct_key') }}
+-- depends_on: {{ ref('xcd_bil_acct_key') }}
 
 with
 
