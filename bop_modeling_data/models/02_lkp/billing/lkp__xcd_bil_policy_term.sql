@@ -1,8 +1,7 @@
 {%- set xcd_bil_table='policy_trm' -%}
 {%- set primary_keys = [
     ('BIL_ACCOUNT_ID', 'bil_acct_id'),
-    ('XCD_POLICY_ID', 'billing_policy_id'),
-    ('POL_SYMBOL_CD', 'policy_sym'),
+    ('XCD_POLICY_ID', 'bil_policy_id'),
     ('POL_NBR', 'policy_numb'),
     ('POL_EFFECTIVE_DT', 'policy_eff_date')
 ]-%}

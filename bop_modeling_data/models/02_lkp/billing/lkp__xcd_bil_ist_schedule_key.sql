@@ -1,8 +1,8 @@
 {%- set xcd_bil_table='ist_schedule' -%}
 {%- set primary_keys = [
     ('BIL_ACCOUNT_ID', 'bil_acct_id'),
-    ('XCD_POLICY_ID', 'billing_policy_id'),
-    ('BIL_SEQ_NBR', 'billing_seq_numb')
+    ('XCD_POLICY_ID', 'bil_policy_id'),
+    ('BIL_SEQ_NBR', 'bil_seq_numb')
 ]-%}
 
 with 
@@ -16,7 +16,7 @@ recoded as (
         bil_ist_schedule_key,
         bil_policy_key,
         bil_account_key,
-        try_cast(billing_seq_numb as uinteger) as billing_seq_numb 
+        try_cast(bil_seq_numb as uinteger) as bil_seq_numb 
 
     from add_policy_key
 )
