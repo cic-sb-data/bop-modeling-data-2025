@@ -22,8 +22,8 @@ raw as (
     from {{ ref('raw__screngn__xcd_bil_cash_dsp') }}
 ),
 
-add_acct_key as ({{ add_account_key('raw') }}),
-add_policy_key as ({{ add_policy_key('raw') }})
+add_acct_key as ({{ add_bil_acct_key('raw') }}),
+add_policy_key as ({{ add_bil_policy_key('raw') }})
 
 select *
 from add_policy_key
