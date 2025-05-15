@@ -11,6 +11,7 @@ renamed_casted as (
         BIL_CLASS_CD as billing_class_cd,
         BAT_PAY_CLT_ID as billing_acct_paying_client_id,
         BIL_SUS_FU_REA_CD as billing_suspense_followup_reason_cd,
+        try_cast(BIL_ACCOUNT_NBR as ubigint) as billing_acct_numb,
         try_cast(BAT_PREV_BAL_AMT as double) as billing_acct_previous_balance_amt,
         BAT_CASH_STATUS_CD as billing_acct_cash_status_cd,
         BIL_SUS_DSB_REA_CD as billing_suspense_disbursement_reason_cd,
@@ -35,6 +36,27 @@ renamed_casted as (
             try_cast(BIL_LOK_TS as datetime) as BIL_LOK_TS,
             try_cast(BIL_START_DED_DT as date) as BIL_START_DED_DT,
             try_cast(BIL_START_DED_RFR_DT as date) as BIL_START_DED_RFR_DT
+        ) exclude (
+            bil_account_id_hash,
+            BIL_ACCOUNT_ID,
+            BIL_CLASS_CD,
+            BAT_PAY_CLT_ID,
+            BIL_SUS_FU_REA_CD,
+            BAT_CASH_STATUS_CD,
+            BIL_SUS_DSB_REA_CD,
+            APP_MIGRATION_CD,
+            BIL_TYPE_CD,
+            BIL_TYPE_DESC,
+            BAT_STATUS_CD,
+            BAT_STATUS_DESC,
+            BIL_PRESENTMENT_CD,
+            BIL_PRESENTMENT_DESC,
+            BIL_COLLECTION_MTH,
+            BIL_COLLECTION_METHOD_DESC,
+            BIL_COLLECTION_PLN,
+            BIL_COLLECTION_PLN_DESC,
+            BIL_ACCOUNT_NBR,
+            BAT_PREV_BAL_AMT
         )
 
     from raw

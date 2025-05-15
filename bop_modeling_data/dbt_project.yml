@@ -19,38 +19,32 @@ models:
     +docs:
       show: true
     00_raw:
+      +schema: raw
       +materialized: table
       +tags:
         - raw
     01_stg:
+      +schema: stg
       +materialized: view
       +tags:
         - stg
     02_lkp:
+      +schema: lkp
       +materialized: table
       +tags:
         - lkp
     03_fct:
+      +schema: fct
       +materialized: view
       +tags:
         - fct
-    04_dim:
-      +materialized: view
-      +tags:
-        - dim
-    05_mrt:
+    04_mrt:
+      +schema: mrt
       +materialized: table
       +tags:
         - dm
         - mrt
         - datamart
-    07_tmp:
-      +materialized: table
-      +schema: zz__tmp
-      +docs:
-        show: false
-      +tags:
-        - tmp
 
 tests:
   +store_failures: true 
