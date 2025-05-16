@@ -20,7 +20,7 @@ act_summary_key as (select * from {{ ref('xcd_bil_act_summary_key') }}),
 
 recode_and_renamed as (
     select
-        BIL_ACCOUNT_ID as billing_account_id,
+        bil_acct_id as bil_acct_id,
         try_cast(bil_acy_dt as date) as bil_act_date,
         try_cast(BIL_ACY_SEQ as uinteger) as bil_act_seq_numb,
         POL_SYMBOL_CD as policy_sym,
@@ -31,8 +31,8 @@ recode_and_renamed as (
         try_cast(BIL_ACY_DES2_DT as date) as bil_act_desc2_date,
         try_cast(BIL_ACY_AMT as double) as bil_act_amt,
         USER_ID as user_id,
-        BIL_ACY_TS as bil_act_at,
-        BAS_ADD_DATA_TXT as billing_acct_summary_additional_data
+        split(BIL_ACY_TS, ':')[1] as bil_act_time,
+        BAS_ADD_DATA_TXT as billing_act_summary_addl_data
 
     from raw
 ),
@@ -42,14 +42,14 @@ add_acct_key as ({{ add_bil_acct_key('recode_and_renamed') }}),
 joined as (
     select 
         act_summary_key.bil_act_summary_key,
-        acct_key.bil_account_key,
+        acct_key.bil_acct_key,
         act_desc_key.bil_act_desc_key,
         act_reason_key.bil_act_reason_key,
         acct_key.* exclude (bil_account_key)
         
     from add_acct_key as acct_key
     left join act_summary_key
-        on acct_key.billing_account_id = acct_key.billing_account_id
+        on acct_key.bil_acct_id = acct_key.bil_acct_id
     left join act_desc_key
         on acct_key.bil_act_desc_code = act_desc_key.bil_act_desc_code 
     left join act_reason_key 
