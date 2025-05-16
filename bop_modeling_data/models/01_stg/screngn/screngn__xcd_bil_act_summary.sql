@@ -5,7 +5,6 @@ with
 raw as (
     select
         * replace(
-        {{ recode__sas_date_format('BIL_ACY_DT') }} as BIL_ACY_DT,
         {{ recode__sas_date_format('BIL_ACY_DES1_DT') }} as BIL_ACY_DES1_DT,
         {{ recode__sas_date_format('BIL_ACY_DES2_DT') }} as BIL_ACY_DES2_DT
     )
@@ -21,8 +20,8 @@ act_summary_key as (select * from {{ ref('xcd_bil_act_summary_key') }}),
 recode_and_renamed as (
     select
         bil_acct_id as bil_acct_id,
-        try_cast(bil_acy_dt as date) as bil_act_date,
-        try_cast(BIL_ACY_SEQ as uinteger) as bil_act_seq_numb,
+        try_cast(bil_act_date as date) as bil_act_date,
+        try_cast(bil_act_seq_numb as uinteger) as bil_act_seq_numb,
         POL_SYMBOL_CD as policy_sym,
         try_cast(POL_NBR as uinteger) as policy_numb,
         BIL_ACY_DES_CD as bil_act_desc_code,

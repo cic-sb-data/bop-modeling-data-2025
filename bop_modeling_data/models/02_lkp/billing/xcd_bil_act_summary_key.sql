@@ -1,8 +1,8 @@
 {%- set xcd_bil_table='act_summary' -%}
 {%- set primary_keys = [
     ('BIL_ACCOUNT_ID', 'bil_acct_id'),
-    ('BIL_ACY_DT', 'bil_activity_date'),
-    ('BIL_ACY_SEQ', 'bil_activity_seq_numb')
+    ('BIL_ACY_DT', 'bil_act_date'),
+    ('BIL_ACY_SEQ', 'bil_act_seq_numb')
 ] -%}
 
 with 
@@ -14,8 +14,8 @@ recoded as (
     select
         bil_act_summary_key,
         bil_acct_key,
-        {{ recode__sas_date_format('bil_activity_date') }} as bil_activity_date,
-        try_cast(bil_activity_seq_numb as uinteger) as bil_activity_seq_numb
+        {{ recode__sas_date_format('bil_act_date') }} as bil_act_date,
+        try_cast(bil_act_seq_numb as uinteger) as bil_act_seq_numb
     from add_acct_key
 )
 
