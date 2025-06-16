@@ -1,0 +1,65 @@
+[0m15:18:54  Running with dbt=1.8.8
+[0m15:18:54  [[33mWARNING[0m]: Deprecated functionality
+The `tests` config has been renamed to `data_tests`. Please see
+https://docs.getdbt.com/docs/build/data-tests#new-data_tests-syntax for more
+information.
+[0m15:18:54  Registered adapter: duckdb=1.8.4
+[0m15:18:56  Encountered an error:
+'tuple' object is not callable
+[0m15:18:56  Traceback (most recent call last):
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/cli/requires.py", line 138, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/cli/requires.py", line 101, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/cli/requires.py", line 218, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/cli/requires.py", line 247, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/cli/requires.py", line 294, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/cli/requires.py", line 320, in wrapper
+    ctx.obj["manifest"] = parse_manifest(
+                          ^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/parser/manifest.py", line 1898, in parse_manifest
+    manifest = ManifestLoader.get_full_manifest(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/parser/manifest.py", line 330, in get_full_manifest
+    manifest = loader.load()
+               ^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/parser/manifest.py", line 435, in load
+    self.parse_project(
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/parser/manifest.py", line 733, in parse_project
+    parser.parse_file(block)
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/parser/base.py", line 484, in parse_file
+    self.parse_node(file_block)
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/parser/base.py", line 445, in parse_node
+    self.render_update(node, config)
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/parser/models.py", line 348, in render_update
+    super().render_update(node, config)
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/parser/base.py", line 421, in render_update
+    context = self.render_with_context(node, config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/parser/base.py", line 270, in render_with_context
+    get_rendered(parsed_node.raw_code, context, parsed_node, capture_macros=True)
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt/clients/jinja.py", line 146, in get_rendered
+    rendered = render_template(template, ctx, node)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt_common/clients/jinja.py", line 566, in render_template
+    return template.render(ctx)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/dbt_common/clients/jinja.py", line 163, in render
+    return self.environment.handle_exception()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "<template>", line 2, in top-level template code
+  File "/sas/data/project/EG/ActShared/SmallBusiness/aw/aw-env/lib/python3.11/site-packages/jinja2/sandbox.py", line 393, in call
+    return __context.call(__obj, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'tuple' object is not callable
+
