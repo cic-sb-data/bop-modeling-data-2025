@@ -1,0 +1,16 @@
+# Add patterns to ignore here, one per line
+# Example:
+# *.log
+# tmp/
+
+*.md
+*.duckdb
+nn/
+.vscode/
+.devcontainer/
+.gitignore
+.python-version
+*.prompt
+*.lock
+*.xml 
+*.json

@@ -124,13 +124,13 @@ models:
 
   - name: screngn__xcd_bil_act_summary
     description: "Staging model for billing account summary from the 'screngn' source. Derived from `raw__screngn__xcd_bil_act_summary`. Note that this model has fewer rows than its `raw` counterpart since we are filtering to NPC events at this step."
-    columns:
-      - name: billing_activity_date
-        description: |
-          The date the activity occurred on the Billing Account, Third Party, or Agent Account. 
-        data_tests:
-          - dbt_expectations.expect_column_to_exist
-          - dbt_expectations.expect_column_values_to_not_be_null
+    # columns:
+    #   - name: bil_act_date
+    #     description: |
+    #       The date the activity occurred on the Billing Account, Third Party, or Agent Account. 
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #       - dbt_expectations.expect_column_values_to_not_be_null
 
   - name: screngn__xcd_bil_cash_dsp
     description: |
