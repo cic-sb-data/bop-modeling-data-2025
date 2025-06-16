@@ -1,0 +1,5 @@
+models:
+  - name: raw__experian__co_polterms_exper_vars_all_hits
+    config:
+      materialized: table
+      experian_loc: "{{ var('experian_loc') }}"

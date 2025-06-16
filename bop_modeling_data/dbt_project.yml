@@ -46,7 +46,7 @@ models:
         - mrt
         - datamart
 
-tests:
+data_tests:
   +store_failures: true 
   +schema: test_failures
 
@@ -55,6 +55,7 @@ vars:
   decfile_loc: '/sas/data/project/EG/ActShared/SmallBusiness/DecisionSupportFile/Development/2025/20250228'
   policy_eff_date__min_yrmo: 200901
   'dbt_date:time_zone': 'America/New_York'
+  experian_loc: '/sas/data/project/EG/ActShared/ModelCommon/V5.3'
     
 flags:
   send_anonymous_usage_stats: false
