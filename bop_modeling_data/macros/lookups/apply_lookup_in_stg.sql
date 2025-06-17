@@ -1,11 +1,11 @@
 {% macro apply_lookup(
         root,
         column_names,
-        surrogate_name=None,
+        id_col_name='surrogate_id',
         null_strategy='sentinel') -%}
 
     {%- set cols=_lookups__ensure_cols_is_list(column_names) -%}
-    {%- set surrogate_name=_lookups__surrogate_name(surrogate_name, cols) -%}
+    {%- set surrogate_name=_lookups__surrogate_name(id_col_name, cols) -%}
     {%- set source_model = 'raw__' ~ root -%}
     {%- set lookup_model = 'lkp__' ~ root ~ '__' ~ surrogate_name -%}
 

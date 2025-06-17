@@ -6,6 +6,6 @@
 {%- macro _lookups__sentinel_strategy(
     col, 
     sentinel=var('null_sentinel')) -%}
-    coalesce({{ col }}, {{ sentinel }})
+    coalesce({{ col }}, '{{ sentinel }}')
 {%- endmacro %}
 
