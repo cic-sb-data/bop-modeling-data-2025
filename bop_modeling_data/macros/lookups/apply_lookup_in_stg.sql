@@ -25,7 +25,7 @@
                                 sentinel_value) }}
             =
             {{ _lookups__norm_expr(lookup_alias ~ '.' ~ c,
-                                {},              /* lookup already clean */
+                                {},
                                 null_strategy,
                                 sentinel_value) }}
             {{ 'and' if not loop.last }}
