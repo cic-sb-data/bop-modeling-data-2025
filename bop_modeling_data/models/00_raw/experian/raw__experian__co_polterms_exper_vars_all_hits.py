@@ -63,6 +63,7 @@ EVERY_OTHER_QUERY=f"""CREATE OR REPLACE TABLE raw_tbl AS (
 
 
 def model(dbt, session):
+    counter = 1
     with duckdb.connect() as conn:
         for df in pd.read_sas(FOLDER / FILENAME, **df_params):
             if counter==1:

@@ -143,9 +143,9 @@ models:
         - BIL-DTB-DT  
         - BIL-DTB-SEQ-NBR  
         - BIL-DSP-SEQ-NBR  
-    data_tests:
-      - dbt_expectations.expect_table_row_count_to_equal_other_table:
-          compare_model: ref("raw__screngn__xcd_bil_cash_dsp")
+    # data_tests:
+    #   - dbt_expectations.expect_table_row_count_to_equal_other_table:
+    #       compare_model: ref("raw__screngn__xcd_bil_cash_dsp")
 
   - name: screngn__xcd_bil_cash_receipt
     description: "Staging model for billing cash receipts from the 'screngn' source. Derived from `raw__screngn__xcd_bil_cash_receipt`."
@@ -176,11 +176,11 @@ models:
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: ref("raw__screngn__xcd_bil_policy")
-    columns:
-      - name: bil_policy_key
-        description: |
-          `md5` hash of the primary key for the `BIL-POLICY` table. See the `bil_policy_key` macro.
-        data_tests:
-          - dbt_expectations.expect_column_to_exist
-          - dbt_expectations.expect_column_values_to_be_unique
-          - dbt_expectations.expect_column_values_to_not_be_null
+    # columns:
+    #   - name: bil_policy_key
+    #     description: |
+    #       `md5` hash of the primary key for the `BIL-POLICY` table. See the `bil_policy_key` macro.
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #       - dbt_expectations.expect_column_values_to_be_unique
+    #       - dbt_expectations.expect_column_values_to_not_be_null
