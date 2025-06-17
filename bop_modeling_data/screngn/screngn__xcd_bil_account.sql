@@ -2,7 +2,7 @@
 
 with
 
-{{ with_ref('raw__screngn__xcd_bil_account', 'raw') }},
+raw as ( select * from {{ ref('raw__screngn__xcd_bil_account') }} ),
 
 renamed_casted as (
     select 

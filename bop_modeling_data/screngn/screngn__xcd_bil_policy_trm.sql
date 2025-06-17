@@ -18,7 +18,9 @@ raw as (
     from {{ ref('raw__screngn__xcd_bil_policy_trm') }}
 ),
 
-add_acct_key as ({{ add_acct_key('raw') }}),
+add_acct_key as ({{ add_bil_acct_key('raw') }}),
+
+add_id as (select row_number() over (order by bil_account_id, pol_nbr) as bil_policy_key, * from add_acct_key)
 
 select *
-from raw
+from add_id
