@@ -13,8 +13,17 @@ lkp as (
 -- Reference table for cash entry method codes
 -- Lifted from Billing Data Model 2-4-1
 desc as (
-    select * 
-    from {{ ref('cash_entry_method_code_ref') }}
+    select 'A' as bil_cash_entry_method_cd, 'EFT (Electronic funds transfer)' as bil_cash_entry_method_desc
+    union all select 'C', 'Non-cash credit created as part of third party reconciliation'
+    union all select 'E', 'EFT credit card'
+    union all select 'G', 'Online Entry'
+    union all select 'H', 'Credit Card Entry'
+    union all select 'I', 'Tolerance write-off'
+    union all select 'S', 'Statement'
+    union all select 'T', 'Tape processed through third party cash reconciliation'
+    union all select '1', 'Agent ACH/Paper'
+    union all select '2', 'Insured Paper'
+    union all select '3', 'Insured one-time ACH'
 ),
 
 renamed as (
