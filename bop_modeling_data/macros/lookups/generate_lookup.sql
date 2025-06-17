@@ -72,7 +72,7 @@
     ), 
 
     {{ cleaned_cte_name }} as ( 
-        {{ _generate_lookup__cleaned(cols, corrections_map, null_strategy, sentinel_value) }} 
+        {{ _generate_lookup__cleaned(cols, corrections_map, null_strategy, sentinel_value, base_cte_name) }} 
     ),
 
     {{ deduped_cte_name }} as (
