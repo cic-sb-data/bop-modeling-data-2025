@@ -12,7 +12,7 @@ lkp as (
 
 -- Reference table for cash entry method codes
 -- Lifted from Billing Data Model 2-4-1
-desc as (
+add_desc as (
     select 'A' as bil_cash_entry_method_cd, 'EFT (Electronic funds transfer)' as bil_cash_entry_method_desc
     union all select 'C', 'Non-cash credit created as part of third party reconciliation'
     union all select 'E', 'EFT credit card'
@@ -41,7 +41,7 @@ join_desc as (
         d.bil_cash_entry_method_desc,
         r.generated_at
     from renamed r
-    left join desc d    
+    left join add_desc d    
         on r.bil_cash_entry_method_cd = d.bil_cash_entry_method_cd
 )
 

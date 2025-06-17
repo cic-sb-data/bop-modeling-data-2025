@@ -18,7 +18,7 @@ renamed as (
     from lkp
 ),
 
-desc as (
+add_desc as (
     select 
         bil_charge_type_id,
         bil_charge_type_code,
@@ -35,4 +35,4 @@ desc as (
 )
 
 select *
-from desc
+from add_desc

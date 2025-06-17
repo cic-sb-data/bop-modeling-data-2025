@@ -17,6 +17,7 @@ add_desc as (
             else 'Unknown Code'
         end as bat_cash_status_desc
         
+    from lkp
 ),
 
 renamed as (
