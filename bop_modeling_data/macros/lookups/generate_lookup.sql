@@ -58,7 +58,7 @@
     id_col_name='surrogate_id') -%}
 
     {%- set cols=_lookups__ensure_cols_is_list(column_names) -%}
-    {%- set surrogate_name = _lookups__surrogate_name(cols, id_col_name=id_col_name) -%}
+    {%- set surrogate_name = _lookups__surrogate_name(id_col_name, cols) -%}
     {%- set input_model = _lookups__input_model_name(root) -%}
 
     with 
