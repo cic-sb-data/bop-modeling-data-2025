@@ -82,7 +82,7 @@
     select
         row_number() over (
             order by {{ cols | join(', ') }}
-        ) as {{ surrogate_name | replace('lkp__', '') }},
+        ) as {{ surrogate_name | replace('lkp__', '') | replace('_cd', '') }},
         {{ cols | join(', ') }},
         now() as generated_at
 
