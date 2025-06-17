@@ -61,17 +61,21 @@
     {%- set surrogate_name = _lookups__surrogate_name(id_col_name, cols) -%}
     {%- set input_model = _lookups__input_model_name(root) -%}
 
+    {%- set base_cte_name = 'base__' ~ surrogate_name -%}
+    {%- set cleaned_cte_name = 'cleaned__' ~ surrogate_name -%}
+    {%- set deduped_cte_name = 'deduped__' ~ surrogate_name -%}
+
     with 
 
-    base__{{ surrogate_name }} as (
+    {{ base_cte_name }} as (
         {{ _generate_lookup__base(cols, input_model, null_strategy) }}
     ), 
 
-    cleaned__{{ surrogate_name }} as ( 
+    {{ cleaned_cte_name }} as ( 
         {{ _generate_lookup__cleaned(cols, corrections_map, null_strategy, sentinel_value) }} 
     ),
 
-    deduped__{{ surrogate_name }} as (
+    {{ deduped_cte_name }} as (
         {{ _generate_lookup__deduped(cols) }}
     )
 
@@ -79,7 +83,8 @@
         row_number() over (
             order by {{ cols | join(', ') }}
         ) as {{ surrogate_name }},
-        {{ cols | join(', ') }}
+        {{ cols | join(', ') }},
+        current_timestamp() as generated_at
 
-    from deduped__{{ surrogate_name }}
+    from {{ deduped_cte_name }}
 {%- endmacro %}
