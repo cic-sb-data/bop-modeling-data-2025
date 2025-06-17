@@ -76,7 +76,7 @@
     ),
 
     {{ deduped_cte_name }} as (
-        {{ _generate_lookup__deduped(cols) }}
+        {{ _generate_lookup__deduped(cols, cleaned_cte_name) }}
     )
 
     select
