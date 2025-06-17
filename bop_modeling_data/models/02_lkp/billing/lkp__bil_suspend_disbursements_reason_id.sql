@@ -7,5 +7,7 @@ lkp as (
             column_names=['bil_sus_dsb_rea_cd']
         )
     }}
-),
+)
+
+select * from lkp
 

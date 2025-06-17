@@ -4,8 +4,7 @@ lkp as (
     {{
         generate_lookup(
             root='screngn__xcd_bil_cash_receipt',
-            column_names=['bil_csh_etr_mth_cd'],
-            id_col_name='bil_cash_entry_method_id'
+            column_names=['bil_csh_etr_mth_cd']
         )
     }}
 ),
@@ -28,7 +27,7 @@ add_desc as (
 
 renamed as (
     select
-        bil_cash_entry_method_id,
+        bil_csh_etr_mth_id as bil_cash_entry_method_id,
         bil_csh_etr_mth_cd as bil_cash_entry_method_cd,
         generated_at
     from lkp
