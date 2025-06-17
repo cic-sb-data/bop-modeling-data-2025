@@ -84,7 +84,7 @@
             order by {{ cols | join(', ') }}
         ) as {{ surrogate_name }},
         {{ cols | join(', ') }},
-        current_timestamp() as generated_at
+        now() as generated_at
 
     from {{ deduped_cte_name }}
 {%- endmacro %}
