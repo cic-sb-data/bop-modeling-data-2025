@@ -82,7 +82,7 @@ sub_categorical_vars as (
             raw.* exclude (billing_suspense_disbursement_reason_cd)
 
         from raw
-        left join {{ ref('lkp__bil_sus_discursement_reason_id') }} as lkp
+        left join {{ ref('lkp__bil_sus_disbursement_reason_id') }} as lkp
             on raw.billing_suspense_disbursement_reason_cd = lkp.billing_suspense_disbursement_reason_cd
 
     ),
