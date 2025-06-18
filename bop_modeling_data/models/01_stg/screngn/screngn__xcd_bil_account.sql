@@ -103,7 +103,7 @@ sub_categorical_vars as (
             raw.* exclude (billing_presentment_cd, billing_presentment_desc)
 
         from status as raw
-        left join {{ ref('lkp__billing_presentment_id') }} as lkp
+        left join {{ ref('lkp__bil_presentment_id') }} as lkp
             on raw.billing_presentment_cd = lkp.billing_presentment_cd
     ),
 
@@ -113,7 +113,7 @@ sub_categorical_vars as (
             raw.* exclude (billing_collection_method, billing_collection_method_desc)
 
         from presentment as raw
-        left join {{ ref('lkp__billing_collection_method_id') }} as lkp
+        left join {{ ref('lkp__bil_collection_method_id') }} as lkp
             on raw.billing_collection_method = lkp.billing_collection_method
     ),
 
@@ -123,7 +123,7 @@ sub_categorical_vars as (
             raw.* exclude (billing_collection_plan, billing_collection_plan_desc)
 
         from collection_method as raw
-        left join {{ ref('lkp__billing_collection_plan_id') }} as lkp
+        left join {{ ref('lkp__bil_collection_plan_id') }} as lkp
             on raw.billing_collection_plan = lkp.billing_collection_plan
     )
 
