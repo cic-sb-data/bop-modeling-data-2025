@@ -4,6 +4,8 @@ with
 
 raw as ( select * from {{ ref('raw__screngn__xcd_bil_account') }} ),
 
+
+
 renamed_casted as (
     select 
         BIL_ACCOUNT_ID as billing_acct_id,

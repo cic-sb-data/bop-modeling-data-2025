@@ -93,8 +93,28 @@ join_desc as (
     left join desc_lkp d 
         on r.bil_desc_reason_cd = d.bil_desc_reason_cd
 
-    order by r.bil_desc_reason_id
+),
+
+-- 6/18/2025: I noticed that either the long description or the "regular" discription is populated, but never both.
+-- I will coalesce the two columns to ensure that we have a description available, and are not maintaining a bunch 
+-- of null/blank/-9 values.
+coalesce_descriptions as (
+    select 
+        bil_desc_reason_id,
+        bil_desc_reason_type,
+        bil_desc_reason_cd,
+        coalesce(
+            case
+                when bil_desc_reason_long_desc = '-9' then bil_desc_reason_desc
+                else bil_desc_reason_long_desc
+            end,
+            'Missing'
+        ) as bil_desc_reason_desc,
+        generated_at
+
+    from join_desc
+    order by bil_desc_reason_id
 )
 
 select *
-from join_desc
+from coalesce_descriptions
