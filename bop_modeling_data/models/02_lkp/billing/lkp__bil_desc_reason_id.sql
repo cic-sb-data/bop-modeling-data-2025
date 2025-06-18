@@ -113,8 +113,47 @@ coalesce_descriptions as (
         generated_at
 
     from join_desc
-    order by bil_desc_reason_id
+),
+
+-- 6/18/25: Recoding the descriptions related to prem issued tx
+recode_prem_issued_tx as (
+    with
+
+    pit_s as (
+        select *
+        from coalesce_descriptions
+        where trim(lower(bil_desc_reason_desc)) like '%prem issued%'
+    ),
+
+    others as (
+        select *
+        from coalesce_descriptions
+        where bil_desc_reason_id not in (
+            select bil_desc_reason_id
+            from pit_s
+        )
+    ),
+
+    recoded as (
+        select
+            bil_desc_reason_id,
+            bil_desc_reason_type,
+            bil_desc_reason_cd,
+            case
+                when trim(lower(bil_desc_reason_desc)) like '%in%from%' then 'Prem Issued Tax/Tarrif - In From Account'
+                when trim(lower(bil_desc_reason_desc)) like '%out%to%' then 'Prem Issued Tax/Tarrif - Out To Account'
+                else bil_desc_reason_desc
+            end as bil_desc_reason_desc,
+            generated_at
+        from pit_s
+        union all
+        select *
+        from others
+    )
+
+    select * from recoded
 )
 
 select *
-from coalesce_descriptions
+from recode_prem_issued_tx
+order by bil_desc_reason_id
