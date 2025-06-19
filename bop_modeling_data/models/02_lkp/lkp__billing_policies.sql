@@ -24,7 +24,7 @@ associated_policies as (
         policy_chain_id,
         {{ five_key() }}
 
-    from {{ ref('associated_policies') }}
+    from {{ ref('lkp__associated_policies') }}
 ),
 
 filter_raw_billing_policies as (

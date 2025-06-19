@@ -10,18 +10,14 @@ with
 -- Source: Small business policies from decfile, providing sb_policy_key and policy_chain_id
 sb_pol as (
     select distinct
-        try_cast(sb_policy_key as uint32) as associated_sb_policy_key,
+        try_cast(sb_policy_key as uinteger) as associated_sb_policy_key,
         try_cast(policy_chain_id as uinteger) as policy_chain_id
 
     from {{ ref('decfile__sb_policy_lookup') }}
-    where   
-        policy_chain_id is not null
-        and sb_policy_key is not null
     order by associated_sb_policy_key
 ),
 
 -- Source: Policy chain data from Modcom
--- Types are generally set in the staging model (e.g., policy_chain_id as uinteger)
 pchain as (
     select distinct
         try_cast(policy_chain_id as uinteger) as policy_chain_id,

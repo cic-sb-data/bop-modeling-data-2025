@@ -2,7 +2,7 @@ with
 
 input_date as (
     select distinct policy_eff_date as input_date
-    from {{ ref('sb_policy_key') }}
+    from {{ ref('lkp__sb_policy_key') }}
     order by input_date
 ),
 
