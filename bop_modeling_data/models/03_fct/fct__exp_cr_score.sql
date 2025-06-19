@@ -62,7 +62,7 @@ bin_hit_vars as (
         {{ experian_bin_hit('experian_bin') }} as bin_hit,
         {{ commercial_intelliscore_hit('commercial_intelliscore') }} as exp_hit
 
-    from rename_and_recode
+    from selected_cols
 ),
 
 positive_value_indicators_1 as (
