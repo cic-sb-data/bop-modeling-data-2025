@@ -1,4 +1,9 @@
-{% macro calculate_capped_numtot_combined() %}
+{% macro calculate_capped_numtot_combined(in_tbl) %}
+    {# 
+        This macro calculates a capped version of the numtot_combined variable.
+        It first imputes missing values with 5, then caps the values at 10.
+        The final output includes the original columns and the new capped column.
+    #}
     with
 
     imputed_missing_values as (
@@ -9,7 +14,7 @@
             {# ,coalesce(t2.numtot_combined,5) as &LOB._numtot_combined_2 #}
             {{ impute_missing_values('numtot_combined', 5) }} as numtot_combined_2,
 
-        from capped_baltot_combined 
+        from {{ in_tbl }} 
     ),
 
     capped as (

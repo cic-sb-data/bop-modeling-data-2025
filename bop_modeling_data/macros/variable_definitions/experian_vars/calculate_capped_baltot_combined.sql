@@ -1,4 +1,4 @@
-{% macro calculate_capped_baltot_combined() %}
+{% macro calculate_capped_baltot_combined(in_tbl) %}
     with
 
     normalize_by_years_in_file as (
@@ -7,7 +7,7 @@
             {# ,case when calculated &LOB._yearsinfile_2 le 1 then t2.baltot_combined else t2.baltot_combined / calculated &LOB._yearsinfile_2 end as &LOB._baltot_combined_y #}
             {{ years_in_file_normalized('baltot_combined', 'yearsinfile_2') }} as baltot_combined_y
 
-        from median_imputed_vars
+        from {{ in_tbl }}
     ),
 
     impute_missing_values as (
