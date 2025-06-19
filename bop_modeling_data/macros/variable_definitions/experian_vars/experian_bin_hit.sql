@@ -4,8 +4,6 @@
     case 
         when {{ bin_col }} is null 
             then 0
-        when {{ bin_col }} is missing 
-            then 0
         else 1
     end
 {%- endmacro -%}
