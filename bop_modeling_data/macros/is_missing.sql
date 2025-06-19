@@ -1,5 +1,9 @@
 {% macro is_not_missing(col) %}
-    CASE WHEN {{ is_missing(col) }} = 1 THEN 0 ELSE 1 END
+    CASE WHEN 
+        {{ is_missing(col) }} = 1 
+            THEN 0 
+        ELSE 1 
+    END
 {% endmacro %}
 
 {% macro is_missing(col) %}
@@ -22,13 +26,13 @@
 
 {% macro is_missing__when_text(col) %}
     CASE
-        WHEN lower(trim({{ column_name }})) = 'missing')
+        WHEN lower(trim({{ column_name }})) = 'missing'
             THEN 1
-        WHEN lower(trim({{ column_name }})) = 'n/a')
+        WHEN lower(trim({{ column_name }})) = 'n/a'
             THEN 1
-        WHEN lower(trim({{ column_name }})) = 'na')
+        WHEN lower(trim({{ column_name }})) = 'na'
             THEN 1
-        WHEN lower(trim({{ column_name }})) = '')
+        WHEN lower(trim({{ column_name }})) = ''
             THEN 1
         ELSE 0
     END
