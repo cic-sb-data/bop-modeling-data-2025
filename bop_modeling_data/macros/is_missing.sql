@@ -26,13 +26,13 @@
 
 {% macro is_missing__when_text(col) %}
     CASE
-        WHEN lower(trim({{ column_name }})) = 'missing'
+        WHEN lower(trim({{ col }})) = 'missing'
             THEN 1
-        WHEN lower(trim({{ column_name }})) = 'n/a'
+        WHEN lower(trim({{ col }})) = 'n/a'
             THEN 1
-        WHEN lower(trim({{ column_name }})) = 'na'
+        WHEN lower(trim({{ col }})) = 'na'
             THEN 1
-        WHEN lower(trim({{ column_name }})) = ''
+        WHEN lower(trim({{ col }})) = ''
             THEN 1
         ELSE 0
     END

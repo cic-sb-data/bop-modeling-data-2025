@@ -146,7 +146,7 @@ positive_value_indicators_2 as (
     select
         *,
         
-        {% for col in needs_pos_val_indicators_2 %}
+        {% for col in needs_pos_value_indicators_2 %}
             {{ is_variable_positive(col) }} as {{ col }}_2_yn{% if not loop.last %},{% endif %}
         {% endfor %}
 
