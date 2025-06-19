@@ -3,7 +3,7 @@ with
 lkp as (
     {{
         generate_lookup(
-            root='stg__screngn__xcd_bil_policy',
+            root='screngn__xcd_bil_policy',
             column_names=['cur_bil_plan_cd', 'current_billing_plan'],
             id_col_name='bil_plan_id'
         )

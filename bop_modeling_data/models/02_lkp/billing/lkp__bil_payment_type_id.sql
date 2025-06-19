@@ -3,7 +3,7 @@ with
 lkp as (
     {{
         generate_lookup(
-            root='stg__screngn__xcd_bil_cash_receipt',
+            root='screngn__xcd_bil_cash_receipt',
             column_names=['payment_type'],
         )
     }}
