@@ -3,10 +3,5 @@
    returns 0. #}
 
 {%- macro commercial_intelliscore_hit(col) -%}
-    case
-        when 1 <= {{ col }} 
-            and {{ col }} <= 100 
-            then 1
-        else 0
-    end 
+case when (1 <= {{ col }}) and ({{ col }} <= 100) then 1 else 0 end 
 {%- endmacro -%}

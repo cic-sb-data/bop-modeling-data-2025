@@ -9,6 +9,7 @@
     'judgmentcount',
     'liencount',
     'bankruptcy_cnt',
+    'yearsinfile'
 ]-%}
 
 {# These counts are heavily-skewed, so we use the median to impute missing values. #}
@@ -50,8 +51,10 @@ selected_cols as (
         bankruptcy_cnt,
         ttc038,
         ttc039
+
     from {{ ref('stg__experian') }}
 ),
+
 
 -- Note that the column names are maintained exactly as they were originally definined 
 -- in prior models, but may not accurately reflect the data they contain, or the intent 
@@ -68,8 +71,7 @@ bin_hit_vars as (
 positive_value_indicators_1 as (
     select
         *,
-
-        {% for col in needs_pos_value_indicators_1 %}
+        {%- for col in needs_pos_value_indicators_1 -%}
             {{ is_variable_positive(col) }} as {{ col }}_positive{% if not loop.last %},{% endif %}
         {% endfor %}
 
@@ -89,7 +91,7 @@ add_is_not_missing_vars as (
         *,
         {% for col in is_not_missing_var_needed %}
             {{ is_not_missing(col) }} as {{ col }}_source{% if not loop.last %},{% endif %}
-        {% endfor %}
+        {% endfor -%}
 
     from calculate_pay_sat
 ),
@@ -99,48 +101,39 @@ impute_missing_with_0 as (
         *,
         {% for col in to_impute_with_0 %}
             {{ impute_missing_values(col, 0) }} as {{ col }}_2{% if not loop.last %},{% endif %}
-        {% endfor %}
+        {% endfor -%}
 
-    from calculate_pay_sat
+    from add_is_not_missing_vars
 ),
 
 other_imputed_values as (
     select
         *,
-
 		{# ,coalesce(t2.ballate_all_dbt,.0071) as &LOB._ballate_all_dbt_2 #}
         {{ impute_missing_values('ballate_all_dbt', 0.0071) }} as ballate_all_dbt_2,
-
 		{# ,coalesce(pay_sat,.9444) as &LOB._pay_sat_2 #}
-        {{ impute_missing_values('pay_sat', 0.9444) }} as pay_sat_2
-
-
-        {# /* Median-imputed variables */
-        /* 0 means Missing and 1 Available			*/ #}
+        {{ impute_missing_values('pay_sat', 0.9444) }} as pay_sat_2,
 		{# ,coalesce(t2.bin,t3.EXPERIAN_BIN_m1,t3.EXPERIAN_BIN_0) as BIN_2 #}
-
+        {{ impute_missing_values('experian_bin', 0) }} as bin_2,
 		{# ,coalesce(t2.baltot,t3.BAL_TOT_m1,t3.BAL_TOT_0) as &LOB._BalTot_2 #}
-
+        {{ impute_missing_values('baltot', 0) }} as baltot_2,
 		{# ,coalesce(t2.alltrades,t3.ALL_TRADE_CNT_m1,t3.ALL_TRADE_CNT_0) as &LOB._AllTrades_2 #}
-
+        {{ impute_missing_values('alltrades', 0) }} as alltrades_2,
 		{# ,coalesce(t2.commercial_intelliscore,t3.COML_INTELSCR_m1,t3.COML_INTELSCR_0,60) as &LOB._commercial_intelliscore_2 #}
-
 		{# ,Max(coalesce(t2.commercial_intelliscore,t3.COML_INTELSCR_m1,t3.COML_INTELSCR_0,60),25) as &LOB._Floor25_Intelliscore_2 #}
-
-			{# /*The EP WAv of Prop_commercial_intelliscore_2 with hits is 56.215584018 & for GL is 59.612505395*/
-			/*We decided to set the default for missing values to the lower multiple of 5, i. 55 and floored at 25*/ #}
+        {# /*The EP WAv of Prop_commercial_intelliscore_2 with hits is 56.215584018 & for GL is 59.612505395*/
+        /*We decided to set the default for missing values to the lower multiple of 5, i. 55 and floored at 25*/ #}
 		{# ,Case When Missing(coalesce(t2.commercial_intelliscore,t3.COML_INTELSCR_m1,t3.COML_INTELSCR_0)) Then 0 Else 1 End as &LOB._Comm_intelliscore_Source #}
-
+        {{ impute_missing_values('commercial_intelliscore', 0.5) }} as commercial_intelliscore_2,
 		{# ,coalesce(t2.yearsinfile,t3.NBR_YR_IN_FILE_m1,t3.NBR_YR_IN_FILE_0,21) as &LOB._yearsinfile_2 #}
-
-		{# ,Case When Missing(coalesce(t2.yearsinfile,t3.NBR_YR_IN_FILE_m1,t3.NBR_YR_IN_FILE_0)) Then 0 Else 1 End as &LOB._yearsinfile_Source #}
+        {{ impute_missing_values('yearsinfile', 0) }} as yearsinfile_2
 
     from impute_missing_with_0
 
 ),
 
-capped_baltot_combined as ( {{ calculate_capped_baltot_combined() }} ),
-capped_numtot_combined as ( {{ calculate_capped_numtot_combined() }} ),
+capped_baltot_combined as ( {{ calculate_capped_baltot_combined('other_imputed_values') }} ),
+capped_numtot_combined as ( {{ calculate_capped_numtot_combined('capped_baltot_combined') }} ),
 
 positive_value_indicators_2 as (
     select
@@ -191,13 +184,12 @@ missing_log_credit_score_col as (
 
 final as (
     select  
-        associated_policy_key,
+        any_value(associated_policy_key),
         log_credit_score_2 as log__expcr_score,
         log_credit_score_source as is_log__expcr_score_missing
 
     from missing_log_credit_score_col
-    order by associated_policy_key
+    {# order by associated_policy_key #}
 )
 
-select *
-from final
+select * from final
