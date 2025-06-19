@@ -4,7 +4,7 @@
 with
 
 experian as (select * from {{ ref('raw__experian__co_polterms_exper_vars_all_hits') }}),
-pols as (select * from {{ ref('lkp__associated_policies') }})
+pols as (select * from {{ ref('lkp__associated_policies') }}),
 
 add_associated_policy_key as (
     select
