@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: associated_policy_eff_date
+  - name: fct__associated_policy_eff_date
     description: 'Fact model for associated policy effective dates. It references `lkp__associated_policies` and `lkp__dates`.'
     columns:
       - name: associated_policy_key
@@ -24,3 +24,7 @@ models:
         data_tests:
           - dbt_expectations.expect_column_to_exist
         data_type: date
+
+  - name: fct__exp_cr_score
+    description: |
+      Credit score based on Experian data. 

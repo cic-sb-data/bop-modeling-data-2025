@@ -3,7 +3,7 @@ with
 lkp as (
     {{
         generate_lookup(
-            root='screngn__xcd_bil_account',
+            root='stg__screngn__xcd_bil_account',
             column_names=['bil_collection_mth', 'bil_collection_method_desc'],
             id_col_name='bil_collection_method_id'
         )

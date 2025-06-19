@@ -5,7 +5,7 @@ policies as (
         associated_policy_key,
         policy_eff_date
         
-    from {{ ref('associated_policies') }}
+    from {{ ref('lkp__associated_policies') }}
 ),
 
 dates as (
@@ -15,7 +15,7 @@ dates as (
         prior_year_start,
         prior_year_end
 
-    from {{ ref('dates') }}
+    from {{ ref('lkp__dates') }}
 ),
 
 eff_date_lkp as (

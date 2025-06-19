@@ -5,7 +5,7 @@ raw as (
         policy_chain_id,
         count(*) as n_sb_policies_for_policy_chain_id
 
-    from {{ ref('decfile__sb_policy_lookup') }}
+    from {{ ref('stg__decfile__sb_policy_lookup') }}
     group by policy_chain_id
 ),
 
@@ -14,7 +14,7 @@ pchain as (
         policy_chain_id,
         {{ five_key() }}
 
-    from {{ ref('modcom__policy_chain_v3') }}
+    from {{ ref('stg__modcom__policy_chain_v3') }}
 
     order by 
         policy_chain_id,

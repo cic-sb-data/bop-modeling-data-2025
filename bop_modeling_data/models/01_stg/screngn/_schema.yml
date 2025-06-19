@@ -1,5 +1,5 @@
 models:
-  - name: screngn__xcd_bil_account
+  - name: stg__screngn__xcd_bil_account
     description: "Staging model for billing account information from the 'screngn' source. It renames and casts columns from `raw__screngn__xcd_bil_account`."
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
@@ -122,7 +122,7 @@ models:
         data_tests:
           - dbt_expectations.expect_column_to_exist
 
-  - name: screngn__xcd_bil_act_summary
+  - name: stg__screngn__xcd_bil_act_summary
     description: "Staging model for billing account summary from the 'screngn' source. Derived from `raw__screngn__xcd_bil_act_summary`. Note that this model has fewer rows than its `raw` counterpart since we are filtering to NPC events at this step."
     # columns:
     #   - name: bil_act_date
@@ -132,7 +132,7 @@ models:
     #       - dbt_expectations.expect_column_to_exist
     #       - dbt_expectations.expect_column_values_to_not_be_null
 
-  - name: screngn__xcd_bil_cash_dsp
+  - name: stg__screngn__xcd_bil_cash_dsp
     description: |
       Staging model for billing cash dispositions from the 'screngn' source. Derived from `raw__screngn__xcd_bil_cash_dsp`.  
 
@@ -147,31 +147,31 @@ models:
     #   - dbt_expectations.expect_table_row_count_to_equal_other_table:
     #       compare_model: ref("raw__screngn__xcd_bil_cash_dsp")
 
-  - name: screngn__xcd_bil_cash_receipt
+  - name: stg__screngn__xcd_bil_cash_receipt
     description: "Staging model for billing cash receipts from the 'screngn' source. Derived from `raw__screngn__xcd_bil_cash_receipt`."
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: ref("raw__screngn__xcd_bil_cash_receipt")
 
-  - name: screngn__xcd_bil_des_reason
+  - name: stg__screngn__xcd_bil_des_reason
     description: "Staging model for billing designation reasons from the 'screngn' source. Derived from `raw__screngn__xcd_bil_des_reason`."
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: ref("raw__screngn__xcd_bil_des_reason")
 
-  - name: screngn__xcd_bil_ist_schedule
+  - name: stg__screngn__xcd_bil_ist_schedule
     description: "Staging model for billing installment schedules from the 'screngn' source. Derived from `raw__screngn__xcd_bil_ist_schedule`."
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: ref("raw__screngn__xcd_bil_ist_schedule")
 
-  - name: screngn__xcd_bil_policy_trm
+  - name: stg__screngn__xcd_bil_policy_trm
     description: "Staging model for billing policy terms from the 'screngn' source. Derived from `raw__screngn__xcd_bil_policy_trm`."
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:
           compare_model: ref("raw__screngn__xcd_bil_policy_trm")
 
-  - name: screngn__xcd_bil_policy
+  - name: stg__screngn__xcd_bil_policy
     description: "Staging model for billing policies from the 'screngn' source. Derived from `raw__screngn__xcd_bil_policy`."
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:

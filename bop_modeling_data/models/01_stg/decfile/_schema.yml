@@ -1,5 +1,5 @@
 models:
-  - name: decfile__sb_policy_lookup
+  - name: stg__decfile__sb_policy_lookup
     description: "Staging model for small business policy lookup data from the 'decfile' source. It likely performs basic cleaning, renaming, and type casting on `raw__decfile__sb_policy_lookup`."
     data_tests:
       - dbt_expectations.expect_table_row_count_to_equal_other_table:

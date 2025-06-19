@@ -1,5 +1,5 @@
 models:
-  - name: associated_policies
+  - name: lkp__associated_policies
     description: |
       Critical lookup model that establishes relationships between policies within policy chains. 
       Its primary purpose is to enable the identification of all historically associated policies for any given policy processed in the decfile.
@@ -71,7 +71,7 @@ models:
       - dbt_expectations.expect_compound_columns_to_be_unique:
           column_list: [ "associated_policy_key", "associated_sb_policy_key" ]
 
-  - name: billing_policies
+  - name: lkp__billing_policies
     description: 'Associates billing data with policies, linking sb_policy_key to billing system keys.'
     columns:
       - name: billing_sb_policy_key
@@ -114,7 +114,7 @@ models:
       - name: policy_eff_date
         data_type: date
 
-  - name: dates
+  - name: lkp__dates
     description: 'Generates a date dimension table, potentially including prior year flags or calculations.'
     columns:
       - name: input_date
@@ -134,7 +134,7 @@ models:
       - dbt_utils.expression_is_true:
           expression: 'prior_year_end >= prior_year_start'
 
-  - name: first_billing_activity_date
+  - name: lkp__first_billing_activity_date
     description: 'Determines the first billing activity date for relevant entities.'
     columns:
       - name: activity_trans_key
@@ -144,7 +144,7 @@ models:
         data_tests:
           - dbt_expectations.expect_column_to_exist
 
-  - name: policy_chain_ids
+  - name: lkp__policy_chain_ids
     description: 'Processes and provides distinct policy chain identifiers and associated counts.'
     columns:
       - name: policy_chain_id
