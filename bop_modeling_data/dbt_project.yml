@@ -19,27 +19,22 @@ models:
     +docs:
       show: true
     00_raw:
-      +schema: raw
       +materialized: table
       +tags:
         - raw
     01_stg:
-      +schema: stg
       +materialized: view
       +tags:
         - stg
     02_lkp:
-      +schema: lkp
       +materialized: table
       +tags:
         - lkp
     03_fct:
-      +schema: fct
       +materialized: view
       +tags:
         - fct
     04_mrt:
-      +schema: mrt
       +materialized: table
       +tags:
         - dm

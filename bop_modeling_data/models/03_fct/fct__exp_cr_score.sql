@@ -184,12 +184,11 @@ missing_log_credit_score_col as (
 
 final as (
     select  
-        any_value(associated_policy_key),
+        associated_policy_key,
         log_credit_score_2 as log__expcr_score,
         log_credit_score_source as is_log__expcr_score_missing
 
     from missing_log_credit_score_col
-    {# order by associated_policy_key #}
 )
 
 select * from final
