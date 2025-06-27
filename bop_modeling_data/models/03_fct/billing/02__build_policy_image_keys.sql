@@ -10,7 +10,7 @@ join_images as (
         images.sb_aiv_key,
         policies.sb_policy_key,
         policies.policy_chain_id,
-        policies.lob_code,
+        policies.lob,
         images.sb_aiv_key,
         images.location_numb,
         images.class_code,
@@ -21,7 +21,7 @@ join_images as (
     from images
     left join policies
         on policies.sb_policy_key = images.sb_policy_key
-        and policies.lob_code = images.lob_code
+        and policies.lob = images.lob
 )
 
 select * from join_images

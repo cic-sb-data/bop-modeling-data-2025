@@ -2,22 +2,10 @@ version: 2
 
 models:
   - name: raw__decfile__sb_aiv_lookup
-    description: "Raw model for AIV lookup data from the 'decfile' source. It likely selects all columns from an external source table named 'sb_aiv_lookup'."
-    columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
+    description: "Raw model for AIV lookup data from the 'decfile' source."
 
   - name: raw__decfile__sb_policy_lookup
-    description: "Raw model for SB policy lookup data from the 'decfile' source. It likely selects all columns from an external source table named 'sb_policy_lookup'."
-    columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
+    description: "Raw model for SB policy lookup data from the 'decfile' source."
 
   - name: raw__decfile__screngn_policy_lookup
-    description: "Raw model for screngn policy lookup data from the 'decfile' source. It likely selects all columns from an external source table named 'screngn_policy_lookup'."
-    columns:
-      # Add relevant column descriptions from the source table.
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe relevant columns from the source table.'
+    description: "Raw model for screngn policy lookup data from the 'decfile' source." 

@@ -6,6 +6,3 @@ models:
     columns:
       - name: policy_chain_id
         description: 'Unique identifier for a policy chain, cast to uinteger.'
-      # Add other relevant column descriptions based on the Python script's output
-      - name: placeholder_column
-        description: 'This is a placeholder. Describe other relevant columns from the SAS file.'
