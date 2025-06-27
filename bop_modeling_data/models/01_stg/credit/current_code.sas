@@ -7,11 +7,20 @@
 /* Experian snapshot variables, and calcuated credit score variables.	 */
 /*=======================================================================*/
 
-%Macro Credit_Model(Rerated_TBL,LOB);
+%let prop_rerated = rerated_prop;
+%let gl_rerated = rerated_gl;
+%let policy_key=historical_company||policysymbol||policynumber||statisticalpolicymodulenumber||policyeffectivedate;
+%let transaction_key=cfxmlid||&policy_key.;
+
+/* START OF MACRO */
+%Macro Credit_Model(
+	Rerated_TBL /* This is the table containing the premiums for each policy, rerated to be at current rate levels */
+	,LOB /* This is the line of business, either Prop or GL */
+);
 
 		/* Obtain all cfxmlids from current EV */
 
-              /* proc sql;
+              proc sql;
               create table &LOB._pols as select distinct
                 cfxmlid
                 ,historical_company
@@ -23,7 +32,7 @@
                 ,imageeffectivedate format=yymmddd10.
                 ,imageexpirationdate format=yymmddd10.
             from Prj.&Rerated_TBL.
-            ; quit;  */
+            ; quit; 
 
 	proc sql;
 
@@ -154,7 +163,7 @@
 		on t1.cfxmlid=t3.cfxmlid
 
 	order by cfxmlid, policyeffectivedate, BIN
-/*	order by policyeffectivedate, input(scan(cfxmlid,2,'.'),9.), input(scan(cfxmlid,3,'.'),4.)*/
+	/*	order by policyeffectivedate, input(scan(cfxmlid,2,'.'),9.), input(scan(cfxmlid,3,'.'),4.)*/
 	; quit;
 	
 	proc sql;
@@ -174,6 +183,8 @@
 	run;
 
 %Mend Credit_Model;
+
+/* END OF MACRO */
 
 %Credit_Model(&prop_rerated., Prop);
 %Credit_Model(&gl_rerated., GL);

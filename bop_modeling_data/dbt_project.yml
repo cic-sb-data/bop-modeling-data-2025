@@ -34,6 +34,12 @@ models:
       +materialized: view
       +tags:
         - fct
+      billing:
+        +materialized: view
+        +schema: fct_billing
+        +tags:
+          - billing
+          - intermediate_steps  
     04_mrt:
       +materialized: table
       +tags:
@@ -48,7 +54,7 @@ data_tests:
 vars:
   null_sentinel: -9
   raw_csv_loc: '/sas/data/project/EG/ActShared/SmallBusiness/Modeling/dat/raw_csv'
-  decfile_loc: '/sas/data/project/EG/ActShared/SmallBusiness/DecisionSupportFile/Development/2025/20250228'
+  decfile_loc: '/sas/data/project/EG/ActShared/SmallBusiness/DecisionSupportFile/Development/2025/20250331'
   policy_eff_date__min_yrmo: 200901
   'dbt_date:time_zone': 'America/New_York'
   experian_loc: '/sas/data/project/EG/ActShared/ModelCommon/V5.3'
