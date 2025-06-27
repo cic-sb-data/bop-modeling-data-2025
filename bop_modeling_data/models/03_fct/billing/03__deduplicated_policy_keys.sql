@@ -8,7 +8,7 @@ raw as (
 ),
 
 deduped as (
-    select distinct *
+    select distinct sb_aiv_key, sb_policy_key
     from raw
     where sb_aiv_key is not null
 )

@@ -1,8 +1,10 @@
--- This model extracts distinct policy ids from the billing data.
+-- Extract distinct policy ids from the policy lookup staging model.
 
 with 
 
-raw as (select * from {{ ref('stg__decfile__sb_policy_lookup') }}),
+raw as (
+    select * from {{ ref('stg__decfile__sb_policy_lookup') }}
+),
 selected_columns as (
     select
         policy_chain_id,
