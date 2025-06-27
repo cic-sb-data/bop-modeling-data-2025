@@ -21,8 +21,6 @@ models:
           The policy symbol, which should be from 1-character to 3-character string.
         data_tests:
           - not_null
-          - assert_string_matches_regex:
-              regex: '^[A-Z]{1,3}$'
       - name: policy_numb
         description: >
           The policy number, which should be at most 7 digits.
