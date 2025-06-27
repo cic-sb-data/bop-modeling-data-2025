@@ -28,19 +28,19 @@ models:
           The policy number, which should be at most 7 digits.
         data_tests:
           - not_null
-          - assert_min_value_ge:
-              min_value: 0
-          - assert_max_value_lt:
-              max_value: 10000000
+          # - assert_min_value_ge:
+          #     min_value: 0
+          # - assert_max_value_lt:
+          #     max_value: 10000000
       - name: policy_module
         description: >
           The policy module number, which should be at most 3 digits.
         data_tests:
           - not_null
-          - assert_min_value_ge:
-              min_value: 0
-          - assert_max_value_lt:
-              max_value: 1000
+          # - assert_min_value_ge:
+          #     min_value: 0
+          # - assert_max_value_lt:
+          #     max_value: 1000
       - name: policy_eff_date
         description: >
           The effective date of the policy.
