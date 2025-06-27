@@ -18,25 +18,28 @@ models:
               values: [1, 3, 4, 5, 7]
       - name: policy_sym
         description: >
-          The policy symbol, which should be a three-character string.
+          The policy symbol, which should be from 1-character to 3-character string.
         data_tests:
           - not_null
-          - dbt_expectations.valid_string_length:
-              min: 1
-              max: 3
+          - assert_string_matches_regex:
+              regex: "{{ var('policy_sym_regex') }}"
       - name: policy_numb
         description: >
           The policy number, which should be at most 7 digits.
         data_tests:
           - not_null
-          - dbt_expectations.expect_column_values_to_be_less_than:
+          - assert_min_value_ge:
+              min_value: 0
+          - assert_max_value_lt:
               max_value: 10000000
       - name: policy_module
         description: >
           The policy module number, which should be at most 3 digits.
         data_tests:
           - not_null
-          - dbt_expectations.expect_column_values_to_be_less_than:
+          - assert_min_value_ge:
+              min_value: 0
+          - assert_max_value_lt:
               max_value: 1000
       - name: policy_eff_date
         description: >

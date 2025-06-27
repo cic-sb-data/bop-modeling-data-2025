@@ -58,6 +58,7 @@ vars:
   policy_eff_date__min_yrmo: 200901
   'dbt_date:time_zone': 'America/New_York'
   experian_loc: '/sas/data/project/EG/ActShared/ModelCommon/V5.3'
+  policy_sym_regex: '^[A-Z0-9]{1,3}$'
 
 flags:
   send_anonymous_usage_stats: false
