@@ -2,7 +2,7 @@
 
 with
 
-policies as (select * from {{ ref('stg__decfile__sb_policy_lookup') }}),
+policies as (select * from {{ ref('01__extract_distinct_policy_ids') }}),
 images as (select * from {{ ref('stg__decfile__sb_aiv_lookup') }}),
 
 join_images as (
@@ -15,8 +15,7 @@ join_images as (
         images.location_numb,
         images.class_code,
         policies.policy_eff_date,
-        images.image_eff_date,
-        images.image_exp_date
+        images.image_eff_date
 
     from images
     left join policies
