@@ -20,7 +20,7 @@ raw as (
 
 add_acct_key as ({{ add_bil_acct_key('raw') }}),
 
-add_id as (select row_number() over (order by bil_account_id, pol_nbr) as bil_policy_key, * from add_acct_key)
+add_id as (select row_number() over (order by bil_acct_id, pol_nbr) as bil_policy_key, * from add_acct_key)
 
 
 select *

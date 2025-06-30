@@ -19,7 +19,7 @@ raw as (
 recode_and_rename as (
     select
         bil_account_id as bil_acct_id,
-        bil_account_number as bil_acct_numb,
+        bil_account_nbr as bil_acct_numb,
         xcd_policy_id as bil_policy_id,
         pol_symbol_cd as policy_sym,
         pol_nbr as policy_numb,
