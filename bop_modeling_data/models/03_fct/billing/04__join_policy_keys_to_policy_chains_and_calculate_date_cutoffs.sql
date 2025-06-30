@@ -13,15 +13,18 @@ images as (
 ),
 
 chains as (
-    select *
-    from {{ ref('stg__modcom__policy_chain_v3') }}
+    select 
+        sb_policy_key,
+        policy_chain_id
+
+    from {{ ref('stg__decfile__sb_policy_lookup') }}
+    where policy_chain_id is not null
 ),
 
 joined as (
     select
         deduped.sb_aiv_key,
         deduped.sb_policy_key,
-        {{ five_key(table='images') }},
         chains.policy_chain_id,
 
         -- Claims evaluation and cutoff dates (SAS intnx logic)
@@ -58,7 +61,7 @@ joined as (
     left join images
         on deduped.sb_aiv_key = images.sb_aiv_key
     left join chains
-        on {{ five_key_join(table1='deduped', table2='chains') }}
+        on {{ five_key_join(table1='images', table2='chains') }}
 )
 
 select * from joined
