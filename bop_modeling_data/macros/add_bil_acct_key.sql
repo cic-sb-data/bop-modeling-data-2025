@@ -1,5 +1,4 @@
-{%- macro add_bil_acct_key(tbl) -%}
-    
+{%- macro add_bil_acct_key(tbl) %}
     with
 
     raw as (
