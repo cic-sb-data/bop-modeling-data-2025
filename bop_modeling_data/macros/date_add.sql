@@ -5,9 +5,8 @@
     {%- elif adapter == 'bigquery' -%}
         datetime_add({{ date_expr }}, INTERVAL {{ interval }} {{ datepart | upper }})
     {%- elif adapter == 'duckdb' -%}
-        {{ date_expr }} + INTERVAL {{ interval }} {{ datepart | upper }}
+        date_add({{ date_expr }}, interval {{ interval }} {{ datepart | upper }})
     {%- else -%}
-        -- Default to ANSI SQL
-        {{ date_expr }} + INTERVAL {{ interval }} {{ datepart | upper }}
+        date_add({{ date_expr }}, interval {{ interval }} {{ datepart | upper }})
     {%- endif -%}
 {% endmacro %}
