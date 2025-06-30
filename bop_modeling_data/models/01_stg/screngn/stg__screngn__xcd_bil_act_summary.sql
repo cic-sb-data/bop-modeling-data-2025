@@ -21,8 +21,8 @@ act_summary_key as (select * from {{ ref('xcd_bil_act_summary_key') }}),
 recode_and_renamed as (
     select
         BIL_ACCT_ID as bil_acct_id,
-        try_cast(BIL_ACY_DT as date) as BIL_ACY_DT,
-        try_cast(bil_acy_seq as uinteger) as bil_acy_seq,
+        BIL_ACY_DT as bil_activity_date,
+        try_cast(bil_acy_seq as uinteger) as bil_activity_seq_numb,
         POL_SYMBOL_CD as policy_sym,
         try_cast(POL_NBR as uinteger) as policy_numb,
         BIL_ACY_DES_CD as bil_act_desc_code,

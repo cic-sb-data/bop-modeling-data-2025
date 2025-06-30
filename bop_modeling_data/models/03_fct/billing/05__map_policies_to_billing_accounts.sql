@@ -7,11 +7,19 @@ policy_cutoffs as (
     from {{ ref('04__join_policy_keys_to_policy_chains_and_calculate_date_cutoffs') }}
 ),
 
+chains as (
+    select 
+        sb_policy_key,
+        policy_chain_id
+
+    from {{ ref('stg__decfile__sb_policy_lookup') }}
+)
+
 billing_policy as (
     select
         bil_account_id,
         bil_account_nbr,
-        policy_sym as pol_symbol_2,
+        pol_symbol as policy_sym,
         try_cast(policy_numb as bigint) as pol_nbr_numb,
         policy_numb as pol_nbr
     from {{ ref('stg__screngn__xcd_bil_policy') }}

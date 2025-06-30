@@ -129,5 +129,5 @@ sub_categorical_vars as (
 
 )
 
-select * exclude (billing_acct_id)
+select * 
 from add_acct_key
