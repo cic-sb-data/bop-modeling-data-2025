@@ -1,16 +1,16 @@
 {%- macro five_key(table='NONE') -%}
-    {%- if table_name == 'NONE' -%}
+    {%- if table == 'NONE' -%}
         company_numb,
         policy_sym,
         policy_numb,
         policy_module,
         policy_eff_date
     {%- else -%}
-        {{ table_name }}.company_numb,
-        {{ table_name }}.policy_sym,
-        {{ table_name }}.policy_numb,
-        {{ table_name }}.policy_module,
-        {{ table_name }}.policy_eff_date
+        {{ table }}.company_numb,
+        {{ table }}.policy_sym,
+        {{ table }}.policy_numb,
+        {{ table }}.policy_module,
+        {{ table }}.policy_eff_date
     {%- endif -%}
 {%- endmacro -%}
 
