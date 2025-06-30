@@ -8,8 +8,13 @@ deduped as (
 ),
 
 images as (
-    select *
-    from {{ ref('02__build_policy_image_keys') }}
+    select  
+        sb_aiv_key,
+        sb_policy_key,
+        policy_eff_date,
+        image_eff_date
+
+    from {{ ref('stg__decfile__sb_aiv_lookup') }}
 ),
 
 chains as (
@@ -61,7 +66,8 @@ joined as (
     left join images
         on deduped.sb_aiv_key = images.sb_aiv_key
     left join chains
-        on {{ five_key_join(table1='images', table2='chains') }}
+        on deduped.sb_policy_key = chains.sb_policy_key
+        and images.sb_policy_key = chains.sb_policy_key
 )
 
 select * from joined
