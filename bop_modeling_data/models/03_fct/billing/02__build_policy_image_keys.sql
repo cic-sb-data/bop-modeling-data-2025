@@ -23,8 +23,8 @@ join_images as (
         policies.policy_numb,
         policies.policy_module,
         policies.policy_eff_date,
-        images.image_eff_date,
-        images.image_exp_date
+        images.image_eff_date
+        -- There is no images.image_exp_date
     from images
     left join policies
         on policies.sb_policy_key = images.sb_policy_key

@@ -101,7 +101,6 @@ Defined in `tests/generic/` and `tests/singular/`:
 - Some macros have docstrings or comments.
 
 **Needs completion:**
-- Some placeholder columns in raw models and temporary models (e.g., `_schema.yml` files) need detailed descriptions.
 - Not all columns in all models have full descriptions.
 - Some macros and utility SQL may benefit from more detailed doc blocks.
 - Centralized documentation (like this file) is being established.
