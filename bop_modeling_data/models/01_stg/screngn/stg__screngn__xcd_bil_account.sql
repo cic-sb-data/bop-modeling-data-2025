@@ -127,6 +127,9 @@ sub_categorical_vars as (
             on raw.billing_collection_plan = lkp.billing_collection_plan
     )
 
+    select *
+    from collection_plan
+
 )
 
 select * 
