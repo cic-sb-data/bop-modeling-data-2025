@@ -2,17 +2,7 @@
 
 with
 
-raw as (
-    select
-        * replace(
-        {{ recode__sas_date_format('BIL_ACY_DT') }} as BIL_ACY_DT,
-        {{ recode__sas_date_format('BIL_ACY_DES1_DT') }} as BIL_ACY_DES1_DT,
-        {{ recode__sas_date_format('BIL_ACY_DES2_DT') }} as BIL_ACY_DES2_DT
-    )
-
-    from {{ ref('raw__screngn__xcd_bil_act_summary') }}
-),
-
+raw as (select * from {{ ref('raw__screngn__xcd_bil_act_summary') }}),
 acct_key as (select * from {{ ref('xcd_bil_acct_key') }}),
 act_desc_key as (select * from {{ ref('_xcd_act_desc_key') }}),
 act_reason_key as (select * from {{ ref('_xcd_act_reason_key') }}),
@@ -21,14 +11,14 @@ act_summary_key as (select * from {{ ref('xcd_bil_act_summary_key') }}),
 recode_and_renamed as (
     select
         BIL_ACCT_ID as bil_acct_id,
-        BIL_ACY_DT as bil_activity_date,
+        {{ recode__sas_date_format('BIL_ACY_DT') }} as bil_activity_date,
         try_cast(bil_acy_seq as uinteger) as bil_activity_seq_numb,
         POL_SYMBOL_CD as policy_sym,
         try_cast(POL_NBR as uinteger) as policy_numb,
         BIL_ACY_DES_CD as bil_act_desc_code,
         BIL_DES_REA_TYP as bil_act_reason_type_code,
-        try_cast(BIL_ACY_DES1_DT as date) as bil_act_desc1_date,
-        try_cast(BIL_ACY_DES2_DT as date) as bil_act_desc2_date,
+        {{ recode__sas_date_format('BIL_ACY_DES1_DT') }} as bil_act_desc1_date,
+        {{ recode__sas_date_format('BIL_ACY_DES2_DT') }} as bil_act_desc2_date,
         try_cast(BIL_ACY_AMT as double) as bil_act_amt,
         USER_ID as user_id,
         split(BIL_ACY_TS, ':')[1] as bil_act_time,

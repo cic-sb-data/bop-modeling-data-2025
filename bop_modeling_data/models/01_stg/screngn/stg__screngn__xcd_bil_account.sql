@@ -49,8 +49,7 @@ renamed_casted as (
             BIL_COLLECTION_PLN,
             BIL_COLLECTION_PLN_DESC,
             BIL_ACCOUNT_NBR,
-            BAT_PREV_BAL_AMT,
-            bil_account_id_hash
+            BAT_PREV_BAL_AMT
         ) replace (
             try_cast(bat_start_due_dt as date) as BAT_START_DUE_DT,
             coalesce(try_cast(bat_last_day_ind as integer), -1) as BAT_LAST_DAY_IND,
