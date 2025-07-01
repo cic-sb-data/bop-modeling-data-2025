@@ -28,10 +28,7 @@ renamed_casted as (
         BIL_COLLECTION_METHOD_DESC as billing_collection_method_desc,
         BIL_COLLECTION_PLN as billing_collection_plan,
         BIL_COLLECTION_PLN_DESC as billing_collection_plan_desc,
-
-        * exclude (
-            bil_account_id_hash
-        ) replace (
+        * replace (
             try_cast(bat_start_due_dt as date) as BAT_START_DUE_DT,
             coalesce(try_cast(bat_last_day_ind as integer), -1) as BAT_LAST_DAY_IND,
             try_cast(BIL_START_RFR_DT as date) as BIL_START_RFR_DT,
