@@ -30,26 +30,7 @@ renamed_casted as (
         BIL_COLLECTION_PLN_DESC as billing_collection_plan_desc,
 
         * exclude (
-            bil_account_id_hash,
-            BIL_ACCOUNT_ID,
-            BIL_CLASS_CD,
-            BAT_PAY_CLT_ID,
-            BIL_SUS_FU_REA_CD,
-            BAT_CASH_STATUS_CD,
-            BIL_SUS_DSB_REA_CD,
-            APP_MIGRATION_CD,
-            BIL_TYPE_CD,
-            BIL_TYPE_DESC,
-            BAT_STATUS_CD,
-            BAT_STATUS_DESC,
-            BIL_PRESENTMENT_CD,
-            BIL_PRESENTMENT_DESC,
-            BIL_COLLECTION_MTH,
-            BIL_COLLECTION_METHOD_DESC,
-            BIL_COLLECTION_PLN,
-            BIL_COLLECTION_PLN_DESC,
-            BIL_ACCOUNT_NBR,
-            BAT_PREV_BAL_AMT
+            bil_account_id_hash
         ) replace (
             try_cast(bat_start_due_dt as date) as BAT_START_DUE_DT,
             coalesce(try_cast(bat_last_day_ind as integer), -1) as BAT_LAST_DAY_IND,
