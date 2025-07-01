@@ -11,7 +11,6 @@ act_summary_key as (select * from {{ ref('xcd_bil_act_summary_key') }}),
 recode_and_renamed as (
     select
         BIL_ACCT_ID as bil_acct_id,
-        try_cast(bil_acy_seq as uinteger) as bil_act_seq_numb,
         POL_SYMBOL_CD as policy_sym,
         try_cast(POL_NBR as uinteger) as policy_numb,
         BIL_ACY_DES_CD as bil_act_desc_code,
@@ -21,7 +20,9 @@ recode_and_renamed as (
         try_cast(BIL_ACY_AMT as double) as bil_act_amt,
         USER_ID as user_id,
         split(BIL_ACY_TS, ':')[1] as bil_act_time,
-        BAS_ADD_DATA_TXT as billing_act_summary_addl_data
+        BAS_ADD_DATA_TXT as billing_act_summary_addl_data,
+
+        *
 
     from raw
 ),

@@ -28,16 +28,15 @@ renamed_casted as (
         BIL_COLLECTION_METHOD_DESC as billing_collection_method_desc,
         BIL_COLLECTION_PLN as billing_collection_plan,
         BIL_COLLECTION_PLN_DESC as billing_collection_plan_desc,
-        * replace (
-            try_cast(bat_start_due_dt as date) as BAT_START_DUE_DT,
-            coalesce(try_cast(bat_last_day_ind as integer), -1) as BAT_LAST_DAY_IND,
-            try_cast(BIL_START_RFR_DT as date) as BIL_START_RFR_DT,
-            coalesce(try_cast(BIL_RFR_LST_DAY as integer), -1) as BIL_RFR_LST_DAY,
+        try_cast(bat_start_due_dt as date) as bil_acct_start_due_date,,
+        coalesce(try_cast(bat_last_day_ind as integer), -1) as bil_acct_last_day_ind,
+        try_cast(BIL_START_RFR_DT as date) as bil_start_rfr_date,
+        coalesce(try_cast(BIL_RFR_LST_DAY as integer), -1) as bil_rfr_last_day,
 
-            try_cast(BIL_LOK_TS as datetime) as BIL_LOK_TS,
-            try_cast(BIL_START_DED_DT as date) as BIL_START_DED_DT,
-            try_cast(BIL_START_DED_RFR_DT as date) as BIL_START_DED_RFR_DT
-        ) 
+        try_cast(BIL_LOK_TS as datetime) as bil_lok_ts,
+        try_cast(BIL_START_DED_DT as date) as bil_start_ded_date,
+        try_cast(BIL_START_DED_RFR_DT as date) as bil_start_ded_rfr_date
+
     from raw
 ),
 
