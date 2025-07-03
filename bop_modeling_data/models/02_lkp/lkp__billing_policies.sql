@@ -1,5 +1,10 @@
 with
 
+raw_pols as (
+    select *
+    from {{ ref('lkp__bil_policy_key') }}
+)
+
 raw_billing_pols as (
     select distinct
         bil_account_id_hash as bil_acct_key,
@@ -17,14 +22,14 @@ raw_billing_pols as (
         policy_eff_date
 ),
 
-associated_policies as (
+{# associated_policies as (
     select 
         associated_policy_key,
         associated_sb_policy_key,
         policy_chain_id,
-        {{ five_key() }}
+         five_key() 
 
-    from {{ ref('lkp__associated_policies') }}
+    from  ref('lkp__associated_policies') 
 ),
 
 filter_raw_billing_policies as (
@@ -55,8 +60,8 @@ add_billing_sb_policy_key as (
         *
 
     from filter_raw_billing_policies
-)
+) #}
 
 
 select *
-from add_billing_sb_policy_key
+from raw_pols

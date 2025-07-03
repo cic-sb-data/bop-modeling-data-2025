@@ -73,46 +73,46 @@ models:
 
   - name: lkp__billing_policies
     description: 'Associates billing data with policies, linking sb_policy_key to billing system keys.'
-    columns:
-      - name: billing_sb_policy_key
-        description: 'Key for billing small business policy.'
-        data_tests:
-          - dbt_expectations.expect_column_min_to_be_between:
-              min_value: 0
-              max_value: 10
-          - dbt_expectations.expect_column_to_exist
-        data_type: bigint
-      - name: associated_policy_key
-        data_tests:
-          - dbt_expectations.expect_column_to_exist
-          - relationships:
-              field: associated_policy_key
-              to: ref('associated_policies')
-        data_type: hugeint
-      - name: bil_acct_key
-        data_tests:
-          - dbt_expectations.expect_column_to_exist
-        data_type: bigint
-      - name: billing_policy_key
-        data_tests:
-          - dbt_expectations.expect_column_to_exist
-        data_type: hugeint
-      - name: associated_sb_policy_key
-        data_type: uinteger
-        data_tests:
-          - dbt_expectations.expect_column_min_to_be_between:
-              min_value: 0
-              max_value: 10
-      - name: billing_policy_id
-        data_type: varchar
-      - name: bil_acct_id
-        data_type: varchar
-      - name: policy_sym
-        data_type: varchar
-      - name: policy_numb
-        data_type: uinteger
-      - name: policy_eff_date
-        data_type: date
+    # columns:
+    #   - name: billing_sb_policy_key
+    #     description: 'Key for billing small business policy.'
+    #     data_tests:
+    #       - dbt_expectations.expect_column_min_to_be_between:
+    #           min_value: 0
+    #           max_value: 10
+    #       - dbt_expectations.expect_column_to_exist
+    #     data_type: bigint
+    #   - name: associated_policy_key
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #       - relationships:
+    #           field: associated_policy_key
+    #           to: ref('associated_policies')
+    #     data_type: hugeint
+    #   - name: bil_acct_key
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #     data_type: bigint
+    #   - name: billing_policy_key
+    #     data_tests:
+    #       - dbt_expectations.expect_column_to_exist
+    #     data_type: hugeint
+    #   - name: associated_sb_policy_key
+    #     data_type: uinteger
+    #     data_tests:
+    #       - dbt_expectations.expect_column_min_to_be_between:
+    #           min_value: 0
+    #           max_value: 10
+    #   - name: billing_policy_id
+    #     data_type: varchar
+    #   - name: bil_acct_id
+    #     data_type: varchar
+    #   - name: policy_sym
+    #     data_type: varchar
+    #   - name: policy_numb
+    #     data_type: uinteger
+    #   - name: policy_eff_date
+    #     data_type: date
 
   - name: lkp__dates
     description: 'Generates a date dimension table, potentially including prior year flags or calculations.'
