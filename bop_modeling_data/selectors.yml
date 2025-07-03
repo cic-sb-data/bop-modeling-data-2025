@@ -1,0 +1,6 @@
+selectors:
+  - name: lkp
+    description: "Select all models with the tag 'lkp'"
+    definition:
+      method: tag
+      value: lkp

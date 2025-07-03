@@ -11,6 +11,7 @@ with
 lkp as ({{ bil_table_lookup(xcd_bil_table, primary_keys) }}),
 add_acct_key as ({{ add_bil_acct_key('lkp') }}),
 
+
 recoded as (
     select 
         {{ _get_xcd_bil_key_name(xcd_bil_table) }},
@@ -51,6 +52,6 @@ add_policy_seq_numb as (
     from join_eff_dates
 )
 
+
 select *
 from add_policy_seq_numb
-order by {{ _get_xcd_bil_key_name(xcd_bil_table) }}, policy_seq_numb
