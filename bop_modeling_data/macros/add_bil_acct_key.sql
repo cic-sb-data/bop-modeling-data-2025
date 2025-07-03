@@ -3,7 +3,7 @@
 
     raw as (
         select *
-        from {{ ref('xcd_bil_acct_key') }}
+        from {{ ref('lkp__bil_acct_key') }}
     ),
 
     joined as (

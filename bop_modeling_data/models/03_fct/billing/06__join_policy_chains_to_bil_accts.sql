@@ -7,9 +7,9 @@ cutoffs as (
     from {{ ref('04__join_policy_keys_to_policy_chains_and_calculate_date_cutoffs') }}
 ),
 
-billing_accts as (
+bil_accts as (
     select *
-    from {{ ref('05__map_policies_to_billing_accounts') }}
+    from {{ ref('05__map_policies_to_bil_accts') }}
 ),
 
 joined as (
@@ -51,7 +51,7 @@ joined as (
         -- Existence indicator: 1 if any billing account exists for the chain, else 0
         max(case when b.bil_account_id is not null then 1 else 0 end) over (partition by c.sb_aiv_key) as cinbill_acct_by_chain_exists_ind
     from cutoffs c
-    left join billing_accts b
+    left join bil_accts b
         on c.policy_chain_id = b.policy_chain_id
 )
 

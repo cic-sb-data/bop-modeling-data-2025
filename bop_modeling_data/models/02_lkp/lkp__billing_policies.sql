@@ -2,17 +2,17 @@ with
 
 raw_billing_pols as (
     select distinct
-        bil_account_id_hash as billing_acct_key,
+        bil_account_id_hash as bil_acct_key,
         md5_number(XCD_POLICY_ID) as billing_policy_key,
         XCD_POLICY_ID as billing_policy_id,
-        BIL_ACCOUNT_ID as billing_acct_id,
+        BIL_ACCOUNT_ID as bil_acct_id,
         POL_SYMBOL_CD as policy_sym,
         try_cast(POL_NBR as uint32) as policy_numb,
         POL_EFFECTIVE_DT as policy_eff_date
 
     from {{ ref('stg__screngn__xcd_bil_cash_dsp') }}
     order by
-        billing_acct_key,
+        bil_acct_key,
         billing_policy_key,
         policy_eff_date
 ),
@@ -44,7 +44,7 @@ filter_raw_billing_policies as (
     order by 
         associated_policies.associated_policy_key,
         associated_policies.associated_sb_policy_key,
-        raw_billing_pols.billing_acct_key,
+        raw_billing_pols.bil_acct_key,
         raw_billing_pols.billing_policy_key,
         raw_billing_pols.policy_eff_date
 ),

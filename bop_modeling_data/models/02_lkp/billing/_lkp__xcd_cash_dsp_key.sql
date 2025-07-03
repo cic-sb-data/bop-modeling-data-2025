@@ -1,9 +1,9 @@
 {%- set xcd_bil_table='cash_dsp' -%}
 {%- set primary_keys = [
-    ('BIL_ACCOUNT_ID', 'billing_acct_id'),
-    ('BIL_DTB_DT', 'billing_distribution_date'),
-    ('BIL_DTB_SEQ_NBR', 'billing_distribution_seq_numb'),
-    ('BIL_DSP_SEQ_NBR', 'billing_disposition_seq_numb')
+    ('BIL_ACCOUNT_ID', 'bil_acct_id'),
+    ('BIL_DTB_DT', 'bil_distribution_date'),
+    ('BIL_DTB_SEQ_NBR', 'bil_distribution_seq_numb'),
+    ('BIL_DSP_SEQ_NBR', 'bil_disposition_seq_numb')
 ]-%}
 
 with 
@@ -14,10 +14,10 @@ add_acct_key as ({{ add_bil_acct_key('lkp') }}),
 recoded as (
     select
         bil_cash_dsp_key,
-        bil_account_key,
-        {{ recode__sas_date_format('billing_distribution_date') }} as billing_distribution_date,
-        try_cast(billing_distribution_seq_numb as uinteger) as billing_distribution_seq_numb,
-        try_cast(billing_disposition_seq_numb as uinteger) as billing_disposition_seq_numb
+        bil_acct_key,
+        {{ recode__sas_date_format('bil_distribution_date') }} as bil_distribution_date,
+        try_cast(bil_distribution_seq_numb as uinteger) as bil_distribution_seq_numb,
+        try_cast(bil_disposition_seq_numb as uinteger) as bil_disposition_seq_numb
     from add_acct_key
 )
 

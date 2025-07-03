@@ -13,7 +13,7 @@ chains as (
         policy_chain_id
 
     from {{ ref('stg__decfile__sb_policy_lookup') }}
-)
+),
 
 billing_policy as (
     select

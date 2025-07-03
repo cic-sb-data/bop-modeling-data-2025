@@ -16,7 +16,7 @@ recoded as (
     select
         bil_policy_trm_key,
         bil_policy_key,
-        bil_account_key,
+        bil_acct_key,
         policy_sym,
         policy_numb,
         policy_eff_date,

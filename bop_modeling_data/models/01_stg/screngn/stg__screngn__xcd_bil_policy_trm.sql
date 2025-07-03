@@ -1,4 +1,4 @@
--- depends_on: {{ ref('xcd_bil_acct_key') }}
+-- depends_on: {{ ref('lkp__bil_acct_key') }}
 
 with 
 
@@ -58,5 +58,6 @@ add_id as (
 
 
 select *
-from add_id
-order by bil_policy_key
+from add_acct_key
+{# from add_id
+order by bil_policy_key #}

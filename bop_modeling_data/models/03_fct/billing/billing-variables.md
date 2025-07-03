@@ -104,7 +104,7 @@ All inputs should be referenced via dbt staging models, not raw tables. The key 
    - Join policy images to chain IDs and calculate evaluation/cutoff dates using the policy chain staging model.
    - Test: Correct join logic, date calculations.
 
-4. **stg_billing_accounts**
+4. **stg_bil_accts**
    - Map policy symbol/number to billing accounts and chain IDs using the billing policy staging model.
    - Test: No duplicate mappings, all expected columns.
 

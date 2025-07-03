@@ -15,7 +15,7 @@ policy_key as (
         bil_policy_key,
         bil_policy_id
 
-    from {{ ref('xcd_bil_policy_key') }}
+    from {{ ref('lkp__bil_policy_key') }}
 ),
 
 recoded as (

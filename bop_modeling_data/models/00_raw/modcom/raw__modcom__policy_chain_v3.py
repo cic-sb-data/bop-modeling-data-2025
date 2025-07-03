@@ -3,6 +3,9 @@ import duckdb
 import pandas as pd
 import polars as pl
 from pathlib import Path
+import os
+
+is_andys_laptop = os.getenv("IS_ANDY_LAPTOP", "0") == "1"
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="temp.log")
@@ -69,15 +72,26 @@ df_params={
 
 
 def model(dbt, session):
-    counter = 1
-    with duckdb.connect() as conn:
-        for df in pd.read_sas(MODCOM / FILENAME, **df_params):
-            if counter==1:
-                counter += 1
-                conn.sql(FIRST_QUERY)
-            else:
-                conn.sql(EVERY_OTHER_QUERY)
+    if not is_andys_laptop:
+        counter = 1
+        with duckdb.connect() as conn:
+            for df in pd.read_sas(MODCOM / FILENAME, **df_params):
+                if counter==1:
+                    counter += 1
+                    conn.sql(FIRST_QUERY)
+                else:
+                    conn.sql(EVERY_OTHER_QUERY)
 
-        out = conn.sql("SELECT * FROM raw_tbl").df()
+            data = conn.sql("SELECT * FROM raw_tbl").df()
 
-    return out
+    else:
+        data = pl.read_csv("/home/aweaver/work/bop-modeling-data-2025/devdb/modcom__policy_chain_v3.csv")
+        data = data.with_columns([
+            pl.col("policy_chain_id").cast(pl.UInt32),
+            pl.col("company_numb").cast(pl.UInt8),
+            pl.col("policy_sym").cast(pl.Utf8),
+            pl.col("policy_numb").cast(pl.UInt32),
+            pl.col("policy_module").cast(pl.UInt32),
+            pl.col("policy_eff_date").str.split(' ').list.get(0).cast(pl.Date)
+        ])
+    return data

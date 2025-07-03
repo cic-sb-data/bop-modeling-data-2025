@@ -4,7 +4,7 @@ with
 
 cutoffs as (
     select *
-    from {{ ref('06__join_policy_chains_to_billing_accounts') }}
+    from {{ ref('06__join_policy_chains_to_bil_accts') }}
 ),
 
 rnpc_all as (

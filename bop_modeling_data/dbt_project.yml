@@ -34,6 +34,13 @@ models:
       +materialized: view
       +tags:
         - fct
+      credit_score:
+        +materialized: view
+        +schema: fct_cr_score
+        +tags:
+          - credit_score
+          - cr_score
+          - intermediate_steps  
       billing:
         +materialized: view
         +schema: fct_billing

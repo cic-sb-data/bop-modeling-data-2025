@@ -1,10 +1,10 @@
--- depends_on: {{ ref('xcd_bil_acct_key') }}
+-- depends_on: {{ ref('lkp__bil_acct_key') }}
 
 with
 
 raw as (
     select 
-        bil_account_id as billing_acct_id,
+        bil_account_id as bil_acct_id,
         XCD_POLICY_ID as billing_policy_id,
         bil_account_id_hash,
         * exclude(

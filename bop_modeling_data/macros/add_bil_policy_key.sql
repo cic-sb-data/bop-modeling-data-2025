@@ -4,7 +4,7 @@
 
     raw as (
         select *
-        from {{ ref('xcd_bil_policy_key') }}
+        from {{ ref('lkp__bil_policy_key') }}
     ),
 
     joined as (
