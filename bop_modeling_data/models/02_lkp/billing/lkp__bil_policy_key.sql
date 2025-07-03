@@ -28,7 +28,7 @@ eff_dates as (
         xcd_policy_id as bil_policy_id,
         {{ recode__sas_date_format('POL_EFFECTIVE_DT') }} as policy_eff_date
 
-    from {{ ref('stg__screngn__xcd_bil_policy_trm') }}
+    from {{ ref('raw__screngn__xcd_bil_policy_trm') }}
 ),
 
 join_eff_dates as (

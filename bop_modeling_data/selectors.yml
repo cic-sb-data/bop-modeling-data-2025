@@ -4,3 +4,8 @@ selectors:
     definition:
       method: tag
       value: lkp
+  - name: fct_bill
+    description: "Select all FACT models in the BILLING directory"
+    definition:
+      method: path
+      value: "models/03_fct/billing"

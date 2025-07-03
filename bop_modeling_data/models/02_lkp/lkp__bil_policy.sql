@@ -84,3 +84,4 @@ drop_any_policies_that_arent_in_set_of_associated_policies as (
 
 select *
 from drop_any_policies_that_arent_in_set_of_associated_policies
+order by bil_policy_trm_key

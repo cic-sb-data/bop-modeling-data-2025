@@ -1,4 +1,4 @@
--- This model joins policy keys to policy chains and calculates date cutoffs.
+{%- set date_col = 'policy_eff_date' -%}
 
 with
 
@@ -35,34 +35,34 @@ joined as (
         chains.policy_chain_id,
 
         -- Claims evaluation and cutoff dates (SAS intnx logic)
-        {{ date_add('month', -4, 'image_eff_date') }} as clm_eval_date,
+        {{ date_add('month', -4, date_col) }} as clm_eval_date,
 
-        {{ date_add('month', -8, date_add('month', -4, 'image_eff_date')) }} as clm_prev_1yr_start,
-        {{ date_add('month', -20, date_add('month', -4, 'image_eff_date')) }} as clm_prev_2yr_start,
-        {{ date_add('month', -32, date_add('month', -4, 'image_eff_date')) }} as clm_prev_3yr_start,
-        {{ date_add('month', -44, date_add('month', -4, 'image_eff_date')) }} as clm_prev_4yr_start,
-        {{ date_add('month', -56, date_add('month', -4, 'image_eff_date')) }} as clm_prev_5yr_start,
+        {{ date_add('month', -8, date_add('month', -4, date_col)) }} as clm_prev_1yr_start,
+        {{ date_add('month', -20, date_add('month', -4, date_col)) }} as clm_prev_2yr_start,
+        {{ date_add('month', -32, date_add('month', -4, date_col)) }} as clm_prev_3yr_start,
+        {{ date_add('month', -44, date_add('month', -4, date_col)) }} as clm_prev_4yr_start,
+        {{ date_add('month', -56, date_add('month', -4, date_col)) }} as clm_prev_5yr_start,
 
-        {{ date_add('month', -4, 'image_eff_date') }} as clm_prev_1yr_end,
-        {{ date_add('month', -8, date_add('month', -4, 'image_eff_date')) }} as clm_prev_2yr_end,
-        {{ date_add('month', -20, date_add('month', -4, 'image_eff_date')) }} as clm_prev_3yr_end,
-        {{ date_add('month', -32, date_add('month', -4, 'image_eff_date')) }} as clm_prev_4yr_end,
-        {{ date_add('month', -44, date_add('month', -4, 'image_eff_date')) }} as clm_prev_5yr_end,
+        {{ date_add('month', -4, date_col) }} as clm_prev_1yr_end,
+        {{ date_add('month', -8, date_add('month', -4, date_col)) }} as clm_prev_2yr_end,
+        {{ date_add('month', -20, date_add('month', -4, date_col)) }} as clm_prev_3yr_end,
+        {{ date_add('month', -32, date_add('month', -4, date_col)) }} as clm_prev_4yr_end,
+        {{ date_add('month', -44, date_add('month', -4, date_col)) }} as clm_prev_5yr_end,
 
         -- Billing evaluation and cutoff dates (SAS intnx logic)
-        {{ date_add('month', -4, 'image_eff_date') }} as bil_eval_date,
+        {{ date_add('month', -4, date_col) }} as bil_eval_date,
 
-        {{ date_add('year', -1, 'image_eff_date') }} as bil_prev_1yr_start,
-        {{ date_add('year', -2, 'image_eff_date') }} as bil_prev_2yr_start,
-        {{ date_add('year', -3, 'image_eff_date') }} as bil_prev_3yr_start,
-        {{ date_add('year', -4, 'image_eff_date') }} as bil_prev_4yr_start,
-        {{ date_add('year', -5, 'image_eff_date') }} as bil_prev_5yr_start,
+        {{ date_add('year', -1, date_col) }} as bil_prev_1yr_start,
+        {{ date_add('year', -2, date_col) }} as bil_prev_2yr_start,
+        {{ date_add('year', -3, date_col) }} as bil_prev_3yr_start,
+        {{ date_add('year', -4, date_col) }} as bil_prev_4yr_start,
+        {{ date_add('year', -5, date_col) }} as bil_prev_5yr_start,
 
-        {{ date_add('month', -4, 'image_eff_date') }} as bil_prev_1yr_end,
-        {{ date_add('year', -1, 'image_eff_date') }}  as bil_prev_2yr_end,
-        {{ date_add('year', -2, 'image_eff_date') }}  as bil_prev_3yr_end,
-        {{ date_add('year', -3, 'image_eff_date') }}  as bil_prev_4yr_end,
-        {{ date_add('year', -4, 'image_eff_date') }}  as bil_prev_5yr_end
+        {{ date_add('month', -4, date_col) }} as bil_prev_1yr_end,
+        {{ date_add('year', -1, date_col) }}  as bil_prev_2yr_end,
+        {{ date_add('year', -2, date_col) }}  as bil_prev_3yr_end,
+        {{ date_add('year', -3, date_col) }}  as bil_prev_4yr_end,
+        {{ date_add('year', -4, date_col) }}  as bil_prev_5yr_end
 
     from deduped
     left join images

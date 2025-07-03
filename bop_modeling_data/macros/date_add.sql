@@ -5,8 +5,16 @@
     {%- elif adapter == 'bigquery' -%}
         datetime_add({{ date_expr }}, INTERVAL '{{ interval }} {{ datepart | upper }}')
     {%- elif adapter == 'duckdb' -%}
-        date_add({{ date_expr }}, interval '{{ interval }} {{ datepart | upper }}')
+        try_cast(
+            try_cast(
+                date_add({{ date_expr }}, interval '{{ interval }} {{ datepart | upper }}') as date
+            ) as timestamp
+        )
     {%- else -%}
-        date_add({{ date_expr }}, interval '{{ interval }} {{ datepart | upper }}')
+        try_cast(
+            try_cast(
+                date_add({{ date_expr }}, interval '{{ interval }} {{ datepart | upper }}') as date
+            ) as timestamp
+        )
     {%- endif -%}
 {% endmacro %}
