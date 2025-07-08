@@ -4,10 +4,10 @@
 
 All inputs should be referenced via dbt staging models, not raw tables. The key staging models are:
 
-- **stg__screngn__xcd_bil_policy**  
+- **stg__screngn__bil_policy**  
   Maps policies to billing accounts.
 
-- **stg__screngn__xcd_bil_act_summary**  
+- **stg__screngn__bil_act_summary**  
   Contains billing activity, including non-pay cancellations.
 
 - **stg__decfile__sb_policy_lookup**  

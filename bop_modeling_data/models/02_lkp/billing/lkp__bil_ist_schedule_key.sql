@@ -44,4 +44,4 @@ joined as (
 select *
 from recoded
 where bil_seq_numb is not null
-order by {{ _get_xcd_bil_key_name(xcd_bil_table) }}
+order by {{ _get_key_name(xcd_bil_table) }}

@@ -9,15 +9,16 @@ act_summary as (
 
 filtered as (
     select
-        bil_account_id,
-        bil_acy_dt,
-        bil_acy_seq,
-        bil_acy_amt,
-        left(trim(policy_sym), 2) as pol_symbol_2,
-        left(trim(policy_numb), 7) as pol_nbr
+        bil_act_summary_key,
+        bil_acct_key,
+        bil_act_amt
+
     from act_summary
-    where bil_acy_des_cd = 'C'
-      and (bil_des_rea_typ is null or bil_des_rea_typ = '')
+    where bil_act_desc_code = 'C'
+    and (
+        bil_act_reason_type_code is null 
+        or bil_act_reason_type_code = ''
+    )
 )
 
 select *

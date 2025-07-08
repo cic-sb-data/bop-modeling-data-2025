@@ -97,7 +97,7 @@ raw as (
 
 add_bil_act_reason_type_key as (
     select 
-        row_number() over() as activity_reason_key,
+        row_number() over() as bil_act_reason_key,
         *
 
     from raw

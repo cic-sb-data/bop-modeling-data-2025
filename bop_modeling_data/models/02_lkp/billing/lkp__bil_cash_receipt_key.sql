@@ -21,4 +21,4 @@ recoded as (
 
 select *
 from recoded
-order by {{ _get_xcd_bil_key_name(xcd_bil_table) }}
+order by {{ _get_key_name(xcd_bil_table) }}

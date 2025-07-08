@@ -14,7 +14,7 @@ add_acct_key as ({{ add_bil_acct_key('lkp') }}),
 
 recoded as (
     select 
-        {{ _get_xcd_bil_key_name(xcd_bil_table) }},
+        {{ _get_key_name(xcd_bil_table) }},
         bil_acct_key,
         bil_policy_id,
         policy_sym,
@@ -45,7 +45,7 @@ add_policy_seq_numb as (
     select
         *,
         row_number() over(
-            partition by {{ _get_xcd_bil_key_name(xcd_bil_table) }}
+            partition by {{ _get_key_name(xcd_bil_table) }}
             order by policy_eff_date
         ) as policy_seq_numb
         

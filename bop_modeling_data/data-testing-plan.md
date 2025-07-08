@@ -153,7 +153,7 @@ By strategically combining these packages, the data testing plan aims to be comp
     *   **Row Counts**: Ensure `distinct` operation behaves as expected.
     *   **Date Casting**: Verify `policy_eff_date` is correctly cast and reasonable.
 
-3.  **`stg__screngn__*` models (e.g., `stg__screngn__xcd_bil_act_summary.sql`)**
+3.  **`stg__screngn__*` models (e.g., `stg__screngn__bil_act_summary.sql`)**
     *   **AIV Field Checks**: If any fields from these staging models are used in conjunction with or are expected to align with AIV data downstream, note them for cross-validation.
     *   **Key Hashing** (e.g., `bil_account_id_hash`): Test for `not_null`.
     *   **Date Transformations** (e.g., `recode__sas_date_format` macro):
@@ -162,7 +162,7 @@ By strategically combining these packages, the data testing plan aims to be comp
     *   **Monetary Fields**: Check that sums are preserved from raw if no filtering occurred, or that transformations are correct.
 
 4.  **`stg__cur_cb.sql`**
-    *   **Join Integrity**: This model joins `lkp__billing_policies` and `stg__cur_cb__xcd_bil_act_summary`.
+    *   **Join Integrity**: This model joins `lkp__billing_policies` and `stg__cur_cb_lkp__bil_act_summary`.
         *   Test relationship `bil_acct_key` to `lkp__billing_policies.bil_acct_key` using `dbt_utils.relationships`.
         *   Ensure no unexpected row loss or duplication due to joins. Check row counts before and after the join.
     *   **Filtering Logic**: Verify the `where billing_activity_desc_cd='C' and billing_activity_desc_reason_type is null` clause.

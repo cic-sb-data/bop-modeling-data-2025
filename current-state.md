@@ -50,15 +50,15 @@ Organized by layer and folder. Key models and their purposes:
 - **raw__modcom__policy_chain_v3**: Raw policy chain data from SAS (Python model).
 
 ### Staging Layer (`01_stg`)
-- **screngn__xcd_bil_account**: Renames/casts billing account fields.
-- **screngn__xcd_bil_act_summary**: Cleans billing activity summary.
-- **screngn__xcd_bil_cash_dsp**: Cleans billing cash disposition.
-- **screngn__xcd_bil_cash_receipt**: Cleans billing cash receipt.
-- **screngn__xcd_bil_des_reason**: Cleans billing description reasons.
-- **screngn__xcd_bil_ist_schedule**: Cleans installment schedule.
-- **screngn__xcd_bil_pol_proc_req**: Cleans policy processing requests.
-- **screngn__xcd_bil_policy_trm**: Cleans policy term data.
-- **screngn__xcd_bil_policy**: Cleans policy data.
+- **screngn__bil_account**: Renames/casts billing account fields.
+- **screngn__bil_act_summary**: Cleans billing activity summary.
+- **screngn__bil_cash_dsp**: Cleans billing cash disposition.
+- **screngn__bil_cash_receipt**: Cleans billing cash receipt.
+- **screngn__bil_des_reason**: Cleans billing description reasons.
+- **screngn__bil_ist_schedule**: Cleans installment schedule.
+- **screngn__bil_pol_proc_req**: Cleans policy processing requests.
+- **screngn__bil_policy_trm**: Cleans policy term data.
+- **screngn__bil_policy**: Cleans policy data.
 - **decfile__sb_policy_lookup**: Staging for SB policy lookup.
 - **modcom__policy_chain_v3**: Adds keys to policy chain data.
 

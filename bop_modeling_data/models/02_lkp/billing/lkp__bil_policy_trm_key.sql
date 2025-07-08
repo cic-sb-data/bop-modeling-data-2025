@@ -75,4 +75,4 @@ add_in_both_row_counts as (
 
 select *
 from add_in_both_row_counts
-order by {{ _get_xcd_bil_key_name(xcd_bil_table) }}
+order by {{ _get_key_name(xcd_bil_table) }}

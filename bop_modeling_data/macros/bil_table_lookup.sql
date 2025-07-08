@@ -1,6 +1,6 @@
 {%- macro bil_table_lookup(xcd_bil_table, primary_keys) -%}
-    {%- set relation = _get_xcd_bil_relation(xcd_bil_table) -%}
-    {%- set key_name = _get_xcd_bil_key_name(xcd_bil_table) -%}
+    {%- set relation = _get_relation(xcd_bil_table) -%}
+    {%- set key_name = _get_key_name(xcd_bil_table) -%}
 
     {{ log('xcd_bil_table: ' ~ xcd_bil_table) }}
     {{ log('primary_keys:\n' ~ primary_keys) }}
@@ -46,12 +46,12 @@
     {%- endfor %}
 {%- endmacro -%}
 
-{%- macro _get_xcd_bil_relation(xcd_bil_table) -%}
+{%- macro _get_relation(xcd_bil_table) -%}
     {%- set relation='raw__screngn__xcd_bil_' ~ xcd_bil_table -%}
     {{ relation }}
 {%- endmacro -%}
 
-{%- macro _get_xcd_bil_key_name(xcd_bil_table) -%}
+{%- macro _get_key_name(xcd_bil_table) -%}
     {%- set key_name='bil_' ~ xcd_bil_table ~ '_key' -%}
     {{ key_name }}
 {%- endmacro -%}

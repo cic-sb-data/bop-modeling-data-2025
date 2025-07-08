@@ -5,7 +5,7 @@ raw as (
     select 'nada' as nothing
     {% else %}
     select *
-        from read_csv_auto('{{ var("raw_csv_loc") }}/screngn__xcd_bil_account.csv')
+        from read_csv_auto('{{ var("raw_csv_loc") }}/screngn__bil_account.csv')
     {% endif %}
 )
 

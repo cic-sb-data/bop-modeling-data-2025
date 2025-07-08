@@ -1,7 +1,7 @@
 {%- macro add_bil_key(tbl, xcd_bil_table, primary_keys) -%}
     
-    {%- set relation = _get_xcd_bil_relation(xcd_bil_table) -%}
-    {%- set key_name = _get_xcd_bil_key_name(xcd_bil_table) -%}
+    {%- set relation = _getlkp__bil_relation(xcd_bil_table) -%}
+    {%- set key_name = _getlkp__bil_key_name(xcd_bil_table) -%}
     with
 
     raw as (select * from {{ ref(relation) }}),
